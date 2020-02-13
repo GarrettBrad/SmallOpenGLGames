@@ -1,5 +1,4 @@
 
-// I didn't feel a precompiled header was need for a project this small
 
 // Built with Visual Studio 2019
 

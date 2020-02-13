@@ -185,7 +185,7 @@ void Game::NewFruit()
 	int MaxX = (SNAKE_WND_WIDHT / SNAKE_MOVE_SPEED) - SNAKE_MOVE_SPEED; // the - SNAKE_MOVE_SPEED is so it won't
 	int MaxY = (SNAKE_WND_HEIGHT / SNAKE_MOVE_SPEED) - SNAKE_MOVE_SPEED; // be outside the window
 
-	srand(time(NULL));
+	srand((unsigned int) time(NULL));
 
 	int FruitXPoint = (rand() % MaxX) + 1;
 	int FruitYPoint = (rand() % MaxY) + 1;
