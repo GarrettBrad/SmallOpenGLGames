@@ -65,7 +65,7 @@ bool Window::ShouldClose()
 
 void Window::Run()
 {
-	Get().Run();
+	Get().RunInter();
 }
 
 GLFWwindow* Window::CreateWindow()

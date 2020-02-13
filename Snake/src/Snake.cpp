@@ -1,6 +1,5 @@
 #include <GLFW/glfw3.h>
 #include "Game/Game.h"
-#include <iostream>
 
 #pragma warning(push)
 #pragma warning(disable : 4068) // MSVC complaining about opengl
