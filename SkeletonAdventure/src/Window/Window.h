@@ -10,6 +10,8 @@ private:
 	bool ShouldCloseInteral();
 	void RunInter();
 
+	GLFWwindow* GetWindowInter();
+
 	GLFWwindow* CreateWindowInter();
 
 	GLFWwindow* m_Wnd = nullptr;
@@ -20,6 +22,7 @@ public:
 
 	static Window& Get();
 
+	static GLFWwindow* GetWindow();
 	static int Init();
 	static GLFWwindow* CreateWindow();
 	static bool ShouldClose();

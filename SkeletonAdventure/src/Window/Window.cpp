@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "Window.h"
+#include "Game/Game.h"
 #include "Render.h"
 
 // Made Private for singleton
@@ -18,8 +19,16 @@ int Window::InitInter()
 	return 0;
 }
 
+GLFWwindow* Window::GetWindowInter()
+{
+	return m_Wnd;
+}
+
 GLFWwindow* Window::CreateWindowInter()
 {
+	// Only let 1 window be created
+	if (m_Wnd) return m_Wnd;
+
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	m_Wnd = glfwCreateWindow(SKEL_WINDOW_WIDTH, SKEL_WINDOW_HEIGHT, "Snake", NULL, NULL);
 
@@ -29,17 +38,23 @@ GLFWwindow* Window::CreateWindowInter()
 		return nullptr;
 	}
 
+	glfwSetKeyCallback(m_Wnd, Game::KeyCallBack);
+
 	return m_Wnd;
 }
 
+// Returns if the window should close
 bool Window::ShouldCloseInteral()
 {
 	return glfwWindowShouldClose(m_Wnd);
 }
 
+// Render the frame
 void Window::RunInter()
 {
 	Render::StartRender();
+
+	// DrawS
 
 	Render::EndRender(m_Wnd);
 }
@@ -66,6 +81,11 @@ bool Window::ShouldClose()
 void Window::Run()
 {
 	Get().RunInter();
+}
+
+GLFWwindow* Window::GetWindow()
+{
+	return Get().GetWindowInter();
 }
 
 GLFWwindow* Window::CreateWindow()

@@ -158,7 +158,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Level\Level.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
+    <ClCompile Include="src\Game\Skeleton.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -174,11 +176,67 @@
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Level\Level.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Game\Game.h" />
+    <ClInclude Include="src\Game\Skeleton.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Window\Render.h" />
     <ClInclude Include="src\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Skeleton\attack1_1.png" />
+    <Image Include="resources\Skeleton\attack1_2.png" />
+    <Image Include="resources\Skeleton\attack1_3.png" />
+    <Image Include="resources\Skeleton\attack1_4.png" />
+    <Image Include="resources\Skeleton\attack1_5.png" />
+    <Image Include="resources\Skeleton\attack1_6.png" />
+    <Image Include="resources\Skeleton\attack2_1.png" />
+    <Image Include="resources\Skeleton\attack2_2.png" />
+    <Image Include="resources\Skeleton\attack2_3.png" />
+    <Image Include="resources\Skeleton\attack2_4.png" />
+    <Image Include="resources\Skeleton\attack2_5.png" />
+    <Image Include="resources\Skeleton\attack2_6.png" />
+    <Image Include="resources\Skeleton\corpse_1.png" />
+    <Image Include="resources\Skeleton\corpse_2.png" />
+    <Image Include="resources\Skeleton\dead_far_1.png" />
+    <Image Include="resources\Skeleton\dead_far_2.png" />
+    <Image Include="resources\Skeleton\dead_far_3.png" />
+    <Image Include="resources\Skeleton\dead_far_4.png" />
+    <Image Include="resources\Skeleton\dead_far_5.png" />
+    <Image Include="resources\Skeleton\dead_far_6.png" />
+    <Image Include="resources\Skeleton\dead_near_1.png" />
+    <Image Include="resources\Skeleton\dead_near_2.png" />
+    <Image Include="resources\Skeleton\dead_near_3.png" />
+    <Image Include="resources\Skeleton\dead_near_4.png" />
+    <Image Include="resources\Skeleton\dead_near_5.png" />
+    <Image Include="resources\Skeleton\dead_near_6.png" />
+    <Image Include="resources\Skeleton\hit_1.png" />
+    <Image Include="resources\Skeleton\hit_2.png" />
+    <Image Include="resources\Skeleton\hit_3.png" />
+    <Image Include="resources\Skeleton\jump_1.png" />
+    <Image Include="resources\Skeleton\jump_2.png" />
+    <Image Include="resources\Skeleton\jump_3.png" />
+    <Image Include="resources\Skeleton\jump_4.png" />
+    <Image Include="resources\Skeleton\jump_5.png" />
+    <Image Include="resources\Skeleton\ready_1.png" />
+    <Image Include="resources\Skeleton\ready_2.png" />
+    <Image Include="resources\Skeleton\ready_3.png" />
+    <Image Include="resources\Skeleton\reborn_1.png" />
+    <Image Include="resources\Skeleton\reborn_2.png" />
+    <Image Include="resources\Skeleton\reborn_3.png" />
+    <Image Include="resources\Skeleton\run_1.png" />
+    <Image Include="resources\Skeleton\run_2.png" />
+    <Image Include="resources\Skeleton\run_3.png" />
+    <Image Include="resources\Skeleton\run_4.png" />
+    <Image Include="resources\Skeleton\run_5.png" />
+    <Image Include="resources\Skeleton\run_6.png" />
+    <Image Include="resources\Skeleton\walk_1.png" />
+    <Image Include="resources\Skeleton\walk_2.png" />
+    <Image Include="resources\Skeleton\walk_3.png" />
+    <Image Include="resources\Skeleton\walk_4.png" />
+    <Image Include="resources\Skeleton\walk_5.png" />
+    <Image Include="resources\Skeleton\walk_6.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

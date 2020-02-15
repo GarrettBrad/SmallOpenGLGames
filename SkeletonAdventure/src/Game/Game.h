@@ -3,17 +3,27 @@
 
 #include "Skeleton.h"
 
+// Singleton
 class Game
 {
 private:
 
 	bool m_ShouldClose = false;
 
-	Skeleton skeli = Skeleton();
+	// The Player
+	Skeleton m_Skeleton = Skeleton();
+
+	int InitInter();
+	bool ShouldCloseInter();
+	void RunInter();
+
 public:
-	int Init();
-	bool ShouldClose();
-	void Run();
+	static void KeyCallBack(GLFWwindow* wnd, int key, int scanecode, int action, int mods);
+
+	static int Init();
+	static bool ShouldClose();
+	static void Run();
+	static Game& Get();
 
 };
 
