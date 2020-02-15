@@ -1,5 +1,5 @@
-# SmaleOpenGLGames
- Just some simple OpenGl games I made using GLFW. Nothing special
+# SmallGames
+ Just some simple Games I made using OpenGL and DirectX.
  Skeleton Adventure uses DirectX
 
  GLFW: https://www.glfw.org/
