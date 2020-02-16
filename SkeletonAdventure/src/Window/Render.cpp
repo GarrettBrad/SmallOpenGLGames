@@ -5,12 +5,17 @@
 
 namespace Render
 {
+	HWND hWnd;
 	
-	// Clears the OpenGl color buffer
-	void StartRender()
+	PAINTSTRUCT ps;
+	HDC hdc;
+
+	// Sets the window handle to the render
+	void Init(HWND wnd)
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		hWnd = wnd;
 	}
+
 
 	// Draws the skeleton
 	void DrawSkeleton(const Skeleton& skeli)
@@ -24,14 +29,22 @@ namespace Render
 		
 	}
 
-	// Swaps buffers and takes events
-	void EndRender(GLFWwindow* wnd)
-	{	
-		/* Swap front and back buffers */
-		glfwSwapBuffers(wnd);
+	// Starts the Windows API Render
+	void StartRender()
+	{
+		hdc = BeginPaint(hWnd, &ps);
+			
+		// Just draws a blue screen TEMP:
 
-		/* Poll for and process events */
-		glfwPollEvents();
+		RGB(0, 0, 255);
+		FillRect(hdc, &ps.rcPaint, (HBRUSH) COLOR_HIGHLIGHTTEXT);
+	}
+
+	// Ends the rendering
+	void EndRender()
+	{	
+
+		EndPaint(hWnd, &ps);
 	}
 
 

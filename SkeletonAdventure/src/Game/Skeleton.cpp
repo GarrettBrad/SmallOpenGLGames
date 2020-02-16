@@ -2,31 +2,55 @@
 
 #include "Skeleton.h"
 
+// Changes the speed, the direction the model is facing, and the model for the movement type (i.e. jump or sprint or walk)
 void Skeleton::AdjustSpeed(ModelType model, Direction dir, MovementType movement)
 {
 	m_ModelType = model;
 
+	// Changes the facing direction of the skeleton
 	if (dir == Direction::Left || dir == Direction::Right) {
 		m_DirectionFacing = dir;
 	}
 
+	// Which kind of movement do we want
 	switch (movement)
 	{
+		// TODO: Make the MovementType::Run and Walk to a function for better maintance
 		case (MovementType::Run):
 		{
-			if (dir == Direction::Right)
-				m_XSpeed = SKELETON_RUN_SPEED;
+			if (dir == Direction::Right) {
+				m_XSpeed += SKELETON_SPEED_INCORMENT;
+
+				if (m_XSpeed > SKELETON_RUN_SPEED)
+					m_XSpeed = SKELETON_RUN_SPEED;
+			}
 			else if (dir == Direction::Left)
-				m_XSpeed = -SKELETON_RUN_SPEED;
+			{
+				m_XSpeed -= -SKELETON_SPEED_INCORMENT;
+
+				if (m_XSpeed < -SKELETON_RUN_SPEED)
+					m_XSpeed = -SKELETON_RUN_SPEED;
+			}
 
 			break;
 		}
 		case (MovementType::Walk):
 		{
-			if (dir == Direction::Right)
-				m_XSpeed = SKELETON_WALK_SPEED;
+			if (dir == Direction::Right) {
+				m_XSpeed += SKELETON_SPEED_INCORMENT;
+
+				if (m_XSpeed > SKELETON_WALK_SPEED)
+					m_XSpeed = SKELETON_WALK_SPEED;
+			}
 			else if (dir == Direction::Left)
-				m_XSpeed = -SKELETON_WALK_SPEED;
+			{
+				m_XSpeed -= -SKELETON_SPEED_INCORMENT;
+
+				if (m_XSpeed < -SKELETON_WALK_SPEED)
+					m_XSpeed = -SKELETON_WALK_SPEED;
+			}
+
+			break;
 		}
 	}
 
@@ -40,6 +64,7 @@ void Skeleton::Move()
 	m_Y += m_YSpeed;
 }
 
+// Make the skeleton jump
 void Skeleton::Jump()
 {
 	AdjustSpeed(ModelType::Jump, Direction::Up, MovementType::Jump);

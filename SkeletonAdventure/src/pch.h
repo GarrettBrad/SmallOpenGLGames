@@ -5,7 +5,7 @@
 #include "Core.h"
 
 // OpenGL
-#include <GLFW/glfw3.h>
+#include <windows.h>
 
 /* Containers */
 #include <string>

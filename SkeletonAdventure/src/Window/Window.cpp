@@ -11,52 +11,82 @@ Window::Window()
 
 // Internal
 
-int Window::InitInter()
+// Inits the window class and registers it
+int Window::InitInter(HINSTANCE hInst)
 {
-	if (!glfwInit())
-		return -1;
+	WNDCLASSEX wc = { 0 };
+	wc.cbSize = sizeof(wc);
+	wc.style = CS_OWNDC;
+	wc.lpfnWndProc = Game::GameWindowProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hInst;
+	wc.hIcon = nullptr;
+	wc.hCursor = nullptr;
+	wc.hbrBackground = nullptr;
+	wc.lpszMenuName = nullptr;
+	wc.lpszClassName = SKEL_WINDOW_CLASS;
+	wc.hIconSm = nullptr;
+
+	RegisterClassEx(&wc);
+
 
 	return 0;
 }
 
-GLFWwindow* Window::GetWindowInter()
+// Creates the window and sets the classes handle to it also inits the render
+void Window::CreateWindowInter()
 {
-	return m_Wnd;
+	m_hWnd = CreateWindowEx(
+		0,
+		SKEL_WINDOW_CLASS,
+		L"Skeleton Adventure",
+		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		0, 0, SKEL_WINDOW_WIDTH, SKEL_WINDOW_HEIGHT, // X, Y Pos, Width and height
+		nullptr,
+		nullptr,
+		m_hInst,
+		nullptr
+	);
+
+	Render::Init(m_hWnd);
+
+	ShowWindow(m_hWnd, SW_SHOW);
 }
 
-GLFWwindow* Window::CreateWindowInter()
-{
-	// Only let 1 window be created
-	if (m_Wnd) return m_Wnd;
-
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-	m_Wnd = glfwCreateWindow(SKEL_WINDOW_WIDTH, SKEL_WINDOW_HEIGHT, "Snake", NULL, NULL);
-
-	if (!m_Wnd)
-	{
-		glfwTerminate();
-		return nullptr;
-	}
-
-	glfwSetKeyCallback(m_Wnd, Game::KeyCallBack);
-
-	return m_Wnd;
-}
-
-// Returns if the window should close
+// Returns if the window should close and calls GetMessage for windows API
 bool Window::ShouldCloseInteral()
 {
-	return glfwWindowShouldClose(m_Wnd);
+	BOOL Result = GetMessage(
+		&m_Msg,
+		nullptr,
+		0,
+		0
+	);
+	return Result < 1;
 }
 
-// Render the frame
+// Handles Messages
 void Window::RunInter()
+{
+	TranslateMessage(&m_Msg);
+	DispatchMessage(&m_Msg);
+}
+
+// Tells the render what to draw
+void Window::DrawInter()
 {
 	Render::StartRender();
 
-	// DrawS
 
-	Render::EndRender(m_Wnd);
+
+	Render::EndRender();
+}
+
+// Gets the current window handle
+HWND Window::GetWindowInter()
+{
+	return m_hWnd;
 }
 
 // Public
@@ -68,27 +98,37 @@ Window& Window::Get()
 
 // All of these functions get inlined by the compiler
 // Inits GLFW and the window
-int Window::Init()
+int Window::Init(HINSTANCE hInstance)
 {
-	return Get().InitInter();
+	return Get().InitInter(hInstance);
 }
 
+// Returns if the window should close
 bool Window::ShouldClose()
 {
 	return Get().ShouldCloseInteral();
 }
 
+// Gets and processes the messages from the window
 void Window::Run()
 {
 	Get().RunInter();
 }
 
-GLFWwindow* Window::GetWindow()
-{
-	return Get().GetWindowInter();
-}
-
-GLFWwindow* Window::CreateWindow()
+// Creates the window
+void Window::MakeWindow()
 {
 	return Get().CreateWindowInter();
+}
+
+// Draws to the window
+void Window::Draw()
+{
+	Get().DrawInter();
+}
+
+// Gets the window handle
+HWND Window::GetWindow()
+{
+	return Get().GetWindowInter();
 }

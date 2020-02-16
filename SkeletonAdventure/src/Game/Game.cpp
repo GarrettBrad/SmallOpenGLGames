@@ -3,92 +3,111 @@
 #include "Game.h"
 #include "Window/Window.h"
 
-void Game::KeyCallBack(GLFWwindow* wnd, int key, int scanecode, int action, int mods)
-{ 
-	// Hold Keys
-	if (action == GLFW_REPEAT)
-	{
-		switch (key)	
-		{
-			case GLFW_KEY_D:
-			{
-				if (glfwGetKey(wnd, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-					Get().m_Skeleton.InSpeedSprint(Direction::Right);
-				else 
-					Get().m_Skeleton.InSpeedSprint(Direction::Right);
 
-				break;
-			}
-			case GLFW_KEY_A:
-			{
-				if (glfwGetKey(wnd, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-					Get().m_Skeleton.InSpeedSprint(Direction::Left);
-				else
-					Get().m_Skeleton.InSpeedWalk(Direction::Left);
-
-				break;
-			}
-		}
-	}
-
-	if (action == GLFW_PRESS)
-	{
-		switch (key)
-		{
-			case GLFW_KEY_SPACE:
-			{
-				Get().m_Skeleton.Jump();
-			}
-		}
-	}
+Game::Game()
+{
 }
 
-int Game::InitInter()
+#ifdef _DEBUG
+std::map<UINT, bool> HaveSeen;
+#endif
+// Handles the messages we get from the window
+LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int result = Window::Init();
+#ifdef _DEBUG
+	if (HaveSeen.find(message) == HaveSeen.end())
+		HaveSeen.insert(std::pair<UINT, bool>(message, true));
+#endif // For message debugging
+
+	switch (message)
+	{
+		case WM_PAINT:
+		{
+			Window::Draw();
+			return 0;
+		}
+		case WM_QUIT:
+		{
+			PostQuitMessage(0);
+			DestroyWindow(Window::GetWindow());
+			return 0;
+		}
+		case WM_DESTROY:
+		{
+			PostQuitMessage(0);
+			return 0;	
+		}
+		case WM_CLOSE:
+		{
+			PostQuitMessage(0);
+			DestroyWindow(Window::GetWindow());
+			return 0;
+		}
+	}
+	return DefWindowProc(hWnd, message, wParam, lParam);
+
+}
+
+// Inits the game and gives the hinstance to the window class
+int Game::InitInter(HINSTANCE hInst)
+{
+	int result = Window::Init(hInst);
 
 	if (result)
 		return -1;
 
 
-	GLFWwindow* wnd = Window::CreateWindow();
-
-	if (!wnd)
-		return -2;
+	
+	Window::MakeWindow();
 
 	return 0;
 
 }
 
+// Returns if the game should close
 bool Game::ShouldCloseInter()
 {
 	return Window::ShouldClose() || m_ShouldClose;
 }
 
+// Runs the game and pulls messages from the window class
 void Game::RunInter()
 {
-
 	Window::Run();
 
 
+
 }
 
-
-int Game::Init()
+// Singleton Redirect to Game::WindowProcInter
+// Handles the messages from windows
+LRESULT CALLBACK Game::GameWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParma)
 {
-	return Get().InitInter();
+	return Get().WindowProcInter(hWnd, message, wParam, lParma);
 }
 
+// Singleton Redirect to Game::InitInter
+// Inits the game
+int Game::Init(HINSTANCE Instance)
+{
+	return Get().InitInter(Instance);
+}
+
+// Singleton Redirect to Game::ShouldCloseInter
+// returns if we need to close or not
 bool Game::ShouldClose()
 {
 	return Get().ShouldCloseInter();
 }
 
+// Singleton Redirect to Game::RunInter()
+// Runs the game logic and pulls messages from the window class
 void Game::Run()
 {
 	Get().RunInter();
 }
 
+// Gets the instance of the game object
 Game& Game::Get()
 {
 	static Game game;

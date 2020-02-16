@@ -13,18 +13,23 @@ private:
 	// The Player
 	Skeleton m_Skeleton = Skeleton();
 
-	int InitInter();
+	LRESULT CALLBACK WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParma);
+
+	int InitInter(HINSTANCE);
 	bool ShouldCloseInter();
 	void RunInter();
 
 public:
-	static void KeyCallBack(GLFWwindow* wnd, int key, int scanecode, int action, int mods);
 
-	static int Init();
+	static LRESULT CALLBACK GameWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParma);
+
+	static int Init(HINSTANCE);
 	static bool ShouldClose();
 	static void Run();
 	static Game& Get();
 
+
+	Game();
 };
 
 #endif /* GAME_H */
