@@ -13,6 +13,7 @@ private:
 	HWND GetWindowInter();
 
 	int InitInter(HINSTANCE hInst);
+	int ExitCodeInter();
 	bool ShouldCloseInteral();
 	void CreateWindowInter();
 	void RunInter();
@@ -27,6 +28,7 @@ public:
 
 	static HWND GetWindow();
 	static int Init(HINSTANCE hInst);
+	static int ExitCode();
 	static void MakeWindow();
 	static bool ShouldClose();
 	static void Run();

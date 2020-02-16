@@ -16,6 +16,7 @@ private:
 	LRESULT CALLBACK WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParma);
 
 	int InitInter(HINSTANCE);
+	int GetExitCodeInter();
 	bool ShouldCloseInter();
 	void RunInter();
 
@@ -26,6 +27,7 @@ public:
 	static int Init(HINSTANCE);
 	static bool ShouldClose();
 	static void Run();
+	static int GetExitCode();
 	static Game& Get();
 
 

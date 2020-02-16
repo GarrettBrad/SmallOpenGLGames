@@ -24,7 +24,5 @@ int CALLBACK WinMain(
 		game.Run();
 	}
 
-	// game.CleanUp() // Might add
-
-	return 0;
+	return game.GetExitCode();
 }

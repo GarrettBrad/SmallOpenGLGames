@@ -64,6 +64,12 @@ int Game::InitInter(HINSTANCE hInst)
 
 }
 
+// Gets the exit code from the window
+int Game::GetExitCodeInter()
+{
+	return Window::ExitCode();
+}
+
 // Returns if the game should close
 bool Game::ShouldCloseInter()
 {
@@ -105,6 +111,13 @@ bool Game::ShouldClose()
 void Game::Run()
 {
 	Get().RunInter();
+}
+
+// Singleton Redirect to Game::RunInter()
+// Gets the exit code for our application
+int Game::GetExitCode()
+{
+	return Get().GetExitCodeInter();
 }
 
 // Gets the instance of the game object

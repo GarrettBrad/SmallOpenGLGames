@@ -35,8 +35,6 @@ namespace Render
 		hdc = BeginPaint(hWnd, &ps);
 			
 		// Just draws a blue screen TEMP:
-
-		RGB(0, 0, 255);
 		FillRect(hdc, &ps.rcPaint, (HBRUSH) COLOR_HIGHLIGHTTEXT);
 	}
 

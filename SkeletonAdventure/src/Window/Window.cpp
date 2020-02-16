@@ -89,6 +89,13 @@ HWND Window::GetWindowInter()
 	return m_hWnd;
 }
 
+// Gets the exit code of the window
+int Window::ExitCodeInter()
+{
+	// WM_QUIT is the last message in a window
+	return m_Msg.wParam;
+}
+
 // Public
 Window& Window::Get()
 {
@@ -101,6 +108,12 @@ Window& Window::Get()
 int Window::Init(HINSTANCE hInstance)
 {
 	return Get().InitInter(hInstance);
+}
+
+// Gets the exit code of the window
+int Window::ExitCode()
+{
+	return Get().ExitCodeInter();
 }
 
 // Returns if the window should close
