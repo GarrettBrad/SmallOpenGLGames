@@ -78,7 +78,7 @@ void Window::DrawInter()
 {
 	Render::StartRender();
 
-
+	Game::Draw();
 
 	Render::EndRender();
 }

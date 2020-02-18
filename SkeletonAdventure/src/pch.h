@@ -1,11 +1,17 @@
 #ifndef PCH_H
 #define PCH_H
 
-// My stuff
-#include "Core.h"
 
-// OpenGL
+// Windows
 #include <windows.h>
+#include <windowsx.h>
+
+// DirectX
+#include <d2d1.h>
+#include <d2d1helper.h>
+#include <dwrite.h>
+#include <wincodec.h>
+#pragma comment (lib, "d2d1")
 
 /* Containers */
 #include <string>
@@ -30,10 +36,18 @@
 #include <utility>
 #include <future>
 #include <iostream>
+
+// C Library
+#include <cstdlib>
+#include <malloc.h>
+#include <memory.h>
+#include <cwchar>
 #include <cmath>
 #include <ctime>
 
 
+// My stuff
+#include "Core.h"
 
 
 #endif /* PCH_H */
