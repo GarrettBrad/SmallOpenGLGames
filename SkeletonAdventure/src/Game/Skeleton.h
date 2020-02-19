@@ -38,14 +38,15 @@ class Skeleton
 {
 private:
 
-	float m_X = 0, m_Y = 0;
+	int m_X = 0, m_Y = 0;
 	
-	float m_XSpeed = 0, m_YSpeed = 0;
+	int m_XSpeed = 0, m_YSpeed = 0;
 
 	ModelType m_ModelType = ModelType::Ready;
 	Direction m_DirectionFacing = Direction::Right;
 
 	void AdjustSpeed(ModelType model, Direction dir, MovementType movement);
+	void DecaySpeed();
 	
 public:
 
@@ -53,12 +54,17 @@ public:
 	bool IsRunning(); 
 	bool IsWalking();
 	bool IsAttacking();
-	
+
 	void Move();
 	void Jump();
 	void InSpeedSprint(Direction dir);
 	void InSpeedWalk(Direction dir);
 	void Attack();
+
+	const int& GetX() const;
+	const int& GetY() const;
+	void SetX(int x);
+	void SetY(int y);
 
 
 

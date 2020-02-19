@@ -5,6 +5,7 @@
 // Windows
 #include <windows.h>
 #include <windowsx.h>
+#include <wincodec.h>
 
 // DirectX
 #include <d2d1.h>

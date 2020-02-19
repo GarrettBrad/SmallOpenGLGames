@@ -28,6 +28,17 @@ void Graphics::Init(HWND hWnd)
 	Get().InitInter(hWnd);
 }
 
+ID2D1HwndRenderTarget* Graphics::GetRenderTargetInter()
+{
+	return pRenderTarget;
+}
+
+ID2D1HwndRenderTarget* Graphics::GetRenderTarget()
+{
+	return Get().GetRenderTargetInter();
+}
+
+
 // The start of drawing
 void Graphics::StartDrawInter()
 {
@@ -171,6 +182,50 @@ void Graphics::SetDrawColor(float r, float g, float b)
 	Get().SetDrawColorInter(r, g, b);
 }
 
+void Graphics::DrawPictureInter(std::string& pic)
+{
+}
+void Graphics::DrawPicture(std::string pic)
+{
+	Get().DrawPictureInter(pic);
+}
+
+// Currently does nothing
+void Graphics::DrawCircleInter()
+{
+
+}
+void Graphics::DrawCircle()
+{
+	Get().DrawCircleInter();
+}
+
+// Draws a rectangle to screen
+void Graphics::DrawRectInter(int& x1, int& y1, int& x2, int& y2, bool& fill)
+{
+	if (SUCCEEDED(m_Hr))
+	{
+		
+		D2D1_RECT_F rec = D2D1::RectF(
+			x1,
+			y1,
+			x2,
+			y2
+		);
+
+		if (fill) {
+			pRenderTarget->FillRectangle(rec, pBrush);
+		} else {
+			pRenderTarget->DrawRectangle(rec, pBrush);
+		}
+
+	}
+}
+void Graphics::DrawRect(int x1, int y1, int x2, int y2, bool fill)
+{
+	Get().DrawRectInter(x1, y1, x2, y2, fill);
+}
+
 // Will draw draws a grid
 void Graphics::DrawGridInter(int& size)
 {
@@ -211,16 +266,6 @@ void Graphics::DrawGridInter(int& size)
 void Graphics::DrawGrid(int size)
 {
 	Get().DrawGridInter(size);
-}
-
-// Currently does nothing
-void Graphics::DrawCircleInter()
-{
-
-}
-void Graphics::DrawCircle()
-{
-	Get().DrawCircleInter();
 }
 
 // Draws a line segment with the given points

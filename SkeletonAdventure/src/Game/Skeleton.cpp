@@ -26,7 +26,7 @@ void Skeleton::AdjustSpeed(ModelType model, Direction dir, MovementType movement
 			}
 			else if (dir == Direction::Left)
 			{
-				m_XSpeed -= -SKELETON_SPEED_INCORMENT;
+				m_XSpeed -= SKELETON_SPEED_INCORMENT;
 
 				if (m_XSpeed < -SKELETON_RUN_SPEED)
 					m_XSpeed = -SKELETON_RUN_SPEED;
@@ -52,9 +52,30 @@ void Skeleton::AdjustSpeed(ModelType model, Direction dir, MovementType movement
 
 			break;
 		}
+		case (MovementType::Jump):
+		{
+			m_YSpeed -= SKELETON_JUMP_SPEED;
+		}
 	}
 
 
+}
+
+void Skeleton::DecaySpeed()
+{
+	if (m_XSpeed > 0)
+	{
+		m_XSpeed -= SKELETON_SPEED_INCORMENT;
+	}
+	if (m_XSpeed < 0)
+	{
+		m_XSpeed += SKELETON_SPEED_INCORMENT;
+	}
+
+	m_YSpeed += SKELETON_GRAVITY;
+
+	if (m_YSpeed > SKELETON_GRAVITY_MAX)
+		m_YSpeed = SKELETON_GRAVITY_MAX;
 }
 
 // Will move the player by the speed.
@@ -62,6 +83,8 @@ void Skeleton::Move()
 {
 	m_X += m_XSpeed;
 	m_Y += m_YSpeed;
+
+	DecaySpeed();
 }
 
 // Make the skeleton jump
@@ -69,7 +92,6 @@ void Skeleton::Jump()
 {
 	AdjustSpeed(ModelType::Jump, Direction::Up, MovementType::Jump);
 }
-
 
 // Move move key and sprint key are pressed
 void Skeleton::InSpeedSprint(Direction dir)
@@ -113,4 +135,26 @@ bool Skeleton::IsRunning()
 bool Skeleton::IsWalking()
 {
 	return false;
+}
+
+// Gets the x pos value
+const int& Skeleton::GetX() const
+{
+	return m_X;
+}
+
+// Gets the y Pos value
+const int& Skeleton::GetY() const
+{
+	return m_Y;
+}
+
+void Skeleton::SetX(int x)
+{
+	m_X = x;
+}
+
+void Skeleton::SetY(int y)
+{
+	m_Y = y;
 }

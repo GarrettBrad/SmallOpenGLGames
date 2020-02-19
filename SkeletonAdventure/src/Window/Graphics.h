@@ -28,7 +28,7 @@ private:
 	ID2D1HwndRenderTarget* pRenderTarget = NULL;
 	ID2D1SolidColorBrush* pBrush = NULL;
 
-	D2D1_ELLIPSE            ellipse;
+	D2D1_ELLIPSE ellipse;
 
 	HRESULT m_Hr = S_OK;
 
@@ -45,6 +45,8 @@ private:
 
 	void InitInter(HWND hWnd);
 
+	ID2D1HwndRenderTarget* GetRenderTargetInter();
+
 	void StartDrawInter();
 	void EndDrawInter();
 
@@ -60,7 +62,10 @@ private:
 
 	void SetDrawColorInter(float& r, float& g, float& b);
 
+	void DrawPictureInter(std::string& pic);
+
 	void DrawCircleInter();
+	void DrawRectInter(int& x1, int& y1, int& x2, int& y2, bool& fill);
 	void DrawGridInter(int& size);
 	void DrawLineInter(Point& x, Point& y);
 
@@ -73,13 +78,18 @@ public:
 	static void Resize();
 	static void OnRender();
 
+	static ID2D1HwndRenderTarget* GetRenderTarget();
+
 	static void StartDraw();
 	static void EndDraw();
 
 	static void SetDrawColor(float r, float g, float b);
 
 	// The main graphics stuff
+	static void DrawPicture(std::string pic);
+	
 	static void DrawCircle();
+	static void DrawRect(int x1, int y1, int x2, int y2, bool fill = true);
 	static void DrawGrid(int size = 10);
 	static void DrawLine(Point x, Point y);
 

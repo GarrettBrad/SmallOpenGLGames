@@ -99,18 +99,48 @@ LRESULT CALLBACK Game::GameWindowProc(HWND hWnd, UINT message, WPARAM wParam, LP
 	return Get().WindowProcInter(hWnd, message, wParam, lParma);
 }
 
+// A key is pressed
 void Game::KeyPressed(WPARAM wParam, LPARAM lParam)
 {
+	// Switch statements break the input part because of how window messages work so we are going to have
+	// to use async keys and if statements
 	switch (wParam)
 	{
 		case SKEL_KEY_A: // A Key
 		{
 			// Temp
 			SetWindowText(Window::GetWindow(), L"A");
+			return;
+		}
+		case VK_SPACE:
+		{
+			m_Skeleton.Jump();
+			return;
+		}
+		case VK_RIGHT:
+		{
+			m_Skeleton.InSpeedSprint(Direction::Right);
+			return;
+		}
+		case VK_LEFT:
+		{
+			m_Skeleton.InSpeedSprint(Direction::Left);
+			return;
+		}
+		case VK_UP:
+		{
+
+			return;
+		}
+		case VK_DOWN:
+		{
+
+			return;
 		}
 	}
 }
 
+// A key is Released
 void Game::KeyReleased(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam)
@@ -134,8 +164,22 @@ void Game::KeyReleased(WPARAM wParam, LPARAM lParam)
 	}
 }
 
+// Checks the that the player hasn't gone off screen
+void Game::CheckBoarders()
+{
+	// To far left
+	if (m_Skeleton.GetX() < 0)
+		m_Skeleton.SetX(0);
 
+	if (m_Skeleton.GetY() < 0)
+		m_Skeleton.SetY(0);
 
+	if ((m_Skeleton.GetX() + m_CurrentSkelSize.width) > SKEL_WINDOW_WIDTH)
+		m_Skeleton.SetX(SKEL_WINDOW_WIDTH - m_CurrentSkelSize.width);
+
+	if ((m_Skeleton.GetY() + m_CurrentSkelSize.height) > SKEL_WINDOW_HEIGHT)
+		m_Skeleton.SetY(SKEL_WINDOW_HEIGHT - m_CurrentSkelSize.height);
+}
 
 // Returns if the game should close
 bool Game::ShouldCloseInter()
@@ -171,10 +215,13 @@ int Game::Init(HINSTANCE Instance)
 	return Get().InitInter(Instance);
 }
 
-
 // Runs the game and pulls messages from the window class
 void Game::RunInter()
 {
+	m_Skeleton.Move();
+
+	CheckBoarders();
+
 	Window::Run();
 }
 
@@ -189,15 +236,14 @@ void Game::Run()
 // Tells the render what to draw
 void Game::DrawInter()
 {
-	// i.e.
-	/* 
-	Render::DrawSkeleton();
-	
-	for (const auto& e : m_Eni) {
-		Render::DrawEnemy(e);
-	}
-	*/
+	// Copy the sprite
+	m_CurrentSkelSize = Render::DrawSkeleton(m_Skeleton);
 
+	Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
+
+	Graphics::DrawRect(100, 400, 500, 500);
+
+	// For debuging and map creatation
 	Graphics::SetDrawColor(1.0f, 0.f, 0.f);
 
 	Graphics::DrawLine(Point(10,10), Point(100,100));
