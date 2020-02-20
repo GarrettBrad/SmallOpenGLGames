@@ -38,6 +38,15 @@ ID2D1HwndRenderTarget* Graphics::GetRenderTarget()
 	return Get().GetRenderTargetInter();
 }
 
+// Gets the factory from graphics
+ID2D1Factory* Graphics::GetFactoryInter()
+{
+	return pFactory;
+}
+ID2D1Factory* Graphics::GetFactory()
+{
+	return Get().GetFactoryInter();
+}
 
 // The start of drawing
 void Graphics::StartDrawInter()

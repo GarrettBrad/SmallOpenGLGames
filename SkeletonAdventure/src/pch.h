@@ -30,6 +30,7 @@
 
 /* Functional */
 #include <chrono>
+#include <thread>
 #include <algorithm>
 #include <functional>
 #include <memory>

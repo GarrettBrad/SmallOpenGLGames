@@ -29,7 +29,7 @@ const D2D1_SIZE_F& Sprite::GetSize() const
 
 // TODO: Add error Handling
 // Creates the bitmap for the sprite
-Sprite::Sprite(const wchar_t* filename)
+Sprite::Sprite(ImageInfo image)
 	: m_Bmp(NULL)
 {
 
@@ -42,15 +42,14 @@ Sprite::Sprite(const wchar_t* filename)
 		CLSID_WICImagingFactory, // What we are making
 		NULL,					 // Not part of an aggregate
 		CLSCTX_INPROC_SERVER,	 // DLL runs in the same thread
-		IID_IWICImagingFactory,
-		(LPVOID*)&wicFactory
+		IID_PPV_ARGS(&wicFactory)
 	);
 
 	if (SUCCEEDED(m_Hr))
 	{
 		IWICBitmapDecoder* wicDecoder = NULL;
 		m_Hr = wicFactory->CreateDecoderFromFilename(
-			filename,
+			image.file,
 			NULL,
 			GENERIC_READ,
 			WICDecodeMetadataCacheOnLoad,
@@ -80,6 +79,26 @@ Sprite::Sprite(const wchar_t* filename)
 
 		if (FAILED(m_Hr)) return;
 
+		// Flips the image 
+		// It doesn't work and i don't know why
+		IWICBitmapFlipRotator* pIFlipRotator = NULL;
+		if (image.flipped)
+		{
+			
+			m_Hr = wicFactory->CreateBitmapFlipRotator(
+				&pIFlipRotator);
+
+			if (FAILED(m_Hr)) return;
+
+			m_Hr = pIFlipRotator->Initialize(
+				wicFrame,
+				WICBitmapTransformFlipHorizontal
+			);
+
+		}
+
+		if (FAILED(m_Hr)) return;
+
 		// This doesn't work and I don't know why
 		m_Hr = Graphics::GetRenderTarget()->CreateBitmapFromWicBitmap(
 			wicConvert,
@@ -87,10 +106,10 @@ Sprite::Sprite(const wchar_t* filename)
 			&m_Bmp
 		);
 
-
 		if (wicDecoder) wicDecoder->Release();
 		if (wicFrame) wicFrame->Release();
 		if (wicConvert) wicConvert->Release();
+		if (pIFlipRotator) pIFlipRotator->Release();
 	}
 
 	if (wicFactory) wicFactory->Release();

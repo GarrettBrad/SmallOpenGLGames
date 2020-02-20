@@ -33,11 +33,25 @@ void Render::StartRender()
 // Handels drawing the skeleton
 D2D1_SIZE_F Render::DrawSkeletonInter(const Skeleton& skel, float& scale)
 {
-	auto spr = Sprite(L"resources/Skeleton/ready_1.png");
+	// this stops recreating the sprite if the image is the same
+	if (m_LastInfo.file != skel.GetImage().file)
+	{
+		m_LastInfo = skel.GetImage();
+		if (m_SkeletonSprite)
+		{
+			delete m_SkeletonSprite;
+			m_SkeletonSprite = nullptr;
+		}
+	}
+	if (!m_SkeletonSprite)
+	{
+		m_SkeletonSprite = new Sprite(skel.GetImage());
+	}
 
-	spr.Draw(skel.GetX(), skel.GetY(), scale);
+	m_SkeletonSprite->Draw(skel.GetX(), skel.GetY(), scale);
 
-	return spr.GetSize();
+	return m_SkeletonSprite->GetSize();
+
 }
 // Draws the Skeleton returns the size of the sprite
 D2D1_SIZE_F Render::DrawSkeleton(const Skeleton& skel, float scale)
@@ -71,5 +85,7 @@ Render::Render()
 
 Render::~Render()
 {
+	if (m_SkeletonSprite)
+		delete m_SkeletonSprite;
 }
 

@@ -34,6 +34,16 @@ enum class MovementType
 	Jump
 };
 
+struct ImageInfo
+{
+	const wchar_t* file;
+	bool flipped = false;
+
+	ImageInfo(const wchar_t* file, bool flipped)
+		: file(file), flipped(flipped)
+	{}
+};
+
 class Skeleton
 {
 private:
@@ -41,6 +51,11 @@ private:
 	int m_X = 0, m_Y = 0;
 	
 	int m_XSpeed = 0, m_YSpeed = 0;
+
+	mutable int m_SkeletonShow = 1;
+	mutable clock_t time;
+
+	bool m_CanJump = true;
 
 	ModelType m_ModelType = ModelType::Ready;
 	Direction m_DirectionFacing = Direction::Right;
@@ -60,6 +75,13 @@ public:
 	void InSpeedSprint(Direction dir);
 	void InSpeedWalk(Direction dir);
 	void Attack();
+
+	void SetCanJump();
+	void SetNoJump();
+
+	const bool& GetCanJump() const;
+
+	ImageInfo GetImage() const;
 
 	const int& GetX() const;
 	const int& GetY() const;

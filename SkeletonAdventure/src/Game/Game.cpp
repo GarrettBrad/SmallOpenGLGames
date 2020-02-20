@@ -46,13 +46,17 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 		}
 		case WM_KEYDOWN:
 		{
+			m_KeyPressed[wParam] = true;
 			KeyPressed(wParam, lParam);
+
 			return 0;
 		}
 
 		case WM_KEYUP:
 		{
+			m_KeyPressed[wParam] = false;
 			KeyReleased(wParam, lParam);
+
 			return 0;
 		}
 
@@ -100,68 +104,50 @@ LRESULT CALLBACK Game::GameWindowProc(HWND hWnd, UINT message, WPARAM wParam, LP
 }
 
 // A key is pressed
+// Might get rid of
 void Game::KeyPressed(WPARAM wParam, LPARAM lParam)
 {
 	// Switch statements break the input part because of how window messages work so we are going to have
-	// to use async keys and if statements
-	switch (wParam)
-	{
-		case SKEL_KEY_A: // A Key
-		{
-			// Temp
-			SetWindowText(Window::GetWindow(), L"A");
-			return;
-		}
-		case VK_SPACE:
-		{
-			m_Skeleton.Jump();
-			return;
-		}
-		case VK_RIGHT:
-		{
-			m_Skeleton.InSpeedSprint(Direction::Right);
-			return;
-		}
-		case VK_LEFT:
-		{
-			m_Skeleton.InSpeedSprint(Direction::Left);
-			return;
-		}
-		case VK_UP:
-		{
-
-			return;
-		}
-		case VK_DOWN:
-		{
-
-			return;
-		}
-	}
+	
 }
 
 // A key is Released
+// Might get rid of 
 void Game::KeyReleased(WPARAM wParam, LPARAM lParam)
 {
-	switch (wParam)
-	{
-		case SKEL_KEY_A:
-		{
-			// Temp
-			SetWindowText(Window::GetWindow(), L"B");
-		}
-		// ESCAPE will minimize the application and shift+escape will close it
-		case VK_ESCAPE:
-		{
-			
-			if (GetAsyncKeyState(VK_LSHIFT))	{
-				DestroyWindow(Window::GetWindow());
-				PostQuitMessage(0);
-			}
 
-			CloseWindow(Window::GetWindow());
-		}
+	//switch (wParam)
+	//{
+	//	case VK_SPACE:
+	//	{
+	//		if (m_Skeleton.GetCanJump())
+	//			m_KeySpace = false;
+	//		return;
+	//	}
+	//}
+}
+
+void Game::CheckInput()
+{
+	if (m_KeyPressed[VK_SPACE] && !m_KeySpace)
+	{
+		m_KeySpace = true;
+		m_Skeleton.Jump();
 	}
+
+	if (m_KeyPressed[VK_RIGHT])
+		MoveSkeleton(Direction::Right);
+	else if (m_KeyPressed[VK_LEFT]) 
+		MoveSkeleton(Direction::Left);
+}
+
+void Game::MoveSkeleton(Direction dir)
+{
+
+	if (GetAsyncKeyState(VK_SHIFT))
+		m_Skeleton.InSpeedSprint(dir);
+	else
+		m_Skeleton.InSpeedWalk(dir);
 }
 
 // Checks the that the player hasn't gone off screen
@@ -177,8 +163,22 @@ void Game::CheckBoarders()
 	if ((m_Skeleton.GetX() + m_CurrentSkelSize.width) > SKEL_WINDOW_WIDTH)
 		m_Skeleton.SetX(SKEL_WINDOW_WIDTH - m_CurrentSkelSize.width);
 
-	if ((m_Skeleton.GetY() + m_CurrentSkelSize.height) > SKEL_WINDOW_HEIGHT)
-		m_Skeleton.SetY(SKEL_WINDOW_HEIGHT - m_CurrentSkelSize.height);
+	if ((m_Skeleton.GetY() + m_CurrentSkelSize.height + SKEL_Y_CORD_CUSHIN) > SKEL_WINDOW_HEIGHT)
+	{
+		m_Skeleton.SetY(SKEL_WINDOW_HEIGHT - m_CurrentSkelSize.height - SKEL_Y_CORD_CUSHIN);
+	
+		SetCanJump();
+		m_Skeleton.SetCanJump();
+	}
+}
+
+void Game::SetCanJumpInter()
+{
+	m_KeySpace = false;
+}
+void Game::SetCanJump()
+{
+	Get().SetCanJumpInter();
 }
 
 // Returns if the game should close
@@ -218,11 +218,22 @@ int Game::Init(HINSTANCE Instance)
 // Runs the game and pulls messages from the window class
 void Game::RunInter()
 {
+	auto again = std::chrono::high_resolution_clock::now();
+
+	using namespace std::chrono_literals;
+
+	again += std::chrono::milliseconds(25);
+
 	m_Skeleton.Move();
 
+	CheckInput();
 	CheckBoarders();
 
 	Window::Run();
+
+	// Only run 1 frame every 25 milliseconds
+	if (again > std::chrono::high_resolution_clock::now())
+		std::this_thread::sleep_until(again);
 }
 
 // Singleton Redirect to Game::RunInter()
@@ -239,23 +250,6 @@ void Game::DrawInter()
 	// Copy the sprite
 	m_CurrentSkelSize = Render::DrawSkeleton(m_Skeleton);
 
-	Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
-
-	Graphics::DrawRect(100, 400, 500, 500);
-
-	// For debuging and map creatation
-	Graphics::SetDrawColor(1.0f, 0.f, 0.f);
-
-	Graphics::DrawLine(Point(10,10), Point(100,100));
-	
-	// Draws a line to the mouse when it is clicked
-	if (m_MouseDown)
-	{
-		Graphics::SetDrawColor(1.0f, 0.0f, 1.0f);
-		Graphics::DrawLine(Point(10, 10), Point(m_MouseX, m_MouseY));
-	}
-
-	Graphics::DrawGrid(20);
 }
 
 // Called when the game should be drawn

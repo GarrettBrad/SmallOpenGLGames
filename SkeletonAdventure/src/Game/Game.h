@@ -7,6 +7,11 @@
 class Game
 {
 private:
+	// Key Presses
+
+	std::unordered_map<int, bool> m_KeyPressed;
+	bool m_KeySpace = false;
+private:
 
 	int m_MouseX = 0; 
 	int m_MouseY = 0;
@@ -22,6 +27,8 @@ private:
 	void KeyPressed(WPARAM, LPARAM);
 	void KeyReleased(WPARAM, LPARAM);
 
+	void CheckInput();
+	void MoveSkeleton(Direction dir);
 	void CheckBoarders();
 
 	int InitInter(HINSTANCE);
@@ -29,6 +36,8 @@ private:
 	bool ShouldCloseInter();
 	void RunInter();
 	void DrawInter();
+
+	void SetCanJumpInter();
 
 	int GetExitCodeInter();
 
@@ -42,6 +51,8 @@ public:
 	static void Run();
 	static void Draw();
 	
+	static void SetCanJump();
+
 	static int GetExitCode();
 	static Game& Get();
 

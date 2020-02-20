@@ -2,6 +2,7 @@
 #define _SPRITE_H
 
 #include "Graphics.h"
+#include "Game/Skeleton.h"
 
 // Used for loading images to screen
 class Sprite
@@ -17,7 +18,7 @@ public:
 
 	const D2D1_SIZE_F& GetSize() const ;
 
-	Sprite(const wchar_t* filename);
+	Sprite(ImageInfo image);
 	~Sprite();
 };
 

@@ -14,6 +14,8 @@ class Render
 {
 private:
 
+	// which image of the skeleton should show
+
 	// Temp for testing
 	Render();
 	~Render();
@@ -22,6 +24,9 @@ private:
 
 	void StartRenderInter();
 
+
+	ImageInfo m_LastInfo = ImageInfo(L"", false );
+	Sprite* m_SkeletonSprite;
 	D2D1_SIZE_F DrawSkeletonInter(const Skeleton& skel, float& scale);
 
 	void EndRenderInter();

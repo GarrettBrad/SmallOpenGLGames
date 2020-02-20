@@ -7,13 +7,16 @@
 #define SKEL_WINDOW_HEIGHT 720 // int
 
 #define SKEL_DEFUALT_SKELETON_SCALE 2.5f // float // how much to scale the Skeleton Spirte
+#define SKEL_Y_CORD_CUSHIN 25 // int // the space between directx drawing and the window
 
-#define SKELETON_JUMP_SPEED 25 // int // Speed volecity
+#define SKELETON_JUMP_SPEED 15 // int // Speed volecity
 #define SKELETON_GRAVITY 1 // int // how fast things fall
 #define SKELETON_GRAVITY_MAX 10 // int // the fastest things can fall
 #define SKELETON_WALK_SPEED 10 // int // speed
 #define SKELETON_SPEED_INCORMENT 10 // int // how fast the speed goes up or down
 #define SKELETON_RUN_SPEED 100 // int // Run Speed
+
+#define SKELETON_SWTICH_TIME 200 // int // how many frames go by before switching images
 
 
 // Key Defines : Windows doesn't define these and I dont like the using 'A'

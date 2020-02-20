@@ -44,7 +44,7 @@ void Skeleton::AdjustSpeed(ModelType model, Direction dir, MovementType movement
 			}
 			else if (dir == Direction::Left)
 			{
-				m_XSpeed -= -SKELETON_SPEED_INCORMENT;
+				m_XSpeed -= SKELETON_SPEED_INCORMENT;
 
 				if (m_XSpeed < -SKELETON_WALK_SPEED)
 					m_XSpeed = -SKELETON_WALK_SPEED;
@@ -90,6 +90,10 @@ void Skeleton::Move()
 // Make the skeleton jump
 void Skeleton::Jump()
 {
+	if (!m_CanJump) return;
+	
+	SetNoJump();
+
 	AdjustSpeed(ModelType::Jump, Direction::Up, MovementType::Jump);
 }
 
@@ -111,6 +115,7 @@ void Skeleton::Attack()
 
 }
 
+// to be added
 bool Skeleton::IsOnGround()
 {
 	// Allows jumping inbetween this speed
@@ -135,6 +140,49 @@ bool Skeleton::IsRunning()
 bool Skeleton::IsWalking()
 {
 	return false;
+}
+
+void Skeleton::SetCanJump()
+{
+	m_CanJump = true;
+}
+
+void Skeleton::SetNoJump()
+{
+	m_CanJump = false;
+}
+
+const bool& Skeleton::GetCanJump() const
+{
+	return m_CanJump;
+}
+
+ImageInfo Skeleton::GetImage() const
+{
+	
+	if (time < clock())
+	{
+		m_SkeletonShow++;
+
+		if (m_SkeletonShow > 3)
+			m_SkeletonShow = 1;
+		
+		time = clock() + SKELETON_SWTICH_TIME;
+	}
+
+	bool flip = false;
+
+	if (m_DirectionFacing == Direction::Left)
+		flip = true;
+
+	if (m_SkeletonShow == 1)
+		return { L"resources/Skeleton/ready_1.png", flip };
+	else if (m_SkeletonShow == 2)
+		return { L"resources/Skeleton/ready_2.png", flip };
+	else
+		return { L"resources/Skeleton/ready_3.png", flip };
+
+
 }
 
 // Gets the x pos value

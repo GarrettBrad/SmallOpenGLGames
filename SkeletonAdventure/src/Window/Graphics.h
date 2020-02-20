@@ -46,6 +46,7 @@ private:
 	void InitInter(HWND hWnd);
 
 	ID2D1HwndRenderTarget* GetRenderTargetInter();
+	ID2D1Factory* GetFactoryInter();
 
 	void StartDrawInter();
 	void EndDrawInter();
@@ -79,6 +80,7 @@ public:
 	static void OnRender();
 
 	static ID2D1HwndRenderTarget* GetRenderTarget();
+	ID2D1Factory* GetFactory();
 
 	static void StartDraw();
 	static void EndDraw();
