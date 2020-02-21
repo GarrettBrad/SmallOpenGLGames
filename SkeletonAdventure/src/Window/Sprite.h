@@ -18,6 +18,7 @@ public:
 
 	const D2D1_SIZE_F& GetSize() const ;
 
+	// No default constructor
 	Sprite(ImageInfo image);
 	~Sprite();
 };

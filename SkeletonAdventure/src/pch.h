@@ -43,6 +43,7 @@
 #include <cstdlib>
 #include <malloc.h>
 #include <memory.h>
+#include <cstdlib>
 #include <cwchar>
 #include <cmath>
 #include <ctime>

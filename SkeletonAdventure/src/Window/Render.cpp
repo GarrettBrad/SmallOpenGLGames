@@ -6,7 +6,6 @@
 
 
 
-
 // Sets the window handle to the render and graphics engine internal
 void Render::InitInter(HWND wnd)
 {
@@ -37,12 +36,16 @@ D2D1_SIZE_F Render::DrawSkeletonInter(const Skeleton& skel, float& scale)
 	if (m_LastInfo.file != skel.GetImage().file)
 	{
 		m_LastInfo = skel.GetImage();
+		
+		// Deletes SkeletonSprite if there is a new one in que
 		if (m_SkeletonSprite)
 		{
 			delete m_SkeletonSprite;
 			m_SkeletonSprite = nullptr;
 		}
 	}
+
+	// Creates a new sprite to be drawing
 	if (!m_SkeletonSprite)
 	{
 		m_SkeletonSprite = new Sprite(skel.GetImage());
@@ -57,6 +60,17 @@ D2D1_SIZE_F Render::DrawSkeletonInter(const Skeleton& skel, float& scale)
 D2D1_SIZE_F Render::DrawSkeleton(const Skeleton& skel, float scale)
 {
 	return Get().DrawSkeletonInter(skel, scale);
+}
+
+// Draws the level
+void Render::DrawLevelObjectsInter(const DrawObject& obj)
+{
+
+}
+// Draws the ojbect given to it
+void Render::DrawLevelObjects(const DrawObject& obj)
+{
+	Get().DrawLevelObjectsInter(obj);
 }
 
 // Ends the render Internal
@@ -85,6 +99,7 @@ Render::Render()
 
 Render::~Render()
 {
+	// Makes sure m_SkeletonSprite was cleaned up
 	if (m_SkeletonSprite)
 		delete m_SkeletonSprite;
 }

@@ -76,6 +76,9 @@ void Skeleton::DecaySpeed()
 
 	if (m_YSpeed > SKELETON_GRAVITY_MAX)
 		m_YSpeed = SKELETON_GRAVITY_MAX;
+
+	if (abs(m_XSpeed) < 1)
+		m_ModelType = ModelType::Ready;
 }
 
 // Will move the player by the speed.
@@ -163,9 +166,6 @@ ImageInfo Skeleton::GetImage() const
 	if (time < clock())
 	{
 		m_SkeletonShow++;
-
-		if (m_SkeletonShow > 3)
-			m_SkeletonShow = 1;
 		
 		time = clock() + SKELETON_SWTICH_TIME;
 	}
@@ -175,12 +175,27 @@ ImageInfo Skeleton::GetImage() const
 	if (m_DirectionFacing == Direction::Left)
 		flip = true;
 
-	if (m_SkeletonShow == 1)
-		return { L"resources/Skeleton/ready_1.png", flip };
-	else if (m_SkeletonShow == 2)
-		return { L"resources/Skeleton/ready_2.png", flip };
-	else
-		return { L"resources/Skeleton/ready_3.png", flip };
+	switch (m_ModelType)
+	{
+		case ModelType::Walk:
+		{
+			m_MaxShow = m_WalkModels.size();
+			
+			return { m_WalkModels[m_SkeletonShow % m_MaxShow], flip };
+		}
+		case ModelType::Run:
+		{
+			m_MaxShow = m_RunModels.size();
+
+			return { m_RunModels[m_SkeletonShow % m_MaxShow], flip };
+		}
+		default: // Ready
+		{
+			m_MaxShow = 3;
+
+			return { m_ReadyModels[m_SkeletonShow % m_MaxShow], flip };
+		}
+	}
 
 
 }

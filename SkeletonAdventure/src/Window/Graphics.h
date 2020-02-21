@@ -12,6 +12,8 @@ struct Point
 	{ }
 };
 
+// Singleton
+// In charge of all graphical rendering
 class Graphics
 {
 private:

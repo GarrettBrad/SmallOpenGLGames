@@ -2,6 +2,7 @@
 #define RENDER_H
 
 #include "Game/Skeleton.h"
+#include "Level/Level.h"
 #include "Sprite.h"
 
 // Game tell Render what to render
@@ -29,6 +30,8 @@ private:
 	Sprite* m_SkeletonSprite;
 	D2D1_SIZE_F DrawSkeletonInter(const Skeleton& skel, float& scale);
 
+	void DrawLevelObjectsInter(const DrawObject& object);
+
 	void EndRenderInter();
 
 public:
@@ -38,7 +41,7 @@ public:
 	static void StartRender();
 
 	static D2D1_SIZE_F DrawSkeleton(const Skeleton& skel, float scale = SKEL_DEFUALT_SKELETON_SCALE);
-
+	static void DrawLevelObjects(const DrawObject& object);
 
 	static void EndRender();
 

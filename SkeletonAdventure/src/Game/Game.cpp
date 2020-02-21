@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "Game.h"
+#include "Level/Level.h"
 #include "Window/Window.h"
 #include "Window/Render.h"
 #include "Window/Graphics.h"
@@ -46,8 +47,9 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 		}
 		case WM_KEYDOWN:
 		{
-			m_KeyPressed[wParam] = true;
-			KeyPressed(wParam, lParam);
+
+			if (!m_KeyPressed[wParam])	
+				m_KeyPressed[wParam] = true;
 
 			return 0;
 		}
@@ -55,7 +57,6 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 		case WM_KEYUP:
 		{
 			m_KeyPressed[wParam] = false;
-			KeyReleased(wParam, lParam);
 
 			return 0;
 		}
@@ -103,41 +104,18 @@ LRESULT CALLBACK Game::GameWindowProc(HWND hWnd, UINT message, WPARAM wParam, LP
 	return Get().WindowProcInter(hWnd, message, wParam, lParma);
 }
 
-// A key is pressed
-// Might get rid of
-void Game::KeyPressed(WPARAM wParam, LPARAM lParam)
-{
-	// Switch statements break the input part because of how window messages work so we are going to have
-	
-}
-
-// A key is Released
-// Might get rid of 
-void Game::KeyReleased(WPARAM wParam, LPARAM lParam)
-{
-
-	//switch (wParam)
-	//{
-	//	case VK_SPACE:
-	//	{
-	//		if (m_Skeleton.GetCanJump())
-	//			m_KeySpace = false;
-	//		return;
-	//	}
-	//}
-}
-
+// Checks player input
 void Game::CheckInput()
 {
-	if (m_KeyPressed[VK_SPACE] && !m_KeySpace)
+	if ((m_KeyPressed[VK_SPACE] || m_KeyPressed[SKEL_KEY_W]) && !m_KeySpace)
 	{
 		m_KeySpace = true;
 		m_Skeleton.Jump();
 	}
 
-	if (m_KeyPressed[VK_RIGHT])
+	if (m_KeyPressed[SKEL_KEY_D])
 		MoveSkeleton(Direction::Right);
-	else if (m_KeyPressed[VK_LEFT]) 
+	else if (m_KeyPressed[SKEL_KEY_A])
 		MoveSkeleton(Direction::Left);
 }
 
@@ -218,11 +196,6 @@ int Game::Init(HINSTANCE Instance)
 // Runs the game and pulls messages from the window class
 void Game::RunInter()
 {
-	auto again = std::chrono::high_resolution_clock::now();
-
-	using namespace std::chrono_literals;
-
-	again += std::chrono::milliseconds(25);
 
 	m_Skeleton.Move();
 
@@ -230,10 +203,6 @@ void Game::RunInter()
 	CheckBoarders();
 
 	Window::Run();
-
-	// Only run 1 frame every 25 milliseconds
-	if (again > std::chrono::high_resolution_clock::now())
-		std::this_thread::sleep_until(again);
 }
 
 // Singleton Redirect to Game::RunInter()
@@ -248,6 +217,8 @@ void Game::Run()
 void Game::DrawInter()
 {
 	// Copy the sprite
+	Level::Draw(m_Skeleton.GetX());
+
 	m_CurrentSkelSize = Render::DrawSkeleton(m_Skeleton);
 
 }

@@ -12,6 +12,7 @@ void Sprite::Draw(float posX, float posY, float scale)
 		m_Size.width *= scale;
 		m_Size.height *= scale;
 
+		// Actually renders the bitmap
 		Graphics::GetRenderTarget()->DrawBitmap(
 			m_Bmp,
 			D2D1::RectF(posX, posY, posX + m_Size.width, posY + m_Size.height),				// The bitmap area
@@ -106,6 +107,7 @@ Sprite::Sprite(ImageInfo image)
 			&m_Bmp
 		);
 
+		// Release all the resources
 		if (wicDecoder) wicDecoder->Release();
 		if (wicFrame) wicFrame->Release();
 		if (wicConvert) wicConvert->Release();

@@ -66,11 +66,27 @@ bool Window::ShouldCloseInteral()
 	return Result < 1;
 }
 
+void MessageNewThread(const MSG* msg)
+{
+	TranslateMessage(msg);
+	DispatchMessage(msg);
+}
+
 // Handles Messages
 void Window::RunInter()
 {
-	TranslateMessage(&m_Msg);
-	DispatchMessage(&m_Msg);
+	if (PeekMessageA(&m_Msg, m_hWnd, WM_KEYDOWN, WM_KEYDOWN, PM_REMOVE))
+	{
+		// if it is keyboard put it on another thread
+		//std::thread a(MessageNewThread, &m_Msg);
+		//a.join();
+	}
+	else
+	{
+		TranslateMessage(&m_Msg);
+		DispatchMessage(&m_Msg);
+
+	}
 }
 
 // Tells the render what to draw
@@ -137,6 +153,8 @@ void Window::MakeWindow()
 // Draws to the window
 void Window::Draw()
 {
+	// Just push it to a new thread..
+	// This doesn't save anything just some frame buffing
 	Get().DrawInter();
 }
 

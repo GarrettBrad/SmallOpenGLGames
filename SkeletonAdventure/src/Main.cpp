@@ -4,7 +4,7 @@
 
 int CALLBACK WinMain(
 	HINSTANCE hInstance, 
-	HINSTANCE hPrevInstance,
+	HINSTANCE hPrevInstance, // Windows please update to get rid of this. Always null
 	LPSTR CmdLine, 
 	int nCmdShow)
 {

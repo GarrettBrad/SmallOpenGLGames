@@ -24,9 +24,6 @@ private:
 
 	LRESULT CALLBACK WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	void KeyPressed(WPARAM, LPARAM);
-	void KeyReleased(WPARAM, LPARAM);
-
 	void CheckInput();
 	void MoveSkeleton(Direction dir);
 	void CheckBoarders();
