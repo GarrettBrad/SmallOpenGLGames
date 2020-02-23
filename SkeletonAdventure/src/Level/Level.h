@@ -1,9 +1,25 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
+#include "Game/Skeleton.h"
+
+enum class ObjectType
+{
+	Floor,
+	OneWayBlock,
+	Light
+};
+
 struct DrawObject
 {
+	ObjectType Type;
+	Vector2D TopLeft;
+	Vector2D BottomRight;
+	const wchar_t* Texture;
 
+	DrawObject(ObjectType type, Vector2D lu, Vector2D rd, const wchar_t* text)
+		: Type(type), TopLeft(lu), BottomRight(rd), Texture(text)
+	{}
 };
 
 // Singleton
@@ -24,7 +40,10 @@ private:
 	void UpdateDrawingObjects();
 
 	void LoadInter();
-	void DrawInter(const int& SkeletonPos);
+
+	const std::deque<DrawObject>& GetObjecstInter();
+
+	void DrawInter();
 
 	Level();
 
@@ -34,7 +53,9 @@ public:
 
 	static void Load();
 
-	static void Draw(const int& SkeletonPos);
+	static const std::deque<DrawObject>& GetObjects();
+
+	static void Draw();
 
 	static Level& Get();
 

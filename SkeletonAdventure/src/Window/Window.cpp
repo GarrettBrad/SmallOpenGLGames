@@ -42,7 +42,7 @@ void Window::CreateWindowInter()
 		SKEL_WINDOW_CLASS,
 		L"Skeleton Adventure",
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		0, 0, SKEL_WINDOW_WIDTH, SKEL_WINDOW_HEIGHT, // X, Y Pos, Width and height
+		0, 0, SKEL_WINDOW_WIDTH, SKEL_WINDOW_HEIGHT + 40, // X, Y Pos, Width and height + 40 because of the bar on top
 		nullptr,
 		nullptr,
 		m_hInst,

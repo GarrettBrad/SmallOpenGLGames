@@ -14,6 +14,9 @@
 #include <wincodec.h>
 #pragma comment (lib, "d2d1")
 
+// OpenGL
+#include <GLFW/glfw3.h>
+
 /* Containers */
 #include <string>
 #include <array>

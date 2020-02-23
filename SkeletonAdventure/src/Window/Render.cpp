@@ -65,12 +65,26 @@ D2D1_SIZE_F Render::DrawSkeleton(const Skeleton& skel, float scale)
 // Draws the level
 void Render::DrawLevelObjectsInter(const DrawObject& obj)
 {
-
+	Graphics::DrawRect(obj.TopLeft.X, obj.TopLeft.Y, obj.BottomRight.X, obj.BottomRight.Y);
 }
 // Draws the ojbect given to it
 void Render::DrawLevelObjects(const DrawObject& obj)
 {
 	Get().DrawLevelObjectsInter(obj);
+}
+
+void Render::DrawHitBoxInter(const HitBox& hit)
+{
+	// for somereason when drawn the hitbox is offset
+	Graphics::DrawRect(hit.TopLeft.X,
+		hit.TopLeft.Y - 13,
+		hit.BottomRight.X,
+		hit.BottomRight.Y - 13,
+		false);
+}
+void Render::DrawHitBox(const HitBox& hit)
+{
+	Get().DrawHitBoxInter(hit);
 }
 
 // Ends the render Internal

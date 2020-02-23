@@ -20,13 +20,14 @@ private:
 
 	// The Player
 	Skeleton m_Skeleton = Skeleton();
-	D2D1_SIZE_F m_CurrentSkelSize = D2D1_SIZE_F();
+	D2D1_SIZE_F m_SkelSize = D2D1_SIZE_F();
 
 	LRESULT CALLBACK WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	void CheckInput();
 	void MoveSkeleton(Direction dir);
-	void CheckBoarders();
+	void CheckObjectColison();
+
 
 	int InitInter(HINSTANCE);
 	

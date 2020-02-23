@@ -171,7 +171,7 @@ void Graphics::Resize()
 
 void Graphics::OnRenderInter()
 {
-
+	// Nothing
 }
 void Graphics::OnRender()
 {
@@ -191,6 +191,7 @@ void Graphics::SetDrawColor(float r, float g, float b)
 	Get().SetDrawColorInter(r, g, b);
 }
 
+// Nothing
 void Graphics::DrawPictureInter(std::string& pic)
 {
 }

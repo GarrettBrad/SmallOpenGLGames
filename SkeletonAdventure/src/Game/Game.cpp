@@ -1,10 +1,9 @@
 #include "pch.h"
 
 #include "Game.h"
-#include "Level/Level.h"
+#include "Collision.h"
 #include "Window/Window.h"
 #include "Window/Render.h"
-#include "Window/Graphics.h"
 
 
 
@@ -13,18 +12,9 @@ Game::Game()
 {
 }
 
-// For debugging the messages
-#ifdef _DEBUG
-std::map<UINT, bool> HaveSeen;
-#endif
 // Handles the messages we get from the window
 LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-#ifdef _DEBUG
-	if (HaveSeen.find(message) == HaveSeen.end())
-		HaveSeen.insert(std::pair<UINT, bool>(message, true));
-
-#endif // For message debugging
 	
 
 	switch (message)
@@ -56,7 +46,8 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 
 		case WM_KEYUP:
 		{
-			m_KeyPressed[wParam] = false;
+			if (m_KeyPressed[wParam])
+				m_KeyPressed[wParam] = false;
 
 			return 0;
 		}
@@ -128,28 +119,36 @@ void Game::MoveSkeleton(Direction dir)
 		m_Skeleton.InSpeedWalk(dir);
 }
 
-// Checks the that the player hasn't gone off screen
-void Game::CheckBoarders()
+// Checks to see if anyting is colliding with an level object
+void Game::CheckObjectColison()
 {
-	// To far left
-	if (m_Skeleton.GetX() < 0)
-		m_Skeleton.SetX(0);
+	const std::deque<DrawObject>& obj = Level::GetObjects();
 
-	if (m_Skeleton.GetY() < 0)
-		m_Skeleton.SetY(0);
-
-	if ((m_Skeleton.GetX() + m_CurrentSkelSize.width) > SKEL_WINDOW_WIDTH)
-		m_Skeleton.SetX(SKEL_WINDOW_WIDTH - m_CurrentSkelSize.width);
-
-	if ((m_Skeleton.GetY() + m_CurrentSkelSize.height + SKEL_Y_CORD_CUSHIN) > SKEL_WINDOW_HEIGHT)
+	for (const auto& o : obj)
 	{
-		m_Skeleton.SetY(SKEL_WINDOW_HEIGHT - m_CurrentSkelSize.height - SKEL_Y_CORD_CUSHIN);
-	
-		SetCanJump();
-		m_Skeleton.SetCanJump();
+		if (!Collision::IsCollideable(o.Type)) continue;
+
+		const HitBox& hit = m_Skeleton.GetHitBox();
+		if (Collision::CollisionYUp(o, hit)) {
+			m_Skeleton.SetY(o.TopLeft.Y - (hit.BottomRight.Y - hit.TopLeft.Y) - 29);
+			SetCanJump();	
+			m_Skeleton.SetCanJump();
+		} 
+		else if (Collision::CollisionYDown(o, hit)) {
+			m_Skeleton.SetY(m_Skeleton.GetY() - m_Skeleton.GetYSpeed());
+			m_Skeleton.SetYSpeed(0);
+		}
+		else if (Collision::CollisionXLeft(o, hit)) {
+			m_Skeleton.SetX(o.TopLeft.X - (hit.BottomRight.X - hit.TopLeft.X) - (hit.TopLeft.X - m_Skeleton.GetX()));
+		} 
+		else if (Collision::CollisionXRight(o, hit)) {
+			m_Skeleton.SetX(o.BottomRight.X - (hit.BottomRight.X - hit.TopLeft.X) - (hit.TopLeft.X - m_Skeleton.GetX()));
+		}
+
 	}
 }
 
+// Sets the input so it can jump
 void Game::SetCanJumpInter()
 {
 	m_KeySpace = false;
@@ -172,6 +171,13 @@ bool Game::ShouldClose()
 	return Get().ShouldCloseInter();
 }
 
+// I just feel that his should be overloaded
+void operator*=(D2D1_SIZE_F& size, float muli)
+{
+	size.width *= muli;
+	size.height *= muli;
+}
+
 // Inits the game and gives the hinstance to the window class
 int Game::InitInter(HINSTANCE hInst)
 {
@@ -181,6 +187,12 @@ int Game::InitInter(HINSTANCE hInst)
 		return -1;
 
 	Window::MakeWindow();
+
+	Level::Load();
+
+	m_SkelSize = m_Skeleton.GetSize();
+
+	m_SkelSize *= SKEL_DEFUALT_SKELETON_SCALE * 1.5f; // we need this because of the white space in the photos
 
 	return 0;
 
@@ -200,7 +212,7 @@ void Game::RunInter()
 	m_Skeleton.Move();
 
 	CheckInput();
-	CheckBoarders();
+	CheckObjectColison();
 
 	Window::Run();
 }
@@ -217,9 +229,21 @@ void Game::Run()
 void Game::DrawInter()
 {
 	// Copy the sprite
-	Level::Draw(m_Skeleton.GetX());
+	Graphics::SetDrawColor(1.0f, 0.0f, 0.0f);
 
-	m_CurrentSkelSize = Render::DrawSkeleton(m_Skeleton);
+	Level::Draw();
+	
+#if _DEBUG || DEBUG
+	Graphics::DrawRect(m_Skeleton.GetX(), m_Skeleton.GetY(), 
+		m_Skeleton.GetX() + m_SkelSize.width + 10,
+		m_Skeleton.GetY() + (int)m_SkelSize.height + 10, 
+		false);
+
+	Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
+	Render::DrawHitBox(m_Skeleton.GetHitBox());
+#endif
+
+	Render::DrawSkeleton(m_Skeleton);
 
 }
 

@@ -81,11 +81,22 @@ void Skeleton::DecaySpeed()
 		m_ModelType = ModelType::Ready;
 }
 
+void Skeleton::UpdateHitBox()
+{
+	m_HitBox.TopLeft.X = m_X + 40;
+	m_HitBox.TopLeft.Y = m_Y + 30;
+	m_HitBox.BottomRight.X = m_X + (m_Size.width * SKEL_DEFUALT_SKELETON_SCALE * 1.5f) + 20;
+	m_HitBox.BottomRight.Y = m_Y + (m_Size.height * SKEL_DEFUALT_SKELETON_SCALE * 1.5f) - 3;
+}
+
 // Will move the player by the speed.
 void Skeleton::Move()
 {
 	m_X += m_XSpeed;
 	m_Y += m_YSpeed;
+
+	UpdateHitBox();
+
 
 	DecaySpeed();
 }
@@ -160,6 +171,11 @@ const bool& Skeleton::GetCanJump() const
 	return m_CanJump;
 }
 
+const HitBox& Skeleton::GetHitBox() const
+{
+	return m_HitBox;
+}
+
 ImageInfo Skeleton::GetImage() const
 {
 	
@@ -198,6 +214,36 @@ ImageInfo Skeleton::GetImage() const
 	}
 
 
+}
+
+// Gets the size of the skeleton
+const D2D1_SIZE_F Skeleton::GetSize()
+{
+	return m_Size;
+}
+
+// Gets x speed
+const int& Skeleton::GetXSpeed() const
+{
+	return m_XSpeed;
+}
+
+// Gets y Speed
+const int& Skeleton::GetYSpeed() const
+{
+	return m_YSpeed;
+}
+
+// Sets X Speed
+void Skeleton::SetXSpeed(int x)
+{
+	m_XSpeed = x;
+}
+
+// Sets y Speed
+void Skeleton::SetYSpeed(int y)
+{
+	m_YSpeed = y;
 }
 
 // Gets the x pos value
