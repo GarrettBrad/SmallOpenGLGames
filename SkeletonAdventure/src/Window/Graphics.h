@@ -55,19 +55,11 @@ private:
 
 	HRESULT CreateGraphicsResources();
 	HRESULT CreateDeviceIndependentResource();
-
-	void CalculateLayout();
-
-	void ResizeInter();
-	void OnRenderInter();
-
 	void ReleaseResouces();
+	void CalculateLayout();
+	void ResizeInter();
 
 	void SetDrawColorInter(float& r, float& g, float& b);
-
-	void DrawPictureInter(std::string& pic);
-
-	void DrawCircleInter();
 	void DrawRectInter(int& x1, int& y1, int& x2, int& y2, bool& fill);
 	void DrawGridInter(int& size);
 	void DrawLineInter(Point& x, Point& y);
@@ -79,24 +71,19 @@ public:
 	static void Init(HWND hWnd);
 
 	static void Resize();
-	static void OnRender();
-
-	static ID2D1HwndRenderTarget* GetRenderTarget();
-	ID2D1Factory* GetFactory();
 
 	static void StartDraw();
 	static void EndDraw();
 
-	static void SetDrawColor(float r, float g, float b);
-
 	// The main graphics stuff
-	static void DrawPicture(std::string pic);
-	
-	static void DrawCircle();
+	static void SetDrawColor(float r, float g, float b);
 	static void DrawRect(int x1, int y1, int x2, int y2, bool fill = true);
 	static void DrawGrid(int size = 10);
 	static void DrawLine(Point x, Point y);
 
+
+	static ID2D1HwndRenderTarget* GetRenderTarget();
+	ID2D1Factory* GetFactory();
 
 	static Graphics& Get();
 };

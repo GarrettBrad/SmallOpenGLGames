@@ -22,6 +22,9 @@ public:
 
 	static Collision& Get();
 	
+	static bool BetweenY(const DrawObject& obj, const HitBox& hit);
+	static bool BetweenX(const DrawObject& obj, const HitBox& hit);
+
 	static bool CollisionXLeft(const DrawObject& obj, const HitBox& hit);
 	static bool CollisionYUp(const DrawObject& obj, const HitBox& hit);
 

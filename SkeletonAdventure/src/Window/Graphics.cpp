@@ -169,15 +169,6 @@ void Graphics::Resize()
 	Get().ResizeInter();
 }
 
-void Graphics::OnRenderInter()
-{
-	// Nothing
-}
-void Graphics::OnRender()
-{
-	Get().OnRenderInter();
-}
-
 void Graphics::SetDrawColorInter(float& r, float& g, float& b)
 {
 	if (SUCCEEDED(m_Hr))
@@ -189,25 +180,6 @@ void Graphics::SetDrawColorInter(float& r, float& g, float& b)
 void Graphics::SetDrawColor(float r, float g, float b)
 {
 	Get().SetDrawColorInter(r, g, b);
-}
-
-// Nothing
-void Graphics::DrawPictureInter(std::string& pic)
-{
-}
-void Graphics::DrawPicture(std::string pic)
-{
-	Get().DrawPictureInter(pic);
-}
-
-// Currently does nothing
-void Graphics::DrawCircleInter()
-{
-
-}
-void Graphics::DrawCircle()
-{
-	Get().DrawCircleInter();
 }
 
 // Draws a rectangle to screen

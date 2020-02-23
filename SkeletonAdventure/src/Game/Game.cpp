@@ -119,6 +119,25 @@ void Game::MoveSkeleton(Direction dir)
 		m_Skeleton.InSpeedWalk(dir);
 }
 
+void PushBackX(Skeleton& skel)
+{
+	skel.SetX(skel.GetX() - skel.GetXSpeed());
+	skel.SetXSpeed(0);
+}
+
+void PushBackY(Skeleton& skel, Direction dir)
+{
+	if (dir == Direction::Down) {
+		skel.SetY(skel.GetY() + abs(skel.GetYSpeed()));
+		skel.SetYSpeed(0);
+	}
+	else
+	{
+		skel.SetY(skel.GetY() - skel.GetYSpeed());
+		skel.SetYSpeed(0);
+	}
+}
+
 // Checks to see if anyting is colliding with an level object
 void Game::CheckObjectColison()
 {
@@ -129,21 +148,24 @@ void Game::CheckObjectColison()
 		if (!Collision::IsCollideable(o.Type)) continue;
 
 		const HitBox& hit = m_Skeleton.GetHitBox();
+
 		if (Collision::CollisionYUp(o, hit)) {
-			m_Skeleton.SetY(o.TopLeft.Y - (hit.BottomRight.Y - hit.TopLeft.Y) - 29);
-			SetCanJump();	
+			SetCanJump();
 			m_Skeleton.SetCanJump();
+			PushBackY(m_Skeleton, Direction::Up);
 		} 
 		else if (Collision::CollisionYDown(o, hit)) {
-			m_Skeleton.SetY(m_Skeleton.GetY() - m_Skeleton.GetYSpeed());
-			m_Skeleton.SetYSpeed(0);
+			PushBackY(m_Skeleton, Direction::Down);
 		}
 		else if (Collision::CollisionXLeft(o, hit)) {
-			m_Skeleton.SetX(o.TopLeft.X - (hit.BottomRight.X - hit.TopLeft.X) - (hit.TopLeft.X - m_Skeleton.GetX()));
+			if (m_Skeleton.GetXSpeed() > 0)
+				PushBackX(m_Skeleton);
 		} 
 		else if (Collision::CollisionXRight(o, hit)) {
-			m_Skeleton.SetX(o.BottomRight.X - (hit.BottomRight.X - hit.TopLeft.X) - (hit.TopLeft.X - m_Skeleton.GetX()));
+			if (m_Skeleton.GetXSpeed() < 0)
+				PushBackX(m_Skeleton);
 		}
+
 
 	}
 }

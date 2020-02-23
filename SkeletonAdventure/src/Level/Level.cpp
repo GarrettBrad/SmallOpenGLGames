@@ -11,11 +11,8 @@ void Level::UpdateDrawingObjects()
 // Loads the level
 void Level::LoadInter()
 {
-	// I want a text file with everything we need for each level.
-	// I have no idea how to do that
-
-	// Im thinking a deque with ojbects we need to draw
-
+	
+	// Temp. Will load from a file of what I want.
 	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {0, 681}, { SKEL_WINDOW_WIDTH, 720}, L" "));
 	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {500, 550}, {600, 600}, L" "));
 	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {600, 500}, {750, 550}, L" "));
