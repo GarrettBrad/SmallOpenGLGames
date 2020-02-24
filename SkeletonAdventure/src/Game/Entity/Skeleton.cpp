@@ -90,7 +90,7 @@ void Skeleton::UpdateHitBox()
 }
 
 // Will move the player by the speed.
-void Skeleton::Move()
+void Skeleton::Move() // overriden because i think i need to add something more
 {
 	m_X += m_XSpeed;
 	m_Y += m_YSpeed;
@@ -126,34 +126,7 @@ void Skeleton::InSpeedWalk(Direction dir)
 // attack key is pressed
 void Skeleton::Attack()
 {
-
-}
-
-// to be added
-bool Skeleton::IsOnGround()
-{
-	// Allows jumping inbetween this speed
-	return (m_YSpeed < 0.01f && m_YSpeed > -.01f);
-}
-
-// Is attacking
-bool Skeleton::IsAttacking()
-{
-	return false;
-}
-
-// Is Running()
-bool Skeleton::IsRunning()
-{
-	// the -0.02 is a cushion for floating point numbers
-	return (m_XSpeed >= (SKELETON_RUN_SPEED - 0.02f));
-	
-}
-
-// Is Walking
-bool Skeleton::IsWalking()
-{
-	return false;
+	// TODO: add attacking
 }
 
 void Skeleton::SetCanJump()
@@ -169,11 +142,6 @@ void Skeleton::SetNoJump()
 const bool& Skeleton::GetCanJump() const
 {
 	return m_CanJump;
-}
-
-const HitBox& Skeleton::GetHitBox() const
-{
-	return m_HitBox;
 }
 
 ImageInfo Skeleton::GetImage() const
@@ -222,48 +190,3 @@ const D2D1_SIZE_F Skeleton::GetSize()
 	return m_Size;
 }
 
-// Gets x speed
-const int& Skeleton::GetXSpeed() const
-{
-	return m_XSpeed;
-}
-
-// Gets y Speed
-const int& Skeleton::GetYSpeed() const
-{
-	return m_YSpeed;
-}
-
-// Sets X Speed
-void Skeleton::SetXSpeed(int x)
-{
-	m_XSpeed = x;
-}
-
-// Sets y Speed
-void Skeleton::SetYSpeed(int y)
-{
-	m_YSpeed = y;
-}
-
-// Gets the x pos value
-const int& Skeleton::GetX() const
-{
-	return m_X;
-}
-
-// Gets the y Pos value
-const int& Skeleton::GetY() const
-{
-	return m_Y;
-}
-
-void Skeleton::SetX(int x)
-{
-	m_X = x;
-}
-
-void Skeleton::SetY(int y)
-{
-	m_Y = y;
-}

@@ -1,7 +1,7 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include "Game/Skeleton.h"
+#include "Game/Entity/Skeleton.h"
 
 enum class ObjectType
 {

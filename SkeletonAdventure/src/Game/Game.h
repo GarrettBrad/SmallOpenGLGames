@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "Skeleton.h"
+#include "Entity/Skeleton.h"
 
 // Singleton
 class Game

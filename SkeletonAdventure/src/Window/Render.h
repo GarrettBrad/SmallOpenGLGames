@@ -1,7 +1,7 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include "Game/Skeleton.h"
+#include "Game/Entity/Skeleton.h"
 #include "Level/Level.h"
 #include "Sprite.h"
 

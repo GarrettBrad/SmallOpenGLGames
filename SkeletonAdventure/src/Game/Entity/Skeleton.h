@@ -1,18 +1,9 @@
 #ifndef SKELETON_H
 #define SKELETON_H
 
-// 2 dimensional vector
-struct Vector2D
-{
-	int X, Y;
-};
+#include "Entity.h"
 
-// The box which can be hit
-struct HitBox
-{
-	Vector2D TopLeft;
-	Vector2D BottomRight;
-};
+
 
 enum class ModelType
 {
@@ -31,32 +22,8 @@ enum class ModelType
 
 };
 
-enum class Direction
-{
-	Up = 0,
-	Down,
-	Left,
-	Right
-};
 
-enum class MovementType
-{
-	Walk = 0,
-	Run,
-	Jump
-};
-
-struct ImageInfo
-{
-	const wchar_t* file;
-	bool flipped = false;
-
-	ImageInfo(const wchar_t* file, bool flipped)
-		: file(file), flipped(flipped)
-	{}
-};
-
-class Skeleton
+class Skeleton : public Entity
 {
 private:
 	std::array<const wchar_t*, 6> m_Attack1Models = {
@@ -151,34 +118,23 @@ private:
 
 private:
 
-	int m_X = 0, m_Y = 0;
-
-	int m_XSpeed = 0, m_YSpeed = 0;
-
+	// Used for drawing
 	mutable int m_SkeletonShow = 1;
 	mutable int m_MaxShow = 3; // the amount of an imagle there is
 	mutable clock_t time;
 
+	bool m_CanJump = true;
 	const D2D1_SIZE_F m_Size = { 18,29 };
 
-	bool m_CanJump = true;
-
 	ModelType m_ModelType = ModelType::Ready;
-	Direction m_DirectionFacing = Direction::Right;
-	HitBox m_HitBox;
 
 	void AdjustSpeed(ModelType model, Direction dir, MovementType movement);
-	void DecaySpeed();
+	void DecaySpeed() override;
+	void UpdateHitBox() override;
 	
 public:
 
-	bool IsOnGround();
-	bool IsRunning(); 
-	bool IsWalking();
-	bool IsAttacking();
-
-	void UpdateHitBox();
-	void Move();
+	void Move() override;
 	void Jump();
 	void InSpeedSprint(Direction dir);
 	void InSpeedWalk(Direction dir);
@@ -189,21 +145,10 @@ public:
 
 	const bool& GetCanJump() const;
 
-	const HitBox& GetHitBox() const;
-
-	ImageInfo GetImage() const;
+	ImageInfo GetImage() const override;
 
 	const D2D1_SIZE_F GetSize();
 
-	const int& GetXSpeed() const;
-	const int& GetYSpeed() const;
-	void SetXSpeed(int x);
-	void SetYSpeed(int y);
-
-	const int& GetX() const;
-	const int& GetY() const;
-	void SetX(int x);
-	void SetY(int y);
 
 
 
