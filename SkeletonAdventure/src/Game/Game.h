@@ -39,6 +39,8 @@ private:
 
 	int GetExitCodeInter();
 
+	Game();
+
 public:
 
 	static LRESULT CALLBACK GameWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParma);
@@ -53,9 +55,6 @@ public:
 
 	static int GetExitCode();
 	static Game& Get();
-
-
-	Game();
 };
 
 #endif /* GAME_H */
