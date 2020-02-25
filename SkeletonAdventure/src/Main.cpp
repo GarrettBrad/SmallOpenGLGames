@@ -2,6 +2,9 @@
 
 #include "Game/Game.h"
 
+// Visual studio complaining about the WinMain function
+#pragma warning(disable : 28251)
+
 int CALLBACK WinMain(
 	HINSTANCE hInstance, 
 	HINSTANCE hPrevInstance, // Windows please update to get rid of this. Always null

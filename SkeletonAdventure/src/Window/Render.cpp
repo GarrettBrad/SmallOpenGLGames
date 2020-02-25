@@ -57,7 +57,7 @@ D2D1_SIZE_F Render::DrawEntityInter(const Entity& ent, float& scale)
 		m_SkeletonSprite = new Sprite(ent.GetImage());
 	}
 
-	m_SkeletonSprite->Draw(ent.GetX(), ent.GetY(), scale);
+	m_SkeletonSprite->Draw((float) ent.GetX(), (float) ent.GetY(), scale);
 
 	return m_SkeletonSprite->GetSize();
 

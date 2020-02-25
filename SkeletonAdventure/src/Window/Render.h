@@ -27,7 +27,7 @@ private:
 
 
 	ImageInfo m_LastInfo = ImageInfo(L"", false );
-	Sprite* m_SkeletonSprite;
+	Sprite* m_SkeletonSprite = nullptr;
 	D2D1_SIZE_F DrawEntityInter(const Entity& skel, float& scale);
 	void DrawLevelObjectsInter(const DrawObject& object);
 	void DrawHitBoxInter(const HitBox& hit);
