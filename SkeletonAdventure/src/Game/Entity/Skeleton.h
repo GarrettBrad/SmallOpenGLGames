@@ -140,6 +140,8 @@ public:
 	void InSpeedWalk(Direction dir);
 	void Attack();
 
+	bool IsSkeleton() const override final;
+
 	void SetCanJump();
 	void SetNoJump();
 

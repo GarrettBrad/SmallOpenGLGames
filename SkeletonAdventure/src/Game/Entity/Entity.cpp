@@ -33,6 +33,11 @@ void Entity::Move()
 	DecaySpeed();
 }
 
+bool Entity::IsSkeleton() const
+{
+	return false;
+}
+
 // Returns the hit box of the entity
 const HitBox& Entity::GetHitBox() const
 {
@@ -75,11 +80,13 @@ const int& Entity::GetY() const
 	return m_Y;
 }
 
+// Sets the xvalue of the entity
 void Entity::SetX(int x)
 {
 	m_X = x;
 }
 
+// Sets the yvalue of the entity
 void Entity::SetY(int y)
 {
 	m_Y = y;

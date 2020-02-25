@@ -59,6 +59,8 @@ public:
 
 	virtual void Move();
 
+	virtual bool IsSkeleton() const;
+
 	virtual const HitBox& GetHitBox() const;
 
 	virtual const int& GetXSpeed() const;

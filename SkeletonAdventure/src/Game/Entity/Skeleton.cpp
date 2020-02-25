@@ -129,21 +129,31 @@ void Skeleton::Attack()
 	// TODO: add attacking
 }
 
+// Returns if the entity is a skeleton or not
+bool Skeleton::IsSkeleton() const
+{
+	return true;
+}
+
+// Sets the skeleton able to jump
 void Skeleton::SetCanJump()
 {
 	m_CanJump = true;
 }
 
+// Sets the skeleton not able to jump
 void Skeleton::SetNoJump()
 {
 	m_CanJump = false;
 }
 
+// returns if the skeleton can jump or not
 const bool& Skeleton::GetCanJump() const
 {
 	return m_CanJump;
 }
 
+// gets the current image that the skeleton should be displaying
 ImageInfo Skeleton::GetImage() const
 {
 	

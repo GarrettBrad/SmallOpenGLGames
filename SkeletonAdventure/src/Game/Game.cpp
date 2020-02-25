@@ -230,6 +230,7 @@ int Game::Init(HINSTANCE Instance)
 // Runs the game and pulls messages from the window class
 void Game::RunInter()
 {
+	// TODO: Add frametime checking
 
 	m_Skeleton.Move();
 
@@ -250,22 +251,24 @@ void Game::Run()
 // Tells the render what to draw
 void Game::DrawInter()
 {
-	// Copy the sprite
+	// Just sets the draw color to red. idk why
 	Graphics::SetDrawColor(1.0f, 0.0f, 0.0f);
 
+	// Draws the level
 	Level::Draw();
 	
 #if _DEBUG || DEBUG
-	Graphics::DrawRect(m_Skeleton.GetX(), m_Skeleton.GetY(), 
-		m_Skeleton.GetX() + m_SkelSize.width + 10,
-		m_Skeleton.GetY() + (int)m_SkelSize.height + 10, 
-		false);
+	//Graphics::DrawRect(m_Skeleton.GetX(), m_Skeleton.GetY(), 
+	//	m_Skeleton.GetX() + m_SkelSize.width + 10,
+	//	m_Skeleton.GetY() + (int)m_SkelSize.height + 10, 
+	//	false);
 
+	// White box around the hitbox
 	Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
 	Render::DrawHitBox(m_Skeleton.GetHitBox());
 #endif
 
-	Render::DrawSkeleton(m_Skeleton);
+	Render::DrawEntity(m_Skeleton);
 
 }
 

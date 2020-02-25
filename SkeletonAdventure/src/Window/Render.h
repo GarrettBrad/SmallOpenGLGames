@@ -1,7 +1,7 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include "Game/Entity/Skeleton.h"
+#include "Game/Entity/Entity.h"
 #include "Level/Level.h"
 #include "Sprite.h"
 
@@ -28,7 +28,7 @@ private:
 
 	ImageInfo m_LastInfo = ImageInfo(L"", false );
 	Sprite* m_SkeletonSprite;
-	D2D1_SIZE_F DrawSkeletonInter(const Skeleton& skel, float& scale);
+	D2D1_SIZE_F DrawEntityInter(const Entity& skel, float& scale);
 	void DrawLevelObjectsInter(const DrawObject& object);
 	void DrawHitBoxInter(const HitBox& hit);
 
@@ -41,7 +41,7 @@ public:
 
 	static void StartRender();
 
-	static D2D1_SIZE_F DrawSkeleton(const Skeleton& skel, float scale = SKEL_DEFUALT_SKELETON_SCALE);
+	static D2D1_SIZE_F DrawEntity(const Entity& skel, float scale = SKEL_DEFUALT_SKELETON_SCALE);
 	static void DrawLevelObjects(const DrawObject& object);
 	static void DrawHitBox(const HitBox& hit);
 

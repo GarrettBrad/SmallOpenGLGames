@@ -30,12 +30,18 @@ void Render::StartRender()
 }
 
 // Handels drawing the skeleton
-D2D1_SIZE_F Render::DrawSkeletonInter(const Skeleton& skel, float& scale)
+D2D1_SIZE_F Render::DrawEntityInter(const Entity& ent, float& scale)
 {
+	// Currently on skeleton is supported
+	if (!ent.IsSkeleton()) return D2D1_SIZE_F();
+
+	// TODO Change m_LastInfo to be a map/set with the key of ent and also m_SkeletonSprite 
+	// needs to be changes to a map/set for all entitys to hold the sprite for drawing
+
 	// this stops recreating the sprite if the image is the same
-	if (m_LastInfo.file != skel.GetImage().file)
+	if (m_LastInfo.file != ent.GetImage().file)
 	{
-		m_LastInfo = skel.GetImage();
+		m_LastInfo = ent.GetImage();
 		
 		// Deletes SkeletonSprite if there is a new one in que
 		if (m_SkeletonSprite)
@@ -48,18 +54,18 @@ D2D1_SIZE_F Render::DrawSkeletonInter(const Skeleton& skel, float& scale)
 	// Creates a new sprite to be drawing
 	if (!m_SkeletonSprite)
 	{
-		m_SkeletonSprite = new Sprite(skel.GetImage());
+		m_SkeletonSprite = new Sprite(ent.GetImage());
 	}
 
-	m_SkeletonSprite->Draw(skel.GetX(), skel.GetY(), scale);
+	m_SkeletonSprite->Draw(ent.GetX(), ent.GetY(), scale);
 
 	return m_SkeletonSprite->GetSize();
 
 }
 // Draws the Skeleton returns the size of the sprite
-D2D1_SIZE_F Render::DrawSkeleton(const Skeleton& skel, float scale)
+D2D1_SIZE_F Render::DrawEntity(const Entity& skel, float scale)
 {
-	return Get().DrawSkeletonInter(skel, scale);
+	return Get().DrawEntityInter(skel, scale);
 }
 
 // Draws the level
