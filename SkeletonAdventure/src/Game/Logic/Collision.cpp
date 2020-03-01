@@ -4,12 +4,12 @@
 Collision::Collision()
 {}
 
-// Returns if the object is colliable
+// Returns if the object is collidable
 bool Collision::IsCollideableInter(const ObjectType& obj)
 {
 	return m_CollisionAble.at(obj);
 }
-// Returns if the object is colliable
+// Returns if the object is collidable
 bool Collision::IsCollideable(const ObjectType& obj)
 {
 	return Get().IsCollideableInter(obj);
@@ -28,7 +28,7 @@ bool Collision::BetweenY(const DrawObject& obj, const HitBox& hit)
 	return (hit.BottomRight.Y - 1 > obj.TopLeft.Y&& hit.TopLeft.Y + 1 < obj.BottomRight.Y);
 }
 
-// Checks to see if the hitbox is between the ojbects X cords
+// Checks to see if the hitbox is between the objects X cords
 bool Collision::BetweenX(const DrawObject& obj, const HitBox& hit)
 {
 	return (hit.BottomRight.X > obj.TopLeft.X + 1 && hit.TopLeft.X < obj.BottomRight.X - 1);
@@ -42,7 +42,7 @@ bool Collision::BetweenX(const DrawObject& obj, const HitBox& hit)
 ///		  ||			// Wall 
 /// FALSE
 
-// Checks collison on the left side of the given obj and not past ot
+// Checks collision on the left side of the given obj and not past ot
 bool Collision::CollisionXLeft(const DrawObject& obj, const HitBox& hit)
 {
 	if (hit.BottomRight.X > obj.TopLeft.X && obj.TopLeft.X + 11 > hit.BottomRight.X) {
@@ -56,7 +56,7 @@ bool Collision::CollisionXLeft(const DrawObject& obj, const HitBox& hit)
 	return false;
 }
 
-// Checks collison on the top of an object
+// Checks collision on the top of an object
 bool Collision::CollisionYUp(const DrawObject& obj, const HitBox& hit)
 {
 
@@ -71,7 +71,7 @@ bool Collision::CollisionYUp(const DrawObject& obj, const HitBox& hit)
 	return false;
 }
 
-// Checks collison to the right of the given object
+// Checks collision to the right of the given object
 bool Collision::CollisionXRight(const DrawObject& obj, const HitBox& hit)
 {
 	if (hit.TopLeft.X < obj.BottomRight.X && obj.BottomRight.X - 11 < hit.TopLeft.X) {

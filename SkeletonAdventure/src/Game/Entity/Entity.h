@@ -47,7 +47,7 @@ protected:
 	int m_XSpeed = 0, m_YSpeed = 0;
 
 	Direction m_DirectionFacing = Direction::Right;
-	HitBox m_HitBox;
+	HitBox m_HitBox = { 0 };
 
 	virtual void DecaySpeed();
 	virtual void UpdateHitBox() = 0;
@@ -59,7 +59,10 @@ public:
 
 	virtual void Move();
 
+	virtual HitBox Attack() const;
+
 	virtual bool IsSkeleton() const;
+	virtual bool IsEnemy() const;
 
 	virtual const HitBox& GetHitBox() const;
 

@@ -4,6 +4,7 @@
 // decays the speed of 
 void Entity::DecaySpeed()
 {
+	
 	do
 	{
 		if (m_XSpeed == 0)
@@ -33,7 +34,35 @@ void Entity::Move()
 	DecaySpeed();
 }
 
+// Returns the hitbox where the skeleton attacked
+// Does not register hit.
+// Use the returned Hit Box
+[[nodiscard]]
+HitBox Entity::Attack() const
+{
+	// TODO: add attacking
+
+	if (m_DirectionFacing == Direction::Left)
+		return {
+			{ m_HitBox.BottomRight.X, m_HitBox.BottomRight.Y - 10 },
+			{ m_HitBox.TopLeft.X - 40, m_HitBox.TopLeft.Y + 10 }
+	};
+	else
+		return {
+			{ m_HitBox.BottomRight.X + 40, m_HitBox.BottomRight.Y - 10 },
+			{ m_HitBox.TopLeft.X, m_HitBox.TopLeft.Y + 10 }
+	};
+
+}
+
+// returns if the entity is a skeleton
 bool Entity::IsSkeleton() const
+{
+	return false;
+}
+
+// returns if the entity is a Enemy to the skeleton
+bool Entity::IsEnemy() const
 {
 	return false;
 }

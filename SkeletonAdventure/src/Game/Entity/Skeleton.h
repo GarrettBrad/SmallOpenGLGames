@@ -118,10 +118,10 @@ private:
 
 private:
 
-	// Used for drawing
+	// Used for drawing TEMP
 	mutable int m_SkeletonShow = 1;
-	mutable int m_MaxShow = 3; // the amount of an imagle there is
-	mutable clock_t time;
+	mutable int m_MaxShow = 3; // the amount of an image model there is
+	mutable clock_t time = NULL;
 
 	bool m_CanJump = true;
 	const D2D1_SIZE_F m_Size = { 18,29 };
@@ -138,9 +138,9 @@ public:
 	void Jump();
 	void InSpeedSprint(Direction dir);
 	void InSpeedWalk(Direction dir);
-	void Attack();
 
 	bool IsSkeleton() const override final;
+	bool IsEnemy() const override final;
 
 	void SetCanJump();
 	void SetNoJump();

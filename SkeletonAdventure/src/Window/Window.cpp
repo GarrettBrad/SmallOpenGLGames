@@ -159,7 +159,7 @@ void Window::Draw()
 }
 
 // Gets the window handle
-HWND Window::GetWindow()
+HWND Window::GetWindowHandle()
 {
 	return Get().GetWindowInter();
 }

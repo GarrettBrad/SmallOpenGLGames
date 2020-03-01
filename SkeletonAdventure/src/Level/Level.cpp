@@ -12,17 +12,17 @@ void Level::UpdateDrawingObjects()
 void Level::LoadInter()
 {
 	
-	// Temp. Will load from a file of what I want.
-	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {0, 681}, { SKEL_WINDOW_WIDTH, 720}, L" "));
+	// Temp. Will load from a file everything the level has
+	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {0, 681}, {SKEL_WINDOW_WIDTH, 720}, L" "));
 	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {500, 550}, {600, 600}, L" "));
 	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {600, 500}, {750, 550}, L" "));
 	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {750, 550}, {800, 600}, L" "));
-	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {100, 600}, {200, 650}, L" "));
-	m_DrawingObjects.push_back(m_LevelOjbects[0]);
-	m_DrawingObjects.push_back(m_LevelOjbects[1]);
-	m_DrawingObjects.push_back(m_LevelOjbects[2]);
-	m_DrawingObjects.push_back(m_LevelOjbects[3]);
-	m_DrawingObjects.push_back(m_LevelOjbects[4]);
+	m_LevelOjbects.push_back(DrawObject(ObjectType::Floor, {250, 600}, {350, 650}, L" "));
+	m_DrawingObjects.emplace_back(m_LevelOjbects[0]);
+	m_DrawingObjects.emplace_back(m_LevelOjbects[1]);
+	m_DrawingObjects.emplace_back(m_LevelOjbects[2]);
+	m_DrawingObjects.emplace_back(m_LevelOjbects[3]);
+	m_DrawingObjects.emplace_back(m_LevelOjbects[4]);
 }
 // Loads the level
 void Level::Load()
@@ -30,12 +30,12 @@ void Level::Load()
 	Get().LoadInter();
 }
 
-// Gets the current objects being draw	
+// Gets the current objects that should be drawn
 const std::deque<DrawObject>& Level::GetObjecstInter()
 {
 	return m_DrawingObjects;
 }
-// Gets the current draw objects
+// Gets the current objects that should be drawn
 const std::deque<DrawObject>& Level::GetObjects()
 {
 	return Get().GetObjecstInter();
@@ -64,7 +64,7 @@ Level& Level::Get()
 }
 
 
-// Made private for singlton
+// Made private for singleton
 Level::Level()
 {
 }

@@ -1,7 +1,6 @@
 #include "pch.h"
 
 #include "Game.h"
-#include "Collision.h"
 #include "Window/Window.h"
 #include "Window/Render.h"
 
@@ -10,44 +9,39 @@
 // Made private for singleton
 Game::Game()
 {
+
 }
 
 // Handles the messages we get from the window
 LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	
-
 	switch (message)
 	{
 		case WM_LBUTTONDOWN:
 		{
-			m_MouseDown = true;
+
 			return 0;
 		}
 		case WM_LBUTTONUP:
 		{
-			m_MouseDown = false;
+
 			return 0;
 		}
 		case WM_MOUSEMOVE:
 		{
-			m_MouseX = GET_X_LPARAM(lParam);
-			m_MouseY = GET_Y_LPARAM(lParam);
 			return 0;
 		}
 		case WM_KEYDOWN:
 		{
-
-			if (!m_KeyPressed[wParam])	
-				m_KeyPressed[wParam] = true;
+			Logic::KeyPressed(wParam);
 
 			return 0;
 		}
 
 		case WM_KEYUP:
 		{
-			if (m_KeyPressed[wParam])
-				m_KeyPressed[wParam] = false;
+			Logic::KeyReleased(wParam);
 
 			return 0;
 		}
@@ -69,7 +63,7 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 		case WM_QUIT:
 		{
 			PostQuitMessage(0);
-			DestroyWindow(Window::GetWindow());
+			DestroyWindow(Window::GetWindowHandle());
 			return 0;
 		}
 		case WM_DESTROY:
@@ -80,7 +74,7 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 		case WM_CLOSE:
 		{
 			PostQuitMessage(0);
-			DestroyWindow(Window::GetWindow());
+			DestroyWindow(Window::GetWindowHandle());
 			return 0;
 		}
 	}
@@ -93,91 +87,6 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 LRESULT CALLBACK Game::GameWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParma)
 {
 	return Get().WindowProcInter(hWnd, message, wParam, lParma);
-}
-
-// Checks player input
-void Game::CheckInput()
-{
-	if ((m_KeyPressed[VK_SPACE] || m_KeyPressed[SKEL_KEY_W]) && !m_KeySpace)
-	{
-		m_KeySpace = true;
-		m_Skeleton.Jump();
-	}
-
-	if (m_KeyPressed[SKEL_KEY_D])
-		MoveSkeleton(Direction::Right);
-	else if (m_KeyPressed[SKEL_KEY_A])
-		MoveSkeleton(Direction::Left);
-}
-
-void Game::MoveSkeleton(Direction dir)
-{
-
-	if (GetAsyncKeyState(VK_SHIFT))
-		m_Skeleton.InSpeedSprint(dir);
-	else
-		m_Skeleton.InSpeedWalk(dir);
-}
-
-void PushBackX(Skeleton& skel)
-{
-	skel.SetX(skel.GetX() - skel.GetXSpeed());
-	skel.SetXSpeed(0);
-}
-
-void PushBackY(Skeleton& skel, Direction dir)
-{
-	if (dir == Direction::Down) {
-		skel.SetY(skel.GetY() + abs(skel.GetYSpeed()));
-		skel.SetYSpeed(0);
-	}
-	else
-	{
-		skel.SetY(skel.GetY() - skel.GetYSpeed());
-		skel.SetYSpeed(0);
-	}
-}
-
-// Checks to see if anyting is colliding with an level object
-void Game::CheckObjectColison()
-{
-	const std::deque<DrawObject>& obj = Level::GetObjects();
-
-	for (const auto& o : obj)
-	{
-		if (!Collision::IsCollideable(o.Type)) continue;
-
-		const HitBox& hit = m_Skeleton.GetHitBox();
-
-		if (Collision::CollisionYUp(o, hit)) {
-			SetCanJump();
-			m_Skeleton.SetCanJump();
-			PushBackY(m_Skeleton, Direction::Up);
-		} 
-		else if (Collision::CollisionYDown(o, hit)) {
-			PushBackY(m_Skeleton, Direction::Down);
-		}
-		else if (Collision::CollisionXLeft(o, hit)) {
-			if (m_Skeleton.GetXSpeed() > 0)
-				PushBackX(m_Skeleton);
-		} 
-		else if (Collision::CollisionXRight(o, hit)) {
-			if (m_Skeleton.GetXSpeed() < 0)
-				PushBackX(m_Skeleton);
-		}
-
-
-	}
-}
-
-// Sets the input so it can jump
-void Game::SetCanJumpInter()
-{
-	m_KeySpace = false;
-}
-void Game::SetCanJump()
-{
-	Get().SetCanJumpInter();
 }
 
 // Returns if the game should close
@@ -193,13 +102,6 @@ bool Game::ShouldClose()
 	return Get().ShouldCloseInter();
 }
 
-// I just feel that his should be overloaded
-void operator*=(D2D1_SIZE_F& size, float muli)
-{
-	size.width *= muli;
-	size.height *= muli;
-}
-
 // Inits the game and gives the hinstance to the window class
 int Game::InitInter(HINSTANCE hInst)
 {
@@ -211,10 +113,6 @@ int Game::InitInter(HINSTANCE hInst)
 	Window::MakeWindow();
 
 	Level::Load();
-
-	m_SkelSize = m_Skeleton.GetSize();
-
-	m_SkelSize *= SKEL_DEFUALT_SKELETON_SCALE * 1.5f; // we need this because of the white space in the photos
 
 	return 0;
 
@@ -230,12 +128,10 @@ int Game::Init(HINSTANCE Instance)
 // Runs the game and pulls messages from the window class
 void Game::RunInter()
 {
-	// TODO: Add frametime checking
 
-	m_Skeleton.Move();
+	// Do all movement
+	Logic::Move();
 
-	CheckInput();
-	CheckObjectColison();
 
 	Window::Run();
 }
@@ -251,24 +147,22 @@ void Game::Run()
 // Tells the render what to draw
 void Game::DrawInter()
 {
-	// Just sets the draw color to red. idk why
+	// Temp
 	Graphics::SetDrawColor(1.0f, 0.0f, 0.0f);
 
 	// Draws the level
 	Level::Draw();
 	
 #if _DEBUG || DEBUG
-	//Graphics::DrawRect(m_Skeleton.GetX(), m_Skeleton.GetY(), 
-	//	m_Skeleton.GetX() + m_SkelSize.width + 10,
-	//	m_Skeleton.GetY() + (int)m_SkelSize.height + 10, 
-	//	false);
 
 	// White box around the hitbox
 	Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
-	Render::DrawHitBox(m_Skeleton.GetHitBox());
+
+	Render::DrawHitBox(Logic::cGetSkeleton().GetHitBox());
+	Render::DrawHitBox(Logic::cGetSkeleton().Attack());
 #endif
 
-	Render::DrawEntity(m_Skeleton);
+	Render::DrawEntity(Logic::GetSkeleton());
 
 }
 

@@ -27,9 +27,11 @@ struct DrawObject
 class Level
 {
 private:
-	
+	// We use deque because the size will vary widley and will likely load from the left to right
+	// and delete from the left to right
+
 	// holds all objects in the level
-	std::deque<DrawObject> m_LevelOjbects;
+	std::vector<DrawObject> m_LevelOjbects;
 	// Holds all ojbects we need to draw currently
 	std::deque<DrawObject> m_DrawingObjects;
 
@@ -56,6 +58,8 @@ public:
 	static const std::deque<DrawObject>& GetObjects();
 
 	static void Draw();
+
+	Level(const Level& game) = delete;
 
 	static Level& Get();
 

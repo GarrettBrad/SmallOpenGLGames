@@ -85,6 +85,8 @@ public:
 	static ID2D1HwndRenderTarget* GetRenderTarget();
 	ID2D1Factory* GetFactory();
 
+	Graphics(const Graphics& grap) = delete;
+
 	static Graphics& Get();
 };
 

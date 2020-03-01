@@ -30,10 +30,8 @@ void Render::StartRender()
 }
 
 // Handels drawing the skeleton
-D2D1_SIZE_F Render::DrawEntityInter(const Entity& ent, float& scale)
+void Render::DrawEntityInter(const Entity& ent, float& scale)
 {
-	// Currently on skeleton is supported
-	if (!ent.IsSkeleton()) return D2D1_SIZE_F();
 
 	// TODO Change m_LastInfo to be a map/set with the key of ent and also m_SkeletonSprite 
 	// needs to be changes to a map/set for all entitys to hold the sprite for drawing
@@ -58,14 +56,12 @@ D2D1_SIZE_F Render::DrawEntityInter(const Entity& ent, float& scale)
 	}
 
 	m_SkeletonSprite->Draw((float) ent.GetX(), (float) ent.GetY(), scale);
-
-	return m_SkeletonSprite->GetSize();
-
 }
+
 // Draws the Skeleton returns the size of the sprite
-D2D1_SIZE_F Render::DrawEntity(const Entity& skel, float scale)
+void Render::DrawEntity(const Entity& ent, float scale)
 {
-	return Get().DrawEntityInter(skel, scale);
+	Get().DrawEntityInter(ent, scale);
 }
 
 // Draws the level
@@ -73,7 +69,7 @@ void Render::DrawLevelObjectsInter(const DrawObject& obj)
 {
 	Graphics::DrawRect(obj.TopLeft.X, obj.TopLeft.Y, obj.BottomRight.X, obj.BottomRight.Y);
 }
-// Draws the ojbect given to it
+// Draws the object given to it
 void Render::DrawLevelObjects(const DrawObject& obj)
 {
 	Get().DrawLevelObjectsInter(obj);
@@ -81,11 +77,10 @@ void Render::DrawLevelObjects(const DrawObject& obj)
 
 void Render::DrawHitBoxInter(const HitBox& hit)
 {
-	// for somereason when drawn the hitbox is offset
 	Graphics::DrawRect(hit.TopLeft.X,
-		hit.TopLeft.Y - 13,
+		hit.TopLeft.Y,
 		hit.BottomRight.X,
-		hit.BottomRight.Y - 13,
+		hit.BottomRight.Y,
 		false);
 }
 void Render::DrawHitBox(const HitBox& hit)

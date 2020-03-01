@@ -8,7 +8,7 @@ private:
 
 	HINSTANCE m_hInst = nullptr;
 	HWND m_hWnd = nullptr;
-	MSG m_Msg;
+	MSG m_Msg = { 0 };
 
 	HWND GetWindowInter();
 
@@ -26,7 +26,7 @@ public:
 
 	static Window& Get();
 
-	static HWND GetWindow();
+	static HWND GetWindowHandle();
 	static int Init(HINSTANCE hInst);
 	static int ExitCode();
 	static void MakeWindow();

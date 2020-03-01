@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "Skeleton.h"
+#include "Game/Logic/Logic.h"
 
 // Changes the speed, the direction the model is facing, and the model for the movement type (i.e. jump or sprint or walk)
 void Skeleton::AdjustSpeed(ModelType model, Direction dir, MovementType movement)
@@ -19,14 +20,14 @@ void Skeleton::AdjustSpeed(ModelType model, Direction dir, MovementType movement
 		case (MovementType::Run):
 		{
 			if (dir == Direction::Right) {
-				m_XSpeed += SKELETON_SPEED_INCORMENT;
+				m_XSpeed += SKELETON_SPEED_INCREASE;
 
 				if (m_XSpeed > SKELETON_RUN_SPEED)
 					m_XSpeed = SKELETON_RUN_SPEED;
 			}
 			else if (dir == Direction::Left)
 			{
-				m_XSpeed -= SKELETON_SPEED_INCORMENT;
+				m_XSpeed -= SKELETON_SPEED_INCREASE;
 
 				if (m_XSpeed < -SKELETON_RUN_SPEED)
 					m_XSpeed = -SKELETON_RUN_SPEED;
@@ -37,14 +38,14 @@ void Skeleton::AdjustSpeed(ModelType model, Direction dir, MovementType movement
 		case (MovementType::Walk):
 		{
 			if (dir == Direction::Right) {
-				m_XSpeed += SKELETON_SPEED_INCORMENT;
+				m_XSpeed += SKELETON_SPEED_INCREASE;
 
 				if (m_XSpeed > SKELETON_WALK_SPEED)
 					m_XSpeed = SKELETON_WALK_SPEED;
 			}
 			else if (dir == Direction::Left)
 			{
-				m_XSpeed -= SKELETON_SPEED_INCORMENT;
+				m_XSpeed -= SKELETON_SPEED_INCREASE;
 
 				if (m_XSpeed < -SKELETON_WALK_SPEED)
 					m_XSpeed = -SKELETON_WALK_SPEED;
@@ -57,19 +58,17 @@ void Skeleton::AdjustSpeed(ModelType model, Direction dir, MovementType movement
 			m_YSpeed -= SKELETON_JUMP_SPEED;
 		}
 	}
-
-
 }
 
 void Skeleton::DecaySpeed()
 {
 	if (m_XSpeed > 0)
 	{
-		m_XSpeed -= SKELETON_SPEED_INCORMENT;
+		m_XSpeed -= SKELETON_SPEED_DECREASE;
 	}
 	if (m_XSpeed < 0)
 	{
-		m_XSpeed += SKELETON_SPEED_INCORMENT;
+		m_XSpeed += SKELETON_SPEED_DECREASE;
 	}
 
 	m_YSpeed += SKELETON_GRAVITY;
@@ -85,18 +84,19 @@ void Skeleton::UpdateHitBox()
 {
 	m_HitBox.TopLeft.X = m_X + 40;
 	m_HitBox.TopLeft.Y = m_Y + 30;
-	m_HitBox.BottomRight.X = m_X + (m_Size.width * SKEL_DEFUALT_SKELETON_SCALE * 1.5f) + 20;
-	m_HitBox.BottomRight.Y = m_Y + (m_Size.height * SKEL_DEFUALT_SKELETON_SCALE * 1.5f) - 3;
+	m_HitBox.BottomRight.X = m_X + (int) (m_Size.width * SKEL_DEFUALT_SKELETON_SCALE * 1.5f) + 20;
+	m_HitBox.BottomRight.Y = m_Y + (int) (m_Size.height * SKEL_DEFUALT_SKELETON_SCALE * 1.5f) - 3;
 }
 
 // Will move the player by the speed.
-void Skeleton::Move() // overriden because i think i need to add something more
+void Skeleton::Move() // overriden because I plan on adding more (World Damage Checking)
 {
 	m_X += m_XSpeed;
 	m_Y += m_YSpeed;
 
 	UpdateHitBox();
 
+	Logic::CheckCollide();
 
 	DecaySpeed();
 }
@@ -123,16 +123,15 @@ void Skeleton::InSpeedWalk(Direction dir)
 	AdjustSpeed(ModelType::Walk, dir, MovementType::Walk);
 }
 
-// attack key is pressed
-void Skeleton::Attack()
-{
-	// TODO: add attacking
-}
-
 // Returns if the entity is a skeleton or not
 bool Skeleton::IsSkeleton() const
 {
 	return true;
+}
+
+bool Skeleton::IsEnemy() const
+{
+	return false;
 }
 
 // Sets the skeleton able to jump

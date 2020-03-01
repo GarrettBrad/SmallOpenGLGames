@@ -14,7 +14,8 @@
 #define SKELETON_GRAVITY 1 // int // how fast things fall
 #define SKELETON_GRAVITY_MAX 10 // int // the fastest things can fall
 #define SKELETON_WALK_SPEED 2 // int // speed
-#define SKELETON_SPEED_INCORMENT 2 // int // how fast the speed goes up or down
+#define SKELETON_SPEED_INCREASE 2 // int // how fast the speed goes up or down
+#define SKELETON_SPEED_DECREASE 1 // int // how fast the speed goes up or down
 #define SKELETON_RUN_SPEED 10 // int // Run Speed
 
 #define SKELETON_SWTICH_TIME 200 // int // how many frames go by before switching images

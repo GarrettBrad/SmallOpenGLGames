@@ -28,7 +28,7 @@ private:
 
 	ImageInfo m_LastInfo = ImageInfo(L"", false );
 	Sprite* m_SkeletonSprite = nullptr;
-	D2D1_SIZE_F DrawEntityInter(const Entity& skel, float& scale);
+	void DrawEntityInter(const Entity& ent, float& scale);
 	void DrawLevelObjectsInter(const DrawObject& object);
 	void DrawHitBoxInter(const HitBox& hit);
 
@@ -41,11 +41,13 @@ public:
 
 	static void StartRender();
 
-	static D2D1_SIZE_F DrawEntity(const Entity& skel, float scale = SKEL_DEFUALT_SKELETON_SCALE);
+	static void DrawEntity(const Entity& ent, float scale = SKEL_DEFUALT_SKELETON_SCALE);
 	static void DrawLevelObjects(const DrawObject& object);
 	static void DrawHitBox(const HitBox& hit);
 
 	static void EndRender();
+
+	Render(const Render& render) = delete;
 
 	static Render& Get();
 

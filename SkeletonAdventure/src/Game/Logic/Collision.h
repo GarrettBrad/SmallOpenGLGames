@@ -1,6 +1,7 @@
 #ifndef COLLISON_H
 #define COLLISON_H
-#include "Entity/Skeleton.h"
+
+#include "Game/Entity/Skeleton.h"
 #include "Level/Level.h"
 
 // Checks collision 
@@ -18,9 +19,11 @@ private:
 	bool IsCollideableInter(const ObjectType& obj);
 
 public:
-	static bool IsCollideable(const ObjectType& obj);
+	Collision(const Collision& col) = delete;
 
 	static Collision& Get();
+
+	static bool IsCollideable(const ObjectType& obj);
 	
 	static bool BetweenY(const DrawObject& obj, const HitBox& hit);
 	static bool BetweenX(const DrawObject& obj, const HitBox& hit);
