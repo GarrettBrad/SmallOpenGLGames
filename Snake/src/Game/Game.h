@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <vector>
+#include <deque>
 #include "Window/Window.h"
 #include "Window/Render.h"
 
@@ -11,7 +11,7 @@ class Game
 private:
 
 
-	std::vector<Snake> m_Snake = NewSnake();
+	std::deque<Snake> m_Snake = NewSnake();
 	Fruit m_CurrentFruit = Fruit();
 
 	Window m_Wnd = Window();
@@ -20,7 +20,7 @@ private:
 	bool m_Moving = false;
 	bool m_NewTailAlive = false;
 
-	std::vector<Snake> NewSnake();
+	std::deque<Snake> NewSnake();
 
 	void StartGame();
 	void ResetGame();

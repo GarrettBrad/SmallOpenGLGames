@@ -1,7 +1,7 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include <vector>
+#include <deque>
 #include "Game/Core.h"
 
 enum class Direction
@@ -39,7 +39,7 @@ namespace Render
 	float PixelToFloatY(int pixel);
 
 	// Draws a snake to screen
-	void DrawSnake(const std::vector<Snake>& snake);
+	void DrawSnake(const std::deque<Snake>& snake);
 	void DrawFruit(const Fruit& fruit);
 
 }

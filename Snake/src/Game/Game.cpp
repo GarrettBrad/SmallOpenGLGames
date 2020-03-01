@@ -23,9 +23,9 @@ int Game::Init()
 }
 
 // Creates a new defualt snake
-std::vector<Snake> Game::NewSnake()
+std::deque<Snake> Game::NewSnake()
 {
-	return std::vector<Snake> {
+	return std::deque<Snake> {
 		{ 370, 370, Direction::Up, true },
 		{ 370, 370 - ((SNAKE_SIZE * 2) * 1), Direction::Up, false },
 		{ 370, 370 - ((SNAKE_SIZE * 2) * 2), Direction::Up, false },

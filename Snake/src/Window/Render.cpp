@@ -28,7 +28,7 @@ namespace Render {
 	}
 
 	// Draw the snake vector given
-	void DrawSnake(const std::vector<Snake>& snake)
+	void DrawSnake(const std::deque<Snake>& snake)
 	{
 #ifdef _DEBUG // here to make sure the render is working
 		glBegin(GL_TRIANGLES);
