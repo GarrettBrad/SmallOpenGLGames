@@ -33,29 +33,7 @@ void Render::StartRender()
 void Render::DrawEntityInter(const Entity& ent, float& scale)
 {
 
-	// TODO Change m_LastInfo to be a map/set with the key of ent and also m_SkeletonSprite 
-	// needs to be changes to a map/set for all entitys to hold the sprite for drawing
-
-	// this stops recreating the sprite if the image is the same
-	if (m_LastInfo.file != ent.GetImage().file)
-	{
-		m_LastInfo = ent.GetImage();
-		
-		// Deletes SkeletonSprite if there is a new one in que
-		if (m_SkeletonSprite)
-		{
-			delete m_SkeletonSprite;
-			m_SkeletonSprite = nullptr;
-		}
-	}
-
-	// Creates a new sprite to be drawing
-	if (!m_SkeletonSprite)
-	{
-		m_SkeletonSprite = new Sprite(ent.GetImage());
-	}
-
-	m_SkeletonSprite->Draw((float) ent.GetX(), (float) ent.GetY(), scale);
+	ent.GetSprite()->Draw((float)ent.GetX(), (float)ent.GetY(), scale);
 }
 
 // Draws the Skeleton returns the size of the sprite
@@ -112,10 +90,4 @@ Render::Render()
 {
 }
 
-Render::~Render()
-{
-	// Makes sure m_SkeletonSprite was cleaned up
-	if (m_SkeletonSprite)
-		delete m_SkeletonSprite;
-}
 

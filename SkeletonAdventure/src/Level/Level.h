@@ -43,7 +43,7 @@ private:
 
 	void LoadInter();
 
-	const std::deque<DrawObject>& GetObjecstInter();
+	const std::deque<DrawObject>& GetObjectsInter();
 
 	void DrawInter();
 

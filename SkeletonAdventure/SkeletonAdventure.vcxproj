@@ -199,6 +199,7 @@
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Game\Entity\BaseEntityStructure.h" />
     <ClInclude Include="src\Game\Logic\Logic.h" />
     <ClInclude Include="src\Game\Entity\Enemy\Enemy.h" />
     <ClInclude Include="src\Game\Entity\Enemy\Knight.h" />

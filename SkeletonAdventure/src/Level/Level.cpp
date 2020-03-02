@@ -31,14 +31,14 @@ void Level::Load()
 }
 
 // Gets the current objects that should be drawn
-const std::deque<DrawObject>& Level::GetObjecstInter()
+const std::deque<DrawObject>& Level::GetObjectsInter()
 {
 	return m_DrawingObjects;
 }
 // Gets the current objects that should be drawn
 const std::deque<DrawObject>& Level::GetObjects()
 {
-	return Get().GetObjecstInter();
+	return Get().GetObjectsInter();
 }
 
 

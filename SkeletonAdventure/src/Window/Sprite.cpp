@@ -23,6 +23,7 @@ void Sprite::Draw(float posX, float posY, float scale)
 	}
 }
 
+[[deprecated]]
 const D2D1_SIZE_F& Sprite::GetSize() const
 {
 	return m_Size;
@@ -33,7 +34,7 @@ const D2D1_SIZE_F& Sprite::GetSize() const
 Sprite::Sprite(ImageInfo image)
 	: m_Bmp(NULL)
 {
-
+	// Stops a crash when closing the application
 	m_Hr = CoInitialize(nullptr);
 
 	if (FAILED(m_Hr))  return;
@@ -46,74 +47,72 @@ Sprite::Sprite(ImageInfo image)
 		IID_PPV_ARGS(&wicFactory)
 	);
 
-	if (SUCCEEDED(m_Hr))
+	if (FAILED(m_Hr)) return;
+
+	IWICBitmapDecoder* wicDecoder = NULL;
+	m_Hr = wicFactory->CreateDecoderFromFilename(
+		image.file,
+		NULL,
+		GENERIC_READ,
+		WICDecodeMetadataCacheOnLoad,
+		&wicDecoder
+	);
+
+	if (FAILED(m_Hr)) return; // TODO add error handling
+
+	IWICBitmapFrameDecode* wicFrame = NULL;
+	m_Hr = wicDecoder->GetFrame(0, &wicFrame);
+
+	// Flips the image 
+	// It doesn't work and i don't know why
+	IWICBitmapFlipRotator* pIFlipRotator = NULL;
+	if (image.flipped)
 	{
-		IWICBitmapDecoder* wicDecoder = NULL;
-		m_Hr = wicFactory->CreateDecoderFromFilename(
-			image.file,
-			NULL,
-			GENERIC_READ,
-			WICDecodeMetadataCacheOnLoad,
-			&wicDecoder
-		);
-
-		if (FAILED(m_Hr)) return; // TODO add error handling
-
-		IWICBitmapFrameDecode* wicFrame = NULL;
-		m_Hr = wicDecoder->GetFrame(0, &wicFrame);
-
-		if (FAILED(m_Hr)) return;
-
-		IWICFormatConverter* wicConvert = NULL;
-		m_Hr = wicFactory->CreateFormatConverter(&wicConvert);
-
-		if (FAILED(m_Hr)) return;
-
-		m_Hr = wicConvert->Initialize(
-			wicFrame,
-			GUID_WICPixelFormat32bppPBGRA,
-			WICBitmapDitherTypeNone,
-			NULL,
-			0.0,
-			WICBitmapPaletteTypeCustom
-		);
-
-		if (FAILED(m_Hr)) return;
-
-		// Flips the image 
-		// It doesn't work and i don't know why
-		IWICBitmapFlipRotator* pIFlipRotator = NULL;
-		if (image.flipped)
-		{
 			
-			m_Hr = wicFactory->CreateBitmapFlipRotator(
-				&pIFlipRotator);
-
-			if (FAILED(m_Hr)) return;
-
-			m_Hr = pIFlipRotator->Initialize(
-				wicFrame,
-				WICBitmapTransformFlipHorizontal
-			);
-
-		}
+		m_Hr = wicFactory->CreateBitmapFlipRotator(
+			&pIFlipRotator);
 
 		if (FAILED(m_Hr)) return;
 
-		// This doesn't work and I don't know why
-		m_Hr = Graphics::GetRenderTarget()->CreateBitmapFromWicBitmap(
-			wicConvert,
-			NULL,
-			&m_Bmp
+		m_Hr = pIFlipRotator->Initialize(
+			wicFrame,
+			WICBitmapTransformFlipHorizontal
 		);
 
-		// Release all the resources
-		if (wicDecoder) wicDecoder->Release();
-		if (wicFrame) wicFrame->Release();
-		if (wicConvert) wicConvert->Release();
-		if (pIFlipRotator) pIFlipRotator->Release();
 	}
 
+	if (FAILED(m_Hr)) return;
+
+	IWICFormatConverter* wicConvert = NULL;
+	m_Hr = wicFactory->CreateFormatConverter(&wicConvert);
+
+	if (FAILED(m_Hr)) return;
+
+	m_Hr = wicConvert->Initialize(
+		wicFrame,
+		GUID_WICPixelFormat32bppPBGRA,
+		WICBitmapDitherTypeNone,
+		NULL,
+		0.0,
+		WICBitmapPaletteTypeCustom
+	);
+
+	if (FAILED(m_Hr)) return;
+
+	// This doesn't work and I don't know why
+	m_Hr = Graphics::GetRenderTarget()->CreateBitmapFromWicBitmap(
+		wicConvert,
+		NULL,
+		&m_Bmp
+	);
+
+	if (FAILED(m_Hr)) return;
+
+	// Release all the resources
+	if (wicDecoder) wicDecoder->Release();
+	if (wicFrame) wicFrame->Release();
+	if (wicConvert) wicConvert->Release();
+	if (pIFlipRotator) pIFlipRotator->Release();
 	if (wicFactory) wicFactory->Release();
 }
 

@@ -2,7 +2,7 @@
 #define _SPRITE_H
 
 #include "Graphics.h"
-#include "Game/Entity/Skeleton.h"
+#include "Game/Entity/BaseEntityStructure.h"
 
 // Used for loading images to screen
 class Sprite

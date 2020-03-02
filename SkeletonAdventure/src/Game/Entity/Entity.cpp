@@ -22,6 +22,31 @@ void Entity::DecaySpeed()
 		m_YSpeed = SKELETON_GRAVITY_MAX;
 }
 
+
+Sprite* Entity::GetSprite() const
+{
+	// this stops recreating the sprite if the image is the same
+	if (m_LastInfo.file != GetImage().file)
+	{
+		m_LastInfo = GetImage();
+
+		// Deletes SkeletonSprite if there is a new one in que
+		if (m_pSprite)
+		{
+			delete m_pSprite;
+			m_pSprite = nullptr;
+		}
+	}
+
+	// Creates a new sprite to be drawing
+	if (!m_pSprite)
+	{
+		m_pSprite = new Sprite(GetImage());
+	}
+
+	return m_pSprite;
+}
+
 // Will move the player by the speed.
 void Entity::Move()
 {
@@ -119,4 +144,14 @@ void Entity::SetX(int x)
 void Entity::SetY(int y)
 {
 	m_Y = y;
+}
+
+Entity::Entity()
+{
+}
+
+// Memory cleanup
+Entity::~Entity()
+{
+	if (m_pSprite) delete m_pSprite;
 }

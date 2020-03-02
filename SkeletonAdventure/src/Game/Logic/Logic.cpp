@@ -5,6 +5,7 @@
 // Made private for singleton
 Logic::Logic()
 {
+	m_Entitys.emplace_back(&m_Skeleton);
 }
 
 Logic& Logic::Get()
@@ -27,6 +28,17 @@ Skeleton& Logic::GetSkeleton()
 const Skeleton& Logic::cGetSkeleton()
 {
 	return Get().GetSkeletonInter();
+}
+
+// Adds an entity to the entity list
+void Logic::AddEntityInter(Entity* ent)
+{
+	m_Entitys.emplace_back(ent);
+}
+// Adds an entity to the entity list : DO NOT Logic::AddEntity(new Knight());
+void Logic::AddEntity(Entity* ent)
+{
+	Get().AddEntityInter(ent);
 }
 
 // Checks the input
@@ -110,8 +122,7 @@ void PushBackY(Skeleton& skel, Direction dir)
 		skel.SetY(skel.GetY() + abs(skel.GetYSpeed()));
 		skel.SetYSpeed(0);
 	}
-	else
-	{
+	else { // Direction::Up
 		skel.SetY(skel.GetY() - skel.GetYSpeed());
 		skel.SetYSpeed(0);
 	}
@@ -120,10 +131,8 @@ void PushBackY(Skeleton& skel, Direction dir)
 // Checks to see if the skeleton is colliding with an level object
 void Logic::CheckCollideInter()
 {
-	const std::deque<DrawObject>& obj = Level::GetObjects();
-
 	// Handle Skeleton Collision
-	for (const auto& o : obj)
+	for (const auto& o : Level::GetObjects())
 	{
 		if (!Collision::IsCollideable(o.Type)) return;
 

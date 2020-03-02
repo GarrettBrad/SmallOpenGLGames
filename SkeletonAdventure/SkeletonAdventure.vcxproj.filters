@@ -101,6 +101,9 @@
     <ClInclude Include="src\Game\Logic\Collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Entity\BaseEntityStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\Skeleton\attack1_1.png">

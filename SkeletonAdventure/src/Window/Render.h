@@ -19,15 +19,12 @@ private:
 
 	// Temp for testing
 	Render();
-	~Render();
 
 	void InitInter(HWND wnd);
 
 	void StartRenderInter();
 
 
-	ImageInfo m_LastInfo = ImageInfo(L"", false );
-	Sprite* m_SkeletonSprite = nullptr;
 	void DrawEntityInter(const Entity& ent, float& scale);
 	void DrawLevelObjectsInter(const DrawObject& object);
 	void DrawHitBoxInter(const HitBox& hit);

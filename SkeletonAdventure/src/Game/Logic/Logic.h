@@ -9,7 +9,7 @@ class Logic
 private: // Members
 	std::map<WPARAM, bool> m_KeysPressed;
 
-	std::deque<Entity*> m_Entitys; // Holds a pointer to all entities // TODO make std::week_ptr
+	std::deque<Entity*> m_Entitys; // Holds a pointer to all entities 
 	Skeleton m_Skeleton = Skeleton();
 
 private: // Methods
@@ -17,6 +17,8 @@ private: // Methods
 
 	// Faster to copy than pass by pointer or ref
 	Skeleton& GetSkeletonInter();
+
+	void AddEntityInter(Entity* ent);
 
 	void RunInter();
 
@@ -35,6 +37,8 @@ public:
 
 	static Skeleton& GetSkeleton();
 	static const Skeleton& cGetSkeleton();
+
+	static void AddEntity(Entity* ent);
 
 	static void KeyPressed(WPARAM key);
 	static void KeyReleased(WPARAM key);
