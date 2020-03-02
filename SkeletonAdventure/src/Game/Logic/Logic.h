@@ -18,10 +18,10 @@ private: // Methods
 	// Faster to copy than pass by pointer or ref
 	Skeleton& GetSkeletonInter();
 
-	void InputMoveSkeleton(Direction dir);
+	void RunInter();
 
 	void CheckInput();
-	void MoveInter();
+	void Move();
 
 	void KeyPressedInter(WPARAM key);
 	void KeyReleasedInter(WPARAM key);
@@ -31,10 +31,11 @@ public:
 	Logic(const Logic& l) = delete;
 	static Logic& Get();
 
+	static void Run();
+
 	static Skeleton& GetSkeleton();
 	static const Skeleton& cGetSkeleton();
 
-	static void Move();
 	static void KeyPressed(WPARAM key);
 	static void KeyReleased(WPARAM key);
 	static void MoveSkeleton(Direction dir);

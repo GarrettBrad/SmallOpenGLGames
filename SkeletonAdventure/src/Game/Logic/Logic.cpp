@@ -42,16 +42,22 @@ void Logic::CheckInput()
 		MoveSkeletonInter(Direction::Left);
 }
 
-void Logic::MoveInter()
+// Calls all movement
+void Logic::Move()
 {
 	CheckInput();
 
 	m_Skeleton.Move();
 }
-// Moves the skeleton
-void Logic::Move()
+
+void Logic::RunInter()
 {
-	Get().MoveInter();
+	Move();
+}
+// Moves the skeleton
+void Logic::Run()
+{
+	Get().RunInter();
 }
 
 // Called when a key is pressed

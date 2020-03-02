@@ -130,7 +130,7 @@ void Game::RunInter()
 {
 
 	// Do all movement
-	Logic::Move();
+	Logic::Run();
 
 
 	Window::Run();
