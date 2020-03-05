@@ -12,13 +12,18 @@ protected:
 
 	int m_XSpeed = 0, m_YSpeed = 0;
 
+	// Used for drawing
+	mutable int m_ModelShow = 1;
+	mutable int m_MaxShow = 3; // the amount of an image model there is
+	mutable clock_t m_Time = NULL;
+	ModelType m_ModelType = ModelType::Ready;
+
 	Direction m_DirectionFacing = Direction::Right;
 	HitBox m_HitBox = { 0 };
 
 	mutable ImageInfo m_LastInfo = ImageInfo(L" ", false);
 	mutable Sprite* m_pSprite = nullptr;
 
-	virtual void DecaySpeed();
 	virtual void UpdateHitBox() = 0;
 
 public:
@@ -27,6 +32,7 @@ public:
 	virtual ImageInfo GetImage() const = 0;
 	virtual Sprite* GetSprite() const;
 
+	virtual void DecaySpeed();
 	virtual void Move();
 
 	virtual HitBox Attack() const;

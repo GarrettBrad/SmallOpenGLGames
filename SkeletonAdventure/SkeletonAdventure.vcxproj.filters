@@ -262,5 +262,26 @@
     <Image Include="resources\Skeleton\walk_6.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\Knight\KnightShield.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Knight\KnightAttack.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Knight\KnightDeath.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Knight\KnightIdle.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Knight\KnightJumpAndFall.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Knight\KnightRoll.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Knight\KnightRun.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

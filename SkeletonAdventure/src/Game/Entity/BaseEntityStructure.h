@@ -36,7 +36,24 @@ struct ImageInfo
 
 	ImageInfo(const wchar_t* file, bool flipped)
 		: file(file), flipped(flipped)
-	{}
+	{/* Nothing */}
+};
+
+enum class ModelType
+{
+	Walk = 0,
+	Run,
+	Ready,
+	Jump,
+	Hit,
+	Reborn,
+	DeadNear,
+	DeadFar,
+	Corpse1,
+	Corpse2,
+	Attack1,
+	Attack2
+
 };
 
 

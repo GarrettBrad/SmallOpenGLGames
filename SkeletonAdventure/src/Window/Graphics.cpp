@@ -28,11 +28,12 @@ void Graphics::Init(HWND hWnd)
 	Get().InitInter(hWnd);
 }
 
+// Returns the Direct2D render target
 ID2D1HwndRenderTarget* Graphics::GetRenderTargetInter()
 {
 	return pRenderTarget;
 }
-
+// Returns the Direct2D render target
 ID2D1HwndRenderTarget* Graphics::GetRenderTarget()
 {
 	return Get().GetRenderTargetInter();
@@ -43,6 +44,7 @@ ID2D1Factory* Graphics::GetFactoryInter()
 {
 	return pFactory;
 }
+// Returns the Direct2D factory
 ID2D1Factory* Graphics::GetFactory()
 {
 	return Get().GetFactoryInter();
@@ -183,7 +185,7 @@ void Graphics::SetDrawColor(float r, float g, float b)
 }
 
 // Draws a rectangle to screen
-void Graphics::DrawRectInter(int& x1, int& y1, int& x2, int& y2, bool& fill)
+void Graphics::DrawRectInter(float& x1, float& y1, float& x2, float& y2, bool& fill)
 {
 	if (SUCCEEDED(m_Hr))
 	{
@@ -203,7 +205,7 @@ void Graphics::DrawRectInter(int& x1, int& y1, int& x2, int& y2, bool& fill)
 
 	}
 }
-void Graphics::DrawRect(int x1, int y1, int x2, int y2, bool fill)
+void Graphics::DrawRect(float x1, float y1, float x2, float y2, bool fill)
 {
 	Get().DrawRectInter(x1, y1, x2, y2, fill);
 }

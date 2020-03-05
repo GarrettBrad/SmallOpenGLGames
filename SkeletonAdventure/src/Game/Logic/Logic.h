@@ -17,6 +17,7 @@ private: // Methods
 
 	// Faster to copy than pass by pointer or ref
 	Skeleton& GetSkeletonInter();
+	std::deque<Entity*>& GetEntityInter();
 
 	void AddEntityInter(Entity* ent);
 
@@ -37,6 +38,7 @@ public:
 
 	static Skeleton& GetSkeleton();
 	static const Skeleton& cGetSkeleton();
+	static std::deque<Entity*>& GetEntities();
 
 	static void AddEntity(Entity* ent);
 
@@ -45,6 +47,7 @@ public:
 	static void MoveSkeleton(Direction dir);
 	static void CheckCollide();
 
+	~Logic();
 
 
 };

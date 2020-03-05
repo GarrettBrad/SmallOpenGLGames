@@ -4,7 +4,9 @@
 #include "Window/Window.h"
 #include "Window/Render.h"
 
-
+/*
+All Singleton class get inlined by the compliler I have checked this
+*/
 
 // Made private for singleton
 Game::Game()
@@ -32,8 +34,12 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 		{
 			return 0;
 		}
+
 		case WM_KEYDOWN:
 		{
+			// Windows doesn't draw if a key is down
+			Window::Draw();
+
 			Logic::KeyPressed(wParam);
 
 			return 0;
@@ -50,7 +56,7 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 		case WM_PAINT:
 		{
 			// Windows already sets drawing to be on a different thread
-			Window::Draw();
+			Window::Draw(); // Bad but it works C: TODO: Fix this problem
 			return 0;
 		}
 		case WM_SIZE:
@@ -128,12 +134,17 @@ int Game::Init(HINSTANCE Instance)
 // Runs the game and pulls messages from the window class
 void Game::RunInter()
 {
+	using namespace std::chrono_literals;
+	auto again = std::chrono::high_resolution_clock::now();
 
 	// Do all movement
 	Logic::Run();
 
-
+	// Window events
 	Window::Run();
+
+	if ((std::chrono::high_resolution_clock::now() - again) < 16.6666667ms) // 60 frames a second
+		std::this_thread::sleep_until(again + 16.6666667ms);
 }
 
 // Singleton Redirect to Game::RunInter()
@@ -153,16 +164,20 @@ void Game::DrawInter()
 	// Draws the level
 	Level::Draw();
 	
+
+	for (auto ent : Logic::GetEntities())
+	{
+
 #if _DEBUG || DEBUG
+		// White box around the hitbox
+		Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
 
-	// White box around the hitbox
-	Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
-
-	Render::DrawHitBox(Logic::cGetSkeleton().GetHitBox());
-	Render::DrawHitBox(Logic::cGetSkeleton().Attack());
+		Render::DrawHitBox(ent->GetHitBox());
+		Render::DrawHitBox(ent->Attack());
 #endif
 
-	Render::DrawEntity(Logic::GetSkeleton());
+		Render::DrawEntity(*ent);
+	}
 
 }
 

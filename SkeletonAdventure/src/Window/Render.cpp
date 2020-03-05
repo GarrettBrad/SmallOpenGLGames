@@ -29,13 +29,11 @@ void Render::StartRender()
 	Get().StartRenderInter();
 }
 
-// Handels drawing the skeleton
+// Handles drawing the skeleton
 void Render::DrawEntityInter(const Entity& ent, float& scale)
 {
-
 	ent.GetSprite()->Draw((float)ent.GetX(), (float)ent.GetY(), scale);
 }
-
 // Draws the Skeleton returns the size of the sprite
 void Render::DrawEntity(const Entity& ent, float scale)
 {
@@ -56,8 +54,11 @@ void Render::DrawLevelObjects(const DrawObject& obj)
 void Render::DrawHitBoxInter(const HitBox& hit)
 {
 	Graphics::DrawRect(hit.TopLeft.X,
+
 		hit.TopLeft.Y,
+
 		hit.BottomRight.X,
+
 		hit.BottomRight.Y,
 		false);
 }

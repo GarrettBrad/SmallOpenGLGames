@@ -216,6 +216,13 @@
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\Knight\KnightAttack.png" />
+    <Image Include="resources\Knight\KnightDeath.png" />
+    <Image Include="resources\Knight\KnightIdle.png" />
+    <Image Include="resources\Knight\KnightJumpAndFall.png" />
+    <Image Include="resources\Knight\KnightRoll.png" />
+    <Image Include="resources\Knight\KnightRun.png" />
+    <Image Include="resources\Knight\KnightShield.png" />
     <Image Include="resources\Skeleton\attack1_1.png" />
     <Image Include="resources\Skeleton\attack1_2.png" />
     <Image Include="resources\Skeleton\attack1_3.png" />

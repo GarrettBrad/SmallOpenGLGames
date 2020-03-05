@@ -7,19 +7,42 @@ void Sprite::Draw(float posX, float posY, float scale)
 {
 	if (m_Hr == S_OK)
 	{
-		m_Size = m_Bmp->GetSize();
+		m_Frame++;
 
-		m_Size.width *= scale;
-		m_Size.height *= scale;
+		if (m_Count == 1)
+		{
+			// Actually renders the bitmap
+			Graphics::GetRenderTarget()->DrawBitmap(
+				m_Bmp,
+				D2D1::RectF(posX,posY,posX + m_Size.width * scale,posY + m_Size.height * scale),// The bitmap area
+				1.0f,																			// alpha
+				D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,// Draw closest pixel
+				D2D1::RectF(0, 0, SKEL_WINDOW_WIDTH, SKEL_WINDOW_HEIGHT)						// Where the sprite can be draw
+			);
+		}
+		else
+		{
 
-		// Actually renders the bitmap
-		Graphics::GetRenderTarget()->DrawBitmap(
-			m_Bmp,
-			D2D1::RectF(posX, posY, posX + m_Size.width, posY + m_Size.height),				// The bitmap area
-			1.0f,																			// alpha
-			D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,// Draw closest pixel
-			D2D1::RectF(0, 0, SKEL_WINDOW_WIDTH, SKEL_WINDOW_HEIGHT)						// Wherer the sprite can be draw
-		);
+			int DrawFrame = (m_Frame / 10) % m_Count; // Makes it switch slower
+
+			Graphics::GetRenderTarget()->DrawBitmap(
+				m_Bmp,
+				D2D1::RectF(
+					posX,
+					posY,
+					posX + m_Size.width * scale,
+					posY + m_Size.height * scale
+				),																				// The bitmap area
+				1.0f,																			// alpha
+				D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,// Draw closest pixel
+				D2D1::RectF(
+				(DrawFrame % m_Count) * m_Size.width,
+					(DrawFrame / m_Count) * m_Size.height,
+					((DrawFrame % m_Count) * m_Size.width) + m_Size.width,
+					((DrawFrame / m_Count) * m_Size.height) + m_Size.height
+				)						// Where the sprite can be draw
+			);
+		}
 	}
 }
 
@@ -29,10 +52,7 @@ const D2D1_SIZE_F& Sprite::GetSize() const
 	return m_Size;
 }
 
-// TODO: Add error Handling
-// Creates the bitmap for the sprite
-Sprite::Sprite(ImageInfo image)
-	: m_Bmp(NULL)
+void Sprite::ConstructSprite(ImageInfo& image)
 {
 	// Stops a crash when closing the application
 	m_Hr = CoInitialize(nullptr);
@@ -68,7 +88,7 @@ Sprite::Sprite(ImageInfo image)
 	IWICBitmapFlipRotator* pIFlipRotator = NULL;
 	if (image.flipped)
 	{
-			
+
 		m_Hr = wicFactory->CreateBitmapFlipRotator(
 			&pIFlipRotator);
 
@@ -114,6 +134,28 @@ Sprite::Sprite(ImageInfo image)
 	if (wicConvert) wicConvert->Release();
 	if (pIFlipRotator) pIFlipRotator->Release();
 	if (wicFactory) wicFactory->Release();
+}
+
+// Creates the sprite with the animation image
+Sprite::Sprite(ImageInfo image, float width, float height, int count)
+	: m_Bmp(NULL), m_Size({ width, height })
+{
+	// TODO: Make this do the thing I want C:
+	ConstructSprite(image);
+
+	m_Count = count;
+}
+
+// TODO: Add error Handling
+// Creates the bitmap for the sprite
+Sprite::Sprite(ImageInfo image)
+	: m_Bmp(NULL)
+{
+	ConstructSprite(image);
+	m_Size = m_Bmp->GetSize();
+
+	m_Size.width;
+	m_Size.height;
 }
 
 // Cleanup

@@ -2,10 +2,28 @@
 #include "Logic.h"
 #include "Collision.h"
 
+#include "Game/Entity/Enemy/Knight.h"
+
 // Made private for singleton
 Logic::Logic()
 {
+	Knight* knight = new Knight();
+
+	knight->SetX(100);
+	knight->SetXSpeed(20);
+
+	m_Entitys.emplace_back(knight);
 	m_Entitys.emplace_back(&m_Skeleton);
+}
+
+// Cleanup
+Logic::~Logic()
+{
+	// Clean up;
+	for (auto e : m_Entitys)
+	{
+		if (e && !e->IsSkeleton()) delete e;
+	}
 }
 
 Logic& Logic::Get()
@@ -30,6 +48,15 @@ const Skeleton& Logic::cGetSkeleton()
 	return Get().GetSkeletonInter();
 }
 
+std::deque<Entity*>& Logic::GetEntityInter()
+{
+	return m_Entitys;
+}
+std::deque<Entity*>& Logic::GetEntities()
+{
+	return Get().GetEntityInter();
+} 
+
 // Adds an entity to the entity list
 void Logic::AddEntityInter(Entity* ent)
 {
@@ -44,7 +71,7 @@ void Logic::AddEntity(Entity* ent)
 // Checks the input
 void Logic::CheckInput()
 {
-	if (m_KeysPressed[VK_SPACE] || m_KeysPressed[SKEL_KEY_W])
+	if ((m_KeysPressed[VK_SPACE] || m_KeysPressed[SKEL_KEY_W]) && m_Skeleton.CanJump())
 		m_Skeleton.Jump();
 
 	if (m_KeysPressed[SKEL_KEY_D])
@@ -59,12 +86,17 @@ void Logic::Move()
 {
 	CheckInput();
 
-	m_Skeleton.Move();
+	for (auto ent : m_Entitys)
+	{
+		ent->Move();
+	}
 }
 
 void Logic::RunInter()
 {
 	Move();
+
+	CheckCollideInter();
 }
 // Moves the skeleton
 void Logic::Run()
@@ -110,49 +142,57 @@ void Logic::MoveSkeleton(Direction dir)
 }
 
 // Push back the Skeleton in the X cord
-void PushBackX(Skeleton& skel)
+void PushBackX(Entity* ent)
 {
-	skel.SetX(skel.GetX() - skel.GetXSpeed());
-	skel.SetXSpeed(0);
+	ent->SetX(ent->GetX() - ent->GetXSpeed());
+	ent->SetXSpeed(0);
 }
 // Push back the skeleton in the y cord
-void PushBackY(Skeleton& skel, Direction dir)
+void PushBackY(Entity* ent, Direction dir)
 {
 	if (dir == Direction::Down) {
-		skel.SetY(skel.GetY() + abs(skel.GetYSpeed()));
-		skel.SetYSpeed(0);
+		ent->SetY(ent->GetY() + abs(ent->GetYSpeed()));
+		ent->SetYSpeed(0);
 	}
 	else { // Direction::Up
-		skel.SetY(skel.GetY() - skel.GetYSpeed());
-		skel.SetYSpeed(0);
+		ent->SetY(ent->GetY() - ent->GetYSpeed());
+		ent->SetYSpeed(0);
 	}
 }
 
 // Checks to see if the skeleton is colliding with an level object
 void Logic::CheckCollideInter()
 {
-	// Handle Skeleton Collision
-	for (const auto& o : Level::GetObjects())
+	// Loops through all entities for collision
+	for (auto& ent : m_Entitys)
 	{
-		if (!Collision::IsCollideable(o.Type)) return;
+		// Handle Entity Collision
+		for (const auto& o : Level::GetObjects())
+		{
+			if (!Collision::IsCollideable(o.Type)) return;
 
-		const HitBox& hit = m_Skeleton.GetHitBox();
+			const HitBox& hit = ent->GetHitBox();
 
-		if (Collision::CollisionYUp(o, hit)) {
-			m_Skeleton.SetCanJump();
-			PushBackY(m_Skeleton, Direction::Up);
+			if (Collision::CollisionYUp(o, hit)) {
+				if (ent->IsSkeleton())
+					m_Skeleton.SetCanJump(); // Luckily the skeleton is its own var C;
+	
+				PushBackY(ent, Direction::Up);
+			}
+			else if (Collision::CollisionYDown(o, hit)) {
+				PushBackY(ent, Direction::Down);
+			}
+			else if (Collision::CollisionXLeft(o, hit)) {
+				if (ent->GetXSpeed() > 0)
+					PushBackX(ent);
+			}
+			else if (Collision::CollisionXRight(o, hit)) {
+				if (ent->GetXSpeed() < 0)
+					PushBackX(ent);
+			}
 		}
-		else if (Collision::CollisionYDown(o, hit)) {
-			PushBackY(m_Skeleton, Direction::Down);
-		}
-		else if (Collision::CollisionXLeft(o, hit)) {
-			if (m_Skeleton.GetXSpeed() > 0)
-				PushBackX(m_Skeleton);
-		}
-		else if (Collision::CollisionXRight(o, hit)) {
-			if (m_Skeleton.GetXSpeed() < 0)
-				PushBackX(m_Skeleton);
-		}
+
+		ent->DecaySpeed();
 
 	}
 
@@ -162,3 +202,6 @@ void Logic::CheckCollide()
 {
 	Get().CheckCollideInter();
 }
+
+
+

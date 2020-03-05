@@ -1,15 +1,107 @@
 #include "pch.h"
+#include <time.h>
 #include "Knight.h"
 
 
 // Update the hitbox pos
 void Knight::UpdateHitBox()
 {
+	m_HitBox.TopLeft.X = m_X + 60;
+	m_HitBox.TopLeft.Y = m_Y + 35;
+	m_HitBox.BottomRight.X = m_X + 60 + 50;
+	m_HitBox.BottomRight.Y = m_Y + 35 + 75;
+
 }
 
+// Gets the image that should be used
 ImageInfo Knight::GetImage() const
 {
-	
-	// Temp
+	if (m_Time < clock())
+	{
+		m_ModelShow++;
+
+		m_Time = clock() + SKELETON_SWTICH_TIME;
+	}
+
+	bool flip = false;
+
+	if (m_DirectionFacing == Direction::Left)
+		flip = true;
+
+	switch (m_ModelType)
+	{
+	case ModelType::Attack1: // [[fallthrough]]
+	case ModelType::Attack2:
+	{
+		m_MaxShow = 22; // Amount of frames/pics in an image
+
+		return { L"resources/Knight/KnightAttack.png", flip };
+		break;
+	}
+	case ModelType::Run:
+	{
+		return { L"resources/Knight/KnightRun.png", flip };
+
+		break;
+	}
+	case ModelType::Jump:
+	{
+		return { L"resources/Knight/KnightJumpAndFall.png", flip };
+
+		break; 
+	}
+	case ModelType::DeadNear: // [[fallthrough]]
+	case ModelType::DeadFar:
+	{
+		m_MaxShow = 15;
+
+		return { L"resources/Knight/KnightDeath.png", flip };
+
+		break;
+	}
+	case ModelType::Hit:
+	{
+		return { L"resources/Knight/KnightShield.png", flip };
+
+		break;
+	}
+	default: // Ready
+	{
+		m_MaxShow = 15;
+
+		return { L"resources/Knight/KnightIdle.png", flip };
+		
+		break;
+	}
+	}
+
+
+	// Return " " if problem
 	return ImageInfo(L" ", false);
+}
+
+// Gets the custom sprite for drawing
+Sprite* Knight::GetSprite() const
+{
+
+	// this stops recreating the sprite if the image is the same
+	if (m_LastInfo.file != GetImage().file)
+	{
+		m_LastInfo = GetImage();
+
+		// Deletes SkeletonSprite if there is a new one in que
+		if (m_pSprite)
+		{
+			delete m_pSprite;
+			m_pSprite = nullptr;
+		}
+	}
+
+	// Creates a new sprite to be drawing
+	if (!m_pSprite)
+	{
+		m_pSprite = new Sprite(GetImage(), 64, 64, m_MaxShow);
+	}
+
+	return m_pSprite;
 }

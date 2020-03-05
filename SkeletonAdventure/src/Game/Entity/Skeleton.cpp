@@ -95,10 +95,6 @@ void Skeleton::Move() // overriden because I plan on adding more (World Damage C
 	m_Y += m_YSpeed;
 
 	UpdateHitBox();
-
-	Logic::CheckCollide();
-
-	DecaySpeed();
 }
 
 // Make the skeleton jump
@@ -129,11 +125,6 @@ bool Skeleton::IsSkeleton() const
 	return true;
 }
 
-bool Skeleton::IsEnemy() const
-{
-	return false;
-}
-
 // Sets the skeleton able to jump
 void Skeleton::SetCanJump()
 {
@@ -146,6 +137,12 @@ void Skeleton::SetNoJump()
 	m_CanJump = false;
 }
 
+// Returns weather the skeleton can jump or not
+bool Skeleton::CanJump()
+{
+	return m_CanJump;
+}
+
 // returns if the skeleton can jump or not
 const bool& Skeleton::GetCanJump() const
 {
@@ -156,11 +153,11 @@ const bool& Skeleton::GetCanJump() const
 ImageInfo Skeleton::GetImage() const
 {
 	
-	if (time < clock())
+	if (m_Time < clock())
 	{
-		m_SkeletonShow++;
+		m_ModelShow++;
 		
-		time = clock() + SKELETON_SWTICH_TIME;
+		m_Time = clock() + SKELETON_SWTICH_TIME;
 	}
 
 	bool flip = false;
@@ -174,19 +171,19 @@ ImageInfo Skeleton::GetImage() const
 		{
 			m_MaxShow = m_WalkModels.size();
 			
-			return { m_WalkModels[m_SkeletonShow % m_MaxShow], flip };
+			return { m_WalkModels[m_ModelShow % m_MaxShow], flip };
 		}
 		case ModelType::Run:
 		{
 			m_MaxShow = m_RunModels.size();
 
-			return { m_RunModels[m_SkeletonShow % m_MaxShow], flip };
+			return { m_RunModels[m_ModelShow % m_MaxShow], flip };
 		}
 		default: // Ready
 		{
 			m_MaxShow = 3;
 
-			return { m_ReadyModels[m_SkeletonShow % m_MaxShow], flip };
+			return { m_ReadyModels[m_ModelShow % m_MaxShow], flip };
 		}
 	}
 

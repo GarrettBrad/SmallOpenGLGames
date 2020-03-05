@@ -12,7 +12,7 @@ private:
 public:
 
 	ImageInfo GetImage() const override;
-
+	Sprite* GetSprite() const final override;
 };
 
 #endif /* KNIGHT_H */

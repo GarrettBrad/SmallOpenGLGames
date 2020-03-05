@@ -75,18 +75,9 @@ void MessageNewThread(const MSG* msg)
 // Handles Messages
 void Window::RunInter()
 {
-	if (PeekMessageA(&m_Msg, m_hWnd, WM_KEYDOWN, WM_KEYDOWN, PM_REMOVE))
-	{
-		// if it is keyboard put it on another thread
-		//std::thread a(MessageNewThread, &m_Msg);
-		//a.join();
-	}
-	else
-	{
-		TranslateMessage(&m_Msg);
-		DispatchMessage(&m_Msg);
+	TranslateMessage(&m_Msg);
+	DispatchMessage(&m_Msg);
 
-	}
 }
 
 // Tells the render what to draw

@@ -5,23 +5,6 @@
 
 
 
-enum class ModelType
-{
-	Walk = 0,
-	Run,
-	Ready,
-	Jump,
-	Hit,
-	Reborn,
-	DeadNear,
-	DeadFar,
-	Corpse1,
-	Corpse2,
-	Attack1,
-	Attack2
-
-};
-
 
 class Skeleton : public Entity
 {
@@ -118,32 +101,27 @@ private:
 
 private:
 
-	// Used for drawing TEMP
-	mutable int m_SkeletonShow = 1;
-	mutable int m_MaxShow = 3; // the amount of an image model there is
-	mutable clock_t time = NULL;
-
 	bool m_CanJump = true;
+	// Used for hit boxes
 	const D2D1_SIZE_F m_Size = { 18,29 };
 
-	ModelType m_ModelType = ModelType::Ready;
 
 	void AdjustSpeed(ModelType model, Direction dir, MovementType movement);
-	void DecaySpeed() override;
 	void UpdateHitBox() override;
 	
 public:
 
+	void DecaySpeed() override;
 	void Move() override;
 	void Jump();
 	void InSpeedSprint(Direction dir);
 	void InSpeedWalk(Direction dir);
 
 	bool IsSkeleton() const override final;
-	bool IsEnemy() const override final;
 
 	void SetCanJump();
 	void SetNoJump();
+	bool CanJump();
 
 	const bool& GetCanJump() const;
 
