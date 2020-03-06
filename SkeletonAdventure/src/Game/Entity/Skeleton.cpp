@@ -60,6 +60,7 @@ void Skeleton::AdjustSpeed(ModelType model, Direction dir, MovementType movement
 	}
 }
 
+// slows down the speed
 void Skeleton::DecaySpeed()
 {
 	if (m_XSpeed > 0)
@@ -80,21 +81,13 @@ void Skeleton::DecaySpeed()
 		m_ModelType = ModelType::Ready;
 }
 
+// Updates the hitbox to the new postion
 void Skeleton::UpdateHitBox()
 {
 	m_HitBox.TopLeft.X = m_X + 40;
 	m_HitBox.TopLeft.Y = m_Y + 30;
 	m_HitBox.BottomRight.X = m_X + (int) (m_Size.width * SKEL_DEFUALT_SKELETON_SCALE * 1.5f) + 20;
 	m_HitBox.BottomRight.Y = m_Y + (int) (m_Size.height * SKEL_DEFUALT_SKELETON_SCALE * 1.5f) - 3;
-}
-
-// Will move the player by the speed.
-void Skeleton::Move() // overriden because I plan on adding more (World Damage Checking)
-{
-	m_X += m_XSpeed;
-	m_Y += m_YSpeed;
-
-	UpdateHitBox();
 }
 
 // Make the skeleton jump
@@ -138,7 +131,7 @@ void Skeleton::SetNoJump()
 }
 
 // Returns weather the skeleton can jump or not
-bool Skeleton::CanJump()
+bool Skeleton::CanJump() const
 {
 	return m_CanJump;
 }
@@ -191,7 +184,7 @@ ImageInfo Skeleton::GetImage() const
 }
 
 // Gets the size of the skeleton
-const D2D1_SIZE_F Skeleton::GetSize()
+const D2D1_SIZE_F Skeleton::GetSize() const
 {
 	return m_Size;
 }

@@ -35,6 +35,8 @@ public:
 	virtual void DecaySpeed();
 	virtual void Move();
 
+	virtual void Think();
+
 	virtual HitBox Attack() const;
 
 	virtual bool IsSkeleton() const;

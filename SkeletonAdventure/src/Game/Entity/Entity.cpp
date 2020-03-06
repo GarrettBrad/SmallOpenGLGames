@@ -22,7 +22,7 @@ void Entity::DecaySpeed()
 		m_YSpeed = SKELETON_GRAVITY_MAX;
 }
 
-
+// Gets the current sprite
 Sprite* Entity::GetSprite() const
 {
 	// this stops recreating the sprite if the image is the same
@@ -30,7 +30,7 @@ Sprite* Entity::GetSprite() const
 	{
 		m_LastInfo = GetImage();
 
-		// Deletes SkeletonSprite if there is a new one in que
+		// Deletes Sprite if there is a new one in que
 		if (m_pSprite)
 		{
 			delete m_pSprite;
@@ -54,9 +54,12 @@ void Entity::Move()
 	m_Y += m_YSpeed;
 
 	UpdateHitBox();
+}
 
-
-	DecaySpeed();
+// Called every frame
+void Entity::Think()
+{
+	// Nothing | Might move Entity::Move() in here (unlikely)
 }
 
 // Returns the hitbox where the skeleton attacked

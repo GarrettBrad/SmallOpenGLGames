@@ -112,7 +112,6 @@ private:
 public:
 
 	void DecaySpeed() override;
-	void Move() override;
 	void Jump();
 	void InSpeedSprint(Direction dir);
 	void InSpeedWalk(Direction dir);
@@ -121,13 +120,13 @@ public:
 
 	void SetCanJump();
 	void SetNoJump();
-	bool CanJump();
+	bool CanJump() const;
 
 	const bool& GetCanJump() const;
 
 	ImageInfo GetImage() const override;
 
-	const D2D1_SIZE_F GetSize();
+	const D2D1_SIZE_F GetSize() const;
 
 
 

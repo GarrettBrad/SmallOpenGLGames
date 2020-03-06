@@ -7,6 +7,8 @@
 // Made private for singleton
 Logic::Logic()
 {
+	AI::SetSkeleton(&m_Skeleton);
+
 	Knight* knight = new Knight();
 
 	knight->SetX(100);
@@ -95,6 +97,10 @@ void Logic::Move()
 void Logic::RunInter()
 {
 	Move();
+	
+	// Calls the think method for all entities
+	for (auto e : m_Entitys)
+		e->Think();
 
 	CheckCollideInter();
 }
