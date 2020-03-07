@@ -5,20 +5,24 @@
 
 const Skeleton* AI::s_Player;
 
+// Moves the AI to the player
 void AI::MoveToPlayer()
 {
-	Enemy* ent = dynamic_cast<Enemy*> (m_ParentEnt);
+	// YSpeed is 1 if the gravity is 0
+	if (m_ParentEnt->GetYSpeed() == 1 && m_ParentEnt->GetXSpeed() == 0)
+		m_ParentEnt->Jump();
 
-	if (!ent) return;
+	if (m_ParentEnt->GetX() > s_Player->GetX() + 5)
+	{
+		m_ParentEnt->MoveLeft();
+	}
+	else if (m_ParentEnt->GetX() < s_Player->GetX() - 5)
+	{
+		m_ParentEnt->MoveRight();
+	}
 
-	if (m_ParentEnt->GetX() > s_Player->GetX())
-	{
-		ent->MoveLeft();
-	}
-	else if (m_ParentEnt->GetX() < s_Player->GetX())
-	{
-		ent->MoveRight();
-	}
+
+
 }
 
 // A hostel AI think
@@ -45,6 +49,18 @@ void AI::FriendlyThink()
 // Does all logic
 void AI::Think()
 {
+
+	for (int i = 0; i < m_LastXCords.size(); i++)
+	{
+		if (i == m_LastXCords.size() - 1)
+		{	
+			m_LastXCords[i] = m_ParentEnt->GetX();
+			break;
+		}
+
+		m_LastXCords[i] = m_LastXCords[i + 1];
+	}
+
 	// if the AI is a enemy to the player
 	if (!m_Friendly)
 		EnemyThink();

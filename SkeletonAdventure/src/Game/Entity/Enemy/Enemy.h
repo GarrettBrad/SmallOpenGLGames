@@ -18,11 +18,6 @@ public:
 
 	bool IsEnemy() const override final;
 
-	void MoveLeft(int amount = 5);
-	void MoveRight(int amount = 5);
-
-	void Jump();
-
 	virtual void Think() override;
 
 };

@@ -25,7 +25,7 @@ public:
 
 	// No default constructor
 	Sprite(ImageInfo image);
-	Sprite(ImageInfo image, float width, float height, int count);
+	Sprite(ImageInfo image, int width, int height, int count);
 	~Sprite();
 };
 

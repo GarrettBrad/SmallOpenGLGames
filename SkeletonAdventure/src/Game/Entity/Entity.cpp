@@ -56,6 +56,27 @@ void Entity::Move()
 	UpdateHitBox();
 }
 
+void Entity::Jump()
+{
+	if (!CanJump()) return;
+	 
+	m_ModelType = ModelType::Jump;
+
+	SetYSpeed(-SKELETON_JUMP_SPEED);
+}
+
+// Moves the entity to the left by the given amount or 5 if not given
+void Entity::MoveLeft(int amount)
+{
+	SetXSpeed(-amount);
+}
+
+// Moves the entity to the right by the given amount or 5 if not given
+void Entity::MoveRight(int amount)
+{
+	SetXSpeed(amount);
+}
+
 // Called every frame
 void Entity::Think()
 {
@@ -93,6 +114,24 @@ bool Entity::IsSkeleton() const
 bool Entity::IsEnemy() const
 {
 	return false;
+}
+
+// Sets the skeleton able to jump
+void Entity::SetCanJump()
+{
+	m_CanJump = true;
+}
+
+// Sets the skeleton not able to jump
+void Entity::SetNoJump()
+{
+	m_CanJump = false;
+}
+
+// Returns weather the skeleton can jump or not
+bool Entity::CanJump() const
+{
+	return m_CanJump;
 }
 
 // Returns the hit box of the entity

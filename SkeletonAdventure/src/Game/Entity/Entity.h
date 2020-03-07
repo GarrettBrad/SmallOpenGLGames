@@ -12,6 +12,8 @@ protected:
 
 	int m_XSpeed = 0, m_YSpeed = 0;
 
+	bool m_CanJump = true;
+
 	// Used for drawing
 	mutable int m_ModelShow = 1;
 	mutable int m_MaxShow = 3; // the amount of an image model there is
@@ -35,12 +37,22 @@ public:
 	virtual void DecaySpeed();
 	virtual void Move();
 
+	virtual void MoveLeft(int amount = 5);
+	virtual void MoveRight(int amount = 5);
+
+
+	virtual void Jump();
+
 	virtual void Think();
 
 	virtual HitBox Attack() const;
 
 	virtual bool IsSkeleton() const;
 	virtual bool IsEnemy() const;
+
+	virtual void SetCanJump();
+	virtual void SetNoJump();
+	virtual bool CanJump() const;
 
 	// Unlikely will be overriden but is avalible
 	virtual const HitBox& GetHitBox() const;

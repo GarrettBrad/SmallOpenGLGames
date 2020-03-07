@@ -112,17 +112,11 @@ private:
 public:
 
 	void DecaySpeed() override;
-	void Jump();
+	void Jump() override;
 	void InSpeedSprint(Direction dir);
 	void InSpeedWalk(Direction dir);
 
 	bool IsSkeleton() const override final;
-
-	void SetCanJump();
-	void SetNoJump();
-	bool CanJump() const;
-
-	const bool& GetCanJump() const;
 
 	ImageInfo GetImage() const override;
 

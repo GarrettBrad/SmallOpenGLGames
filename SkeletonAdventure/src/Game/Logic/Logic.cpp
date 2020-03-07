@@ -96,13 +96,13 @@ void Logic::Move()
 
 void Logic::RunInter()
 {
-	Move();
-	
+	CheckCollideInter();
+
 	// Calls the think method for all entities
 	for (auto e : m_Entitys)
 		e->Think();
 
-	CheckCollideInter();
+	Move();
 }
 // Moves the skeleton
 void Logic::Run()

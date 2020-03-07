@@ -17,7 +17,7 @@ void Sprite::Draw(float posX, float posY, float scale)
 				D2D1::RectF(posX,posY,posX + m_Size.width * scale,posY + m_Size.height * scale),// The bitmap area
 				1.0f,																			// alpha
 				D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,// Draw closest pixel
-				D2D1::RectF(0, 0, SKEL_WINDOW_WIDTH, SKEL_WINDOW_HEIGHT)						// Where the sprite can be draw
+				D2D1::RectF(0, 0, m_Bmp->GetSize().width, m_Bmp->GetSize().height)
 			);
 		}
 		else
@@ -32,15 +32,23 @@ void Sprite::Draw(float posX, float posY, float scale)
 					posY,
 					posX + m_Size.width * scale,
 					posY + m_Size.height * scale
-				),																				// The bitmap area
-				1.0f,																			// alpha
+				),	// The bitmap area
+				1.0f,	// alpha
 				D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,// Draw closest pixel
+
 				D2D1::RectF(
-				(DrawFrame % m_Count) * m_Size.width,
+					(DrawFrame % m_Count) * m_Size.width,
 					(DrawFrame / m_Count) * m_Size.height,
-					((DrawFrame % m_Count) * m_Size.width) + m_Size.width,
+					((DrawFrame % m_Count) * m_Size.width) + 70,
 					((DrawFrame / m_Count) * m_Size.height) + m_Size.height
-				)						// Where the sprite can be draw
+				)
+
+				//// D2D1::RectF(
+				//	(DrawFrame % m_Count) * m_Size.width,
+				//	(DrawFrame / m_Count) * m_Size.height,
+				//	((DrawFrame % m_Count) * m_Size.width) + m_Size.width,
+				//	((DrawFrame / m_Count) * m_Size.height) + m_Size.height
+				//)						// Where the sprite can be draw
 			);
 		}
 	}
@@ -137,13 +145,11 @@ void Sprite::ConstructSprite(ImageInfo& image)
 }
 
 // Creates the sprite with the animation image
-Sprite::Sprite(ImageInfo image, float width, float height, int count)
-	: m_Bmp(NULL), m_Size({ width, height })
+Sprite::Sprite(ImageInfo image, int width, int height, int count)
+	: m_Bmp(NULL), m_Size({ (float)width, (float)height }), m_Count(count)
 {
 	// TODO: Make this do the thing I want C:
 	ConstructSprite(image);
-
-	m_Count = count;
 }
 
 // TODO: Add error Handling

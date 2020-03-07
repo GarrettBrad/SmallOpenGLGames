@@ -13,6 +13,8 @@ private:
 
 	static const Skeleton* s_Player;
 
+	std::array<int, 3> m_LastXCords; // 3rd element is the current pos
+
 private:
 
 	void MoveToPlayer();

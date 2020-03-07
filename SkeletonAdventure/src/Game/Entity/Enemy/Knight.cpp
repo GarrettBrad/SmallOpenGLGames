@@ -13,6 +13,18 @@ void Knight::UpdateHitBox()
 
 }
 
+void Knight::Think()
+{
+	if (abs(m_XSpeed) > 1) {
+		m_ModelType = ModelType::Run;
+	}
+	else {
+		m_ModelType = ModelType::Ready;
+	}
+
+	this->Enemy::Think();
+}
+
 // Gets the image that should be used
 ImageInfo Knight::GetImage() const
 {
@@ -40,15 +52,12 @@ ImageInfo Knight::GetImage() const
 	}
 	case ModelType::Run:
 	{
+
+		m_MaxShow = 8;
+
 		return { L"resources/Knight/KnightRun.png", flip };
 
 		break;
-	}
-	case ModelType::Jump:
-	{
-		return { L"resources/Knight/KnightJumpAndFall.png", flip };
-
-		break; 
 	}
 	case ModelType::DeadNear: // [[fallthrough]]
 	case ModelType::DeadFar:
@@ -61,13 +70,15 @@ ImageInfo Knight::GetImage() const
 	}
 	case ModelType::Hit:
 	{
+		m_MaxShow = 7;
+
 		return { L"resources/Knight/KnightShield.png", flip };
 
 		break;
 	}
 	default: // Ready
 	{
-		m_MaxShow = 15;
+		m_MaxShow = 12;
 
 		return { L"resources/Knight/KnightIdle.png", flip };
 		
