@@ -3,6 +3,8 @@
 #include "Knight.h"
 
 
+extern unsigned int g_Increase;
+
 // Update the hitbox pos
 void Knight::UpdateHitBox()
 {
@@ -46,12 +48,17 @@ ImageInfo Knight::GetImage() const
 	case ModelType::Attack2:
 	{
 		m_MaxShow = 22; // Amount of frames/pics in an image
+		m_DrawOffset = 0;
+		m_FrameDistance = 0;
 
 		return { L"resources/Knight/KnightAttack.png", flip };
 		break;
 	}
 	case ModelType::Run:
 	{
+
+		m_DrawOffset = 17;
+		m_FrameDistance = 32;
 
 		m_MaxShow = 8;
 
@@ -62,7 +69,9 @@ ImageInfo Knight::GetImage() const
 	case ModelType::DeadNear: // [[fallthrough]]
 	case ModelType::DeadFar:
 	{
-		m_MaxShow = 15;
+		m_MaxShow = 15;		
+		m_DrawOffset = 0;
+		m_FrameDistance = 0;
 
 		return { L"resources/Knight/KnightDeath.png", flip };
 
@@ -71,6 +80,8 @@ ImageInfo Knight::GetImage() const
 	case ModelType::Hit:
 	{
 		m_MaxShow = 7;
+		m_DrawOffset = 0;
+		m_FrameDistance = 0;
 
 		return { L"resources/Knight/KnightShield.png", flip };
 
@@ -79,6 +90,8 @@ ImageInfo Knight::GetImage() const
 	default: // Ready
 	{
 		m_MaxShow = 12;
+		m_DrawOffset = 0;
+		m_FrameDistance = 0;
 
 		return { L"resources/Knight/KnightIdle.png", flip };
 		
@@ -113,6 +126,9 @@ Sprite* Knight::GetSprite() const
 	{
 		m_pSprite = new Sprite(GetImage(), 64, 64, m_MaxShow);
 	}
+
+	m_pSprite->SetOffSet(m_DrawOffset);
+	m_pSprite->SetFrameDistance(m_FrameDistance);
 
 	return m_pSprite;
 }

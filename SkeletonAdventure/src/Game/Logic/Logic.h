@@ -46,6 +46,7 @@ public:
 	static void KeyReleased(WPARAM key);
 	static void MoveSkeleton(Direction dir);
 	static void CheckCollide();
+	static bool IsColliding(const HitBox& box1, const HitBox& box2);
 
 	~Logic();
 

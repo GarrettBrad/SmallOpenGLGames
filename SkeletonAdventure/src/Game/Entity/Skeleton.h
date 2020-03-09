@@ -116,7 +116,8 @@ public:
 	void InSpeedSprint(Direction dir);
 	void InSpeedWalk(Direction dir);
 
-	bool IsSkeleton() const override final;
+	bool IsSkeleton() const final override;
+	bool IsFriendly() const final override;
 
 	ImageInfo GetImage() const override;
 

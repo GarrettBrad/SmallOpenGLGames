@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Entity.h"
 
+#include "Game/Logic/Logic.h"
+
 // decays the speed of 
 void Entity::DecaySpeed()
 {
@@ -68,12 +70,14 @@ void Entity::Jump()
 // Moves the entity to the left by the given amount or 5 if not given
 void Entity::MoveLeft(int amount)
 {
+	m_DirectionFacing = Direction::Left;
 	SetXSpeed(-amount);
 }
 
 // Moves the entity to the right by the given amount or 5 if not given
 void Entity::MoveRight(int amount)
 {
+	m_DirectionFacing = Direction::Right;
 	SetXSpeed(amount);
 }
 
@@ -83,29 +87,20 @@ void Entity::Think()
 	// Nothing | Might move Entity::Move() in here (unlikely)
 }
 
-// Returns the hitbox where the skeleton attacked
-// Does not register hit.
-// Use the returned Hit Box
-[[nodiscard]]
-HitBox Entity::Attack() const
-{
-	// TODO: add attacking
-
-	if (m_DirectionFacing == Direction::Left)
-		return {
-			{ m_HitBox.BottomRight.X, m_HitBox.BottomRight.Y - 10 },
-			{ m_HitBox.TopLeft.X - 40, m_HitBox.TopLeft.Y + 10 }
-	};
-	else
-		return {
-			{ m_HitBox.BottomRight.X + 40, m_HitBox.BottomRight.Y - 10 },
-			{ m_HitBox.TopLeft.X, m_HitBox.TopLeft.Y + 10 }
-	};
-
-}
-
 // returns if the entity is a skeleton
 bool Entity::IsSkeleton() const
+{
+	return false;
+}
+
+// Returns if the entity is a Knight
+bool Entity::IsKnight() const
+{
+	return false;
+}
+
+// Returns if the entity is a friendly entity
+bool Entity::IsFriendly() const
 {
 	return false;
 }
@@ -132,6 +127,64 @@ void Entity::SetNoJump()
 bool Entity::CanJump() const
 {
 	return m_CanJump;
+}
+
+// Gets the attack hitbox of the entity
+HitBox Entity::GetAttackHitBox()
+{
+	if (m_DirectionFacing == Direction::Left)
+		return {
+			{ m_HitBox.BottomRight.X, m_HitBox.BottomRight.Y - 10 },
+			{ m_HitBox.TopLeft.X - 40, m_HitBox.TopLeft.Y + 10 }
+	};
+	else
+		return {
+			{ m_HitBox.BottomRight.X + 40, m_HitBox.BottomRight.Y - 10 },
+			{ m_HitBox.TopLeft.X, m_HitBox.TopLeft.Y + 10 }
+	};
+}
+
+// Causes the entity to attack
+// Returns all entities that the attack hit
+std::vector<Entity*> Entity::Attack()
+{
+	if (!CanAttack()) return {};
+
+	std::vector<Entity*> returnVar;
+	
+	for (auto e : Logic::GetEntities())
+	{	
+		if (e == this) continue; // If the hitbox are the same than it will collide
+		
+		if (Logic::IsColliding(this->GetAttackHitBox(), e->GetAttackHitBox()))
+			returnVar.emplace_back(e);
+
+
+	}
+
+
+	return returnVar; // Copy and i need to change this
+}
+
+// Sets if the entity can attack
+void Entity::SetAttack(bool attack)
+{
+	m_CanAttack = attack;
+}
+
+void Entity::SetCanAttack()
+{
+	m_CanAttack = true;
+}
+
+void Entity::SetNoAttack()
+{
+	m_CanAttack = false;
+}
+
+bool Entity::CanAttack() const
+{
+	return m_CanAttack;
 }
 
 // Returns the hit box of the entity

@@ -173,7 +173,7 @@ void Game::DrawInter()
 		Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
 
 		Render::DrawHitBox(ent->GetHitBox());
-		Render::DrawHitBox(ent->Attack());
+		// Render::DrawHitBox(ent->Attack());
 #endif
 
 		Render::DrawEntity(*ent);

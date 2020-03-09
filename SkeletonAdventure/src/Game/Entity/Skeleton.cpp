@@ -112,11 +112,18 @@ void Skeleton::InSpeedWalk(Direction dir)
 	AdjustSpeed(ModelType::Walk, dir, MovementType::Walk);
 }
 
-// Returns if the entity is a skeleton or not
+// returns true
 bool Skeleton::IsSkeleton() const
 {
 	return true;
 }
+
+// returns true
+bool Skeleton::IsFriendly() const
+{
+	return true;
+}
+
 
 // gets the current image that the skeleton should be displaying
 ImageInfo Skeleton::GetImage() const

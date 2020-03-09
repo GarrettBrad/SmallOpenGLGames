@@ -34,6 +34,21 @@ bool Collision::BetweenX(const DrawObject& obj, const HitBox& hit)
 	return (hit.BottomRight.X > obj.TopLeft.X + 1 && hit.TopLeft.X < obj.BottomRight.X - 1);
 }
 
+
+// returns if any part of the hitbox is in between the x cord of the other
+bool Collision::BetweenX(const HitBox& hit1, const HitBox& hit2)
+{
+	return (hit2.BottomRight.X > hit1.TopLeft.X + 1 && hit2.TopLeft.X < hit1.BottomRight.X - 1);
+}
+
+// returns if any part of the hitbox is in between the x cord of the other
+bool Collision::BetweenY(const HitBox& hit1, const HitBox& hit2)
+{
+	return (hit2.BottomRight.Y - 1 > hit1.TopLeft.Y&& hit2.TopLeft.Y + 1 < hit1.BottomRight.Y);
+}
+
+
+
 // a visual example
 ///			----------	// Entity
 ///				||		// Wall

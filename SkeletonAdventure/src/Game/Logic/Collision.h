@@ -28,6 +28,9 @@ public:
 	static bool BetweenY(const DrawObject& obj, const HitBox& hit);
 	static bool BetweenX(const DrawObject& obj, const HitBox& hit);
 
+	static bool BetweenY(const HitBox& box1, const HitBox& box2);
+	static bool BetweenX(const HitBox& box1, const HitBox& box2);
+
 	static bool CollisionXLeft(const DrawObject& obj, const HitBox& hit);
 	static bool CollisionYUp(const DrawObject& obj, const HitBox& hit);
 

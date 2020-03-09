@@ -13,20 +13,26 @@ protected:
 	int m_XSpeed = 0, m_YSpeed = 0;
 
 	bool m_CanJump = true;
+	bool m_CanAttack = true;
 
 	// Used for drawing
-	mutable int m_ModelShow = 1;
-	mutable int m_MaxShow = 3; // the amount of an image model there is
+	mutable Sprite* m_pSprite = nullptr;
+	mutable ImageInfo m_LastInfo = ImageInfo(L" ", false);
 	mutable clock_t m_Time = NULL;
 	ModelType m_ModelType = ModelType::Ready;
+	mutable int m_MaxShow = 3; // the amount of an image model there is
+	mutable int m_ModelShow = 1;
+	mutable int m_DrawOffset = 0;
+	mutable int m_FrameDistance = 0;
 
+	// Used for Collision
 	Direction m_DirectionFacing = Direction::Right;
 	HitBox m_HitBox = { 0 };
 
-	mutable ImageInfo m_LastInfo = ImageInfo(L" ", false);
-	mutable Sprite* m_pSprite = nullptr;
 
 	virtual void UpdateHitBox() = 0;
+
+	virtual HitBox GetAttackHitBox();
 
 public:
 	static constexpr int c_SpeedDecay = 2;
@@ -45,15 +51,21 @@ public:
 
 	virtual void Think();
 
-	virtual HitBox Attack() const;
+	virtual std::vector<Entity*> Attack();
 
 	virtual bool IsSkeleton() const;
+	virtual bool IsKnight() const;
+	virtual bool IsFriendly() const;
 	virtual bool IsEnemy() const;
 
 	virtual void SetCanJump();
 	virtual void SetNoJump();
 	virtual bool CanJump() const;
 
+	virtual void SetAttack(bool attack);
+	virtual void SetCanAttack();
+	virtual void SetNoAttack();
+	virtual bool CanAttack() const;
 	// Unlikely will be overriden but is avalible
 	virtual const HitBox& GetHitBox() const;
 

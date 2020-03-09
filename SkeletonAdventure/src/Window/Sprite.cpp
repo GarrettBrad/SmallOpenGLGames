@@ -1,13 +1,16 @@
 #include "pch.h"
 #include "Sprite.h"
 
+extern unsigned int g_Increase;
+extern unsigned int g_Distance;
+
 // TODO Add scale
 // Draws the sprite to screen
-void Sprite::Draw(float posX, float posY, float scale)
+void Sprite::Draw(float posX, float posY, float scale, float alpha)
 {
 	if (m_Hr == S_OK)
 	{
-		m_Frame++;
+		m_Frame++; // Add one to the frame count 
 
 		if (m_Count == 1)
 		{
@@ -15,14 +18,13 @@ void Sprite::Draw(float posX, float posY, float scale)
 			Graphics::GetRenderTarget()->DrawBitmap(
 				m_Bmp,
 				D2D1::RectF(posX,posY,posX + m_Size.width * scale,posY + m_Size.height * scale),// The bitmap area
-				1.0f,																			// alpha
+				alpha,																			// alpha
 				D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,// Draw closest pixel
 				D2D1::RectF(0, 0, m_Bmp->GetSize().width, m_Bmp->GetSize().height)
 			);
 		}
 		else
 		{
-
 			int DrawFrame = (m_Frame / 10) % m_Count; // Makes it switch slower
 
 			Graphics::GetRenderTarget()->DrawBitmap(
@@ -34,21 +36,13 @@ void Sprite::Draw(float posX, float posY, float scale)
 					posY + m_Size.height * scale
 				),	// The bitmap area
 				1.0f,	// alpha
-				D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,// Draw closest pixel
-
+				D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,// closest pixel
 				D2D1::RectF(
-					(DrawFrame % m_Count) * m_Size.width,
+					(DrawFrame % m_Count) * (m_Size.width + m_DistanceBetweenFames) + m_Offset,
 					(DrawFrame / m_Count) * m_Size.height,
-					((DrawFrame % m_Count) * m_Size.width) + 70,
+					((DrawFrame % m_Count) * (m_Size.width + m_DistanceBetweenFames)) + m_Size.width + m_Offset,
 					((DrawFrame / m_Count) * m_Size.height) + m_Size.height
 				)
-
-				//// D2D1::RectF(
-				//	(DrawFrame % m_Count) * m_Size.width,
-				//	(DrawFrame / m_Count) * m_Size.height,
-				//	((DrawFrame % m_Count) * m_Size.width) + m_Size.width,
-				//	((DrawFrame / m_Count) * m_Size.height) + m_Size.height
-				//)						// Where the sprite can be draw
 			);
 		}
 	}

@@ -9,6 +9,7 @@
 /*
 
 Current TODO:
+Entity::Attack() returns a copy to a vector and it should be changed
 Added constant 30 FPS
 Fully Implement Knight and other entities
 Add Level loading System
@@ -20,6 +21,7 @@ Jumping is buggy next to a object // I made it less buggy C:
 A Key Repeat command causes the game to run faster for some reason // 30fps should fix this
 
 */
+
 
 int CALLBACK WinMain(
 	HINSTANCE hInstance, 

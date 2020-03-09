@@ -4,6 +4,9 @@
 
 #include "Game/Entity/Enemy/Knight.h"
 
+unsigned int g_Increase = 60;
+unsigned int g_Distance = 0;
+
 // Made private for singleton
 Logic::Logic()
 {
@@ -73,6 +76,16 @@ void Logic::AddEntity(Entity* ent)
 // Checks the input
 void Logic::CheckInput()
 {
+	if (m_KeysPressed[VK_UP])
+		g_Increase++;
+	else if (m_KeysPressed[VK_DOWN])
+		g_Increase--;
+
+	if (m_KeysPressed[VK_LEFT])
+		g_Distance--;
+	else if (m_KeysPressed[VK_RIGHT])
+		g_Distance++;
+
 	if ((m_KeysPressed[VK_SPACE] || m_KeysPressed[SKEL_KEY_W]) && m_Skeleton.CanJump())
 		m_Skeleton.Jump();
 
@@ -209,5 +222,9 @@ void Logic::CheckCollide()
 	Get().CheckCollideInter();
 }
 
-
+// Returns true if the two hit boxes are touching
+bool Logic::IsColliding(const HitBox& box, const HitBox& box2)
+{
+	return Collision::BetweenX(box, box2) && Collision::BetweenY(box, box2);
+}
 
