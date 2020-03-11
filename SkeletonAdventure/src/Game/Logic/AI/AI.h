@@ -11,7 +11,7 @@ private:
 	bool m_Friendly;
 	Entity* m_ParentEnt;
 
-	static const Skeleton* s_Player;
+	static const Skeleton* s_pPlayer;
 
 	std::array<int, 3> m_LastXCords; // 3rd element is the current pos
 
