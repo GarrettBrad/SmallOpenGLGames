@@ -20,6 +20,8 @@ public:
 
 	virtual void Think() override;
 
+	virtual ~Friendly();
+
 };
 
 #endif /* FRIENDLY_H */

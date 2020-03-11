@@ -119,6 +119,8 @@ public:
 	bool IsSkeleton() const final override;
 	bool IsFriendly() const final override;
 
+	int GetAttackDamage() const override;
+
 	ImageInfo GetImage() const override;
 
 	const D2D1_SIZE_F GetSize() const;

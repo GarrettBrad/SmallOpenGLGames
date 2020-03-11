@@ -14,3 +14,11 @@ bool Friendly::IsEnemy() const
 	return false;
 }
 
+void Friendly::Think()
+{
+	m_Ai.Think();
+}
+
+Friendly::~Friendly()
+{
+}

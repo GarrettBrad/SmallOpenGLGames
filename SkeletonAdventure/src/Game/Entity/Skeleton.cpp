@@ -124,6 +124,11 @@ bool Skeleton::IsFriendly() const
 	return true;
 }
 
+// Returns the amount of damage the entity deals
+int Skeleton::GetAttackDamage() const
+{
+	return m_AttackDamage;
+}
 
 // gets the current image that the skeleton should be displaying
 ImageInfo Skeleton::GetImage() const

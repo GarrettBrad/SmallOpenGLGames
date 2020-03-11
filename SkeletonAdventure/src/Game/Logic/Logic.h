@@ -20,12 +20,15 @@ private: // Methods
 	std::deque<Entity*>& GetEntityInter();
 
 	void AddEntityInter(Entity* ent);
+	void EntityKilledInter(Entity* ent);
 
 	void RunInter();
 
 	void CheckInput();
 	void Move();
 
+	void MouseDownInter();
+	void MouseUpInter();
 	void KeyPressedInter(WPARAM key);
 	void KeyReleasedInter(WPARAM key);
 	void MoveSkeletonInter(Direction dir);
@@ -41,7 +44,10 @@ public:
 	static std::deque<Entity*>& GetEntities();
 
 	static void AddEntity(Entity* ent);
+	static void EntityKilled(Entity* ent);
 
+	static void MouseDown();
+	static void MouseUp();
 	static void KeyPressed(WPARAM key);
 	static void KeyReleased(WPARAM key);
 	static void MoveSkeleton(Direction dir);

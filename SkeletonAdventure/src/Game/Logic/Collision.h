@@ -1,7 +1,7 @@
 #ifndef COLLISON_H
 #define COLLISON_H
 
-#include "Game/Entity/Skeleton.h"
+#include "Game/Entity/BaseEntityStructure.h"
 #include "Level/Level.h"
 
 // Checks collision 

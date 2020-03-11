@@ -3,7 +3,7 @@
 
 #include "Game/Entity/Enemy/Enemy.h"
 
-const Skeleton* AI::s_Player;
+const Skeleton* AI::s_pPlayer;
 
 // Moves the AI to the player
 void AI::MoveToPlayer()
@@ -12,11 +12,11 @@ void AI::MoveToPlayer()
 	if (m_ParentEnt->GetYSpeed() == 1 && m_ParentEnt->GetXSpeed() == 0)
 		m_ParentEnt->Jump();
 
-	if (m_ParentEnt->GetX() > s_Player->GetX() + 5)
+	if (m_ParentEnt->GetX() > s_pPlayer->GetX() + 5)
 	{
 		m_ParentEnt->MoveLeft();
-	}
-	else if (m_ParentEnt->GetX() < s_Player->GetX() - 5)
+	} 
+	else if (m_ParentEnt->GetX() < s_pPlayer->GetX() - 5)
 	{
 		m_ParentEnt->MoveRight();
 	}
@@ -29,8 +29,8 @@ void AI::MoveToPlayer()
 void AI::EnemyThink()
 {
 	float distance = (sqrt( // Distance formula
-		pow(m_ParentEnt->GetX() - s_Player->GetX(), 2) +
-		pow(m_ParentEnt->GetY() - s_Player->GetY(), 2)
+		pow(m_ParentEnt->GetX() - s_pPlayer->GetX(), 2) +
+		pow(m_ParentEnt->GetY() - s_pPlayer->GetY(), 2)
 	));
 
 	if (distance < c_DistanceToTrack)
@@ -77,6 +77,6 @@ AI::AI(bool friendly, Entity* ent)
 // Sets the AI skeleton pointer to the pointer given
 void AI::SetSkeleton(const Skeleton* skel)
 {
-	s_Player = skel;
+	s_pPlayer = skel;
 
 }

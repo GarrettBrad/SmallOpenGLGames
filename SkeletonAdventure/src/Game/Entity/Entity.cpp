@@ -58,6 +58,7 @@ void Entity::Move()
 	UpdateHitBox();
 }
 
+// Makes the entity Jump
 void Entity::Jump()
 {
 	if (!CanJump()) return;
@@ -157,13 +158,37 @@ std::vector<Entity*> Entity::Attack()
 		if (e == this) continue; // If the hitbox are the same than it will collide
 		
 		if (Logic::IsColliding(this->GetAttackHitBox(), e->GetAttackHitBox()))
-			returnVar.emplace_back(e);
-
-
+			returnVar.push_back(e);
 	}
 
-
 	return returnVar; // Copy and i need to change this
+}
+
+// Gets the damage the entity attacks with
+int Entity::GetAttackDamage() const
+{
+	return m_AttackDamage;
+}
+
+// Sets the damage the entity will attack with
+void Entity::SetAttackDamage(int dmg)
+{
+	m_AttackDamage = dmg;
+}
+
+// Deals damage to the player
+void Entity::Damage(int amount)
+{
+	m_Health -= amount;
+
+	if (m_Health < 1)
+		Kill();
+}
+
+// Kills the entity
+void Entity::Kill()
+{
+
 }
 
 // Sets if the entity can attack
@@ -193,14 +218,24 @@ const HitBox& Entity::GetHitBox() const
 	return m_HitBox;
 }
 
+int Entity::Health() const
+{
+	return m_Health;
+}
+
+void Entity::SetHealth(int health)
+{
+	m_Health = health;
+}
+
 // Gets x speed
-const int& Entity::GetXSpeed() const
+int Entity::GetXSpeed() const
 {
 	return m_XSpeed;
 }
 
 // Gets y Speed
-const int& Entity::GetYSpeed() const
+int Entity::GetYSpeed() const
 {
 	return m_YSpeed;
 }
@@ -218,24 +253,24 @@ void Entity::SetYSpeed(int y)
 }
 
 // Gets the x pos value
-const int& Entity::GetX() const
+int Entity::GetX() const
 {
 	return m_X;
 }
 
 // Gets the y Pos value
-const int& Entity::GetY() const
+int Entity::GetY() const
 {
 	return m_Y;
 }
 
-// Sets the xvalue of the entity
+// Sets the x value of the entity
 void Entity::SetX(int x)
 {
 	m_X = x;
 }
 
-// Sets the yvalue of the entity
+// Sets the y value of the entity
 void Entity::SetY(int y)
 {
 	m_Y = y;
@@ -250,3 +285,4 @@ Entity::~Entity()
 {
 	if (m_pSprite) delete m_pSprite;
 }
+

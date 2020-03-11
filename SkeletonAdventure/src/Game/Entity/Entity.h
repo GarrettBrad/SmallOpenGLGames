@@ -15,6 +15,9 @@ protected:
 	bool m_CanJump = true;
 	bool m_CanAttack = true;
 
+	int m_AttackDamage = 10;
+	int m_Health = 100;
+
 	// Used for drawing
 	mutable Sprite* m_pSprite = nullptr;
 	mutable ImageInfo m_LastInfo = ImageInfo(L" ", false);
@@ -42,16 +45,11 @@ public:
 
 	virtual void DecaySpeed();
 	virtual void Move();
-
 	virtual void MoveLeft(int amount = 5);
 	virtual void MoveRight(int amount = 5);
-
-
 	virtual void Jump();
 
 	virtual void Think();
-
-	virtual std::vector<Entity*> Attack();
 
 	virtual bool IsSkeleton() const;
 	virtual bool IsKnight() const;
@@ -66,21 +64,32 @@ public:
 	virtual void SetCanAttack();
 	virtual void SetNoAttack();
 	virtual bool CanAttack() const;
+	virtual std::vector<Entity*> Attack();
+
+	virtual int GetAttackDamage() const;
+	virtual void SetAttackDamage(int dmg);
+	virtual void Damage(int amount);
+
+	virtual void Kill();
+
 	// Unlikely will be overriden but is avalible
 	virtual const HitBox& GetHitBox() const;
 
-	virtual const int& GetXSpeed() const;
-	virtual const int& GetYSpeed() const;
+	virtual int Health() const;
+	virtual void SetHealth(int health);
+
+	virtual int GetXSpeed() const;
+	virtual int GetYSpeed() const;
 	virtual void SetXSpeed(int x);
 	virtual void SetYSpeed(int y);
 
-	virtual const int& GetX() const;
-	virtual const int& GetY() const;
+	virtual int GetX() const;
+	virtual int GetY() const;
 	virtual void SetX(int x);
 	virtual void SetY(int y);
 
 	Entity();
-	~Entity();
+	virtual ~Entity();
 };
 
 #endif /* ENTITY_H */

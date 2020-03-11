@@ -21,6 +21,8 @@ public:
 
 	virtual void Think() override;
 
+	virtual ~Enemy();
+
 };
 
 #endif /* ENEMY_H */

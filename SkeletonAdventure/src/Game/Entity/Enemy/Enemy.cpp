@@ -13,7 +13,12 @@ bool Enemy::IsEnemy() const
 	return true;
 }
 
+// Called every frame
 void Enemy::Think()
 {
 	m_Ai.Think();
+}
+
+Enemy::~Enemy()
+{
 }

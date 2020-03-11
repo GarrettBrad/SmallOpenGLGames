@@ -31,6 +31,7 @@ Logic::~Logic()
 	}
 }
 
+// Gets the current instance of the Logic class
 Logic& Logic::Get()
 {
 	static Logic log;
@@ -53,10 +54,12 @@ const Skeleton& Logic::cGetSkeleton()
 	return Get().GetSkeletonInter();
 }
 
+// Returns all entities in a std::deque
 std::deque<Entity*>& Logic::GetEntityInter()
 {
 	return m_Entitys;
 }
+// returns all entities in a std::deque
 std::deque<Entity*>& Logic::GetEntities()
 {
 	return Get().GetEntityInter();
@@ -71,6 +74,28 @@ void Logic::AddEntityInter(Entity* ent)
 void Logic::AddEntity(Entity* ent)
 {
 	Get().AddEntityInter(ent);
+}
+
+// Removes the entity from the entity list and frees the entity's memory
+void Logic::EntityKilledInter(Entity* ent)
+{
+
+	std::deque<Entity*>::iterator it = std::find(m_Entitys.begin(), m_Entitys.end(), ent);
+
+	// removes the entity pointer from the deque and frees the memory at that location
+	if (it != m_Entitys.end())
+	{
+		m_Entitys.erase(it);
+
+		delete ent;
+
+		ent = nullptr;
+	} // else nothing
+}
+// Removes the entity from the entity list and frees the entity's memory
+void Logic::EntityKilled(Entity* ent)
+{
+	Get().EntityKilledInter(ent);
 }
 
 // Checks the input
@@ -107,6 +132,7 @@ void Logic::Move()
 	}
 }
 
+// Called every frame to analyze and handle logic
 void Logic::RunInter()
 {
 	CheckCollideInter();
@@ -117,10 +143,34 @@ void Logic::RunInter()
 
 	Move();
 }
-// Moves the skeleton
+// Called every frame to analyze and handle logic
 void Logic::Run()
 {
 	Get().RunInter();
+}
+
+// Called when the mouse is clicked : Handles mouse input
+void Logic::MouseDownInter()
+{
+	std::vector<Entity*> ents = m_Skeleton.Attack();
+
+
+}
+// Called when the mouse is clicked
+void Logic::MouseDown()
+{
+	Get().MouseDownInter();
+}
+
+// Called when the mouse is released : Handles mouse input
+void Logic::MouseUpInter()
+{
+	// Nothing Currently
+}
+// Called when the mouse is released
+void Logic::MouseUp()
+{
+	Get().MouseUpInter();
 }
 
 // Called when a key is pressed

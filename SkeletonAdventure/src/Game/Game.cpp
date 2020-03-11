@@ -22,11 +22,13 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 	{
 		case WM_LBUTTONDOWN:
 		{
+			Logic::MouseDown();
 
 			return 0;
 		}
 		case WM_LBUTTONUP:
 		{
+			Logic::MouseUp();
 
 			return 0;
 		}
@@ -173,7 +175,6 @@ void Game::DrawInter()
 		Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
 
 		Render::DrawHitBox(ent->GetHitBox());
-		// Render::DrawHitBox(ent->Attack());
 #endif
 
 		Render::DrawEntity(*ent);
