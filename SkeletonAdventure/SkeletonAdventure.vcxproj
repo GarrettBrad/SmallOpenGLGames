@@ -201,6 +201,7 @@
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Util\Memory\Allocate.h" />
     <ClInclude Include="src\Game\Entity\Friendly\Friendly.h" />
     <ClInclude Include="src\Game\Logic\AI\AI.h" />
     <ClInclude Include="src\Game\Entity\BaseEntityStructure.h" />

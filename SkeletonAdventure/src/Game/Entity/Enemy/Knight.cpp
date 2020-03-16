@@ -3,7 +3,10 @@
 #include "Knight.h"
 
 
-extern unsigned int g_Increase;
+#if _DEBUG
+extern unsigned int g_UpDown;
+extern unsigned int g_LeftRight;
+#endif
 
 // Update the hitbox pos
 void Knight::UpdateHitBox()
@@ -17,10 +20,13 @@ void Knight::UpdateHitBox()
 
 void Knight::Think()
 {
+	if (m_DiffShow > clock())
+		return; // return if the next image change is further away
+
 	if (abs(m_XSpeed) > 1) {
 		m_ModelType = ModelType::Run;
 	}
-	else {
+	else{
 		m_ModelType = ModelType::Ready;
 	}
 
@@ -80,8 +86,8 @@ ImageInfo Knight::GetImage() const
 	case ModelType::Hit:
 	{
 		m_MaxShow = 7;
-		m_DrawOffset = 0;
-		m_FrameDistance = 0;
+		m_DrawOffset = 19;
+		m_FrameDistance = 31;
 
 		return { L"resources/Knight/KnightShield.png", flip };
 

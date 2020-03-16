@@ -130,6 +130,7 @@ int Game::InitInter(HINSTANCE hInst)
 // Inits the game
 int Game::Init(HINSTANCE Instance)
 {
+
 	return Get().InitInter(Instance);
 }
 
@@ -175,6 +176,9 @@ void Game::DrawInter()
 		Graphics::SetDrawColor(1.0f, 1.0f, 1.0f);
 
 		Render::DrawHitBox(ent->GetHitBox());
+
+		for (auto e : Logic::GetEntities())
+			Render::DrawHitBox(e->GetAttackHitBox());
 #endif
 
 		Render::DrawEntity(*ent);

@@ -76,9 +76,6 @@ void Skeleton::DecaySpeed()
 
 	if (m_YSpeed > SKELETON_GRAVITY_MAX)
 		m_YSpeed = SKELETON_GRAVITY_MAX;
-
-	if (abs(m_XSpeed) < 1)
-		m_ModelType = ModelType::Ready;
 }
 
 // Updates the hitbox to the new postion
@@ -160,6 +157,11 @@ ImageInfo Skeleton::GetImage() const
 
 			return { m_RunModels[m_ModelShow % m_MaxShow], flip };
 		}
+		case ModelType::Attack1:
+		{
+			m_MaxShow = m_Attack1Models.size();
+			return { m_Attack1Models[m_ModelShow % m_MaxShow], flip };
+		}
 		default: // Ready
 		{
 			m_MaxShow = 3;
@@ -172,8 +174,17 @@ ImageInfo Skeleton::GetImage() const
 }
 
 // Gets the size of the skeleton
+[[DEPRECATED]]
 const D2D1_SIZE_F Skeleton::GetSize() const
 {
 	return m_Size;
 }
 
+void Skeleton::Think()
+{
+	if (m_DiffShow > clock())
+		return;
+
+	if (abs(m_XSpeed) < 1)
+		m_ModelType = ModelType::Ready;
+}

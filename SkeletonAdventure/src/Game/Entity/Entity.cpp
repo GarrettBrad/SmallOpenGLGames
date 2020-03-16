@@ -49,6 +49,13 @@ Sprite* Entity::GetSprite() const
 	return m_pSprite;
 }
 
+// Sets the model type
+void Entity::SetModel(ModelType mdl, clock_t nextChange) const
+{
+	m_DiffShow = clock() + nextChange;
+	m_ModelType = mdl;
+}
+
 // Will move the player by the speed.
 void Entity::Move()
 {
@@ -62,9 +69,9 @@ void Entity::Move()
 void Entity::Jump()
 {
 	if (!CanJump()) return;
-	 
-	m_ModelType = ModelType::Jump;
-
+	
+	SetModel(ModelType::Jump);
+	
 	SetYSpeed(-SKELETON_JUMP_SPEED);
 }
 
@@ -133,16 +140,21 @@ bool Entity::CanJump() const
 // Gets the attack hitbox of the entity
 HitBox Entity::GetAttackHitBox()
 {
+
 	if (m_DirectionFacing == Direction::Left)
+	{
 		return {
-			{ m_HitBox.BottomRight.X, m_HitBox.BottomRight.Y - 10 },
-			{ m_HitBox.TopLeft.X - 40, m_HitBox.TopLeft.Y + 10 }
-	};
+			{m_HitBox.TopLeft.X - 40, m_HitBox.TopLeft.Y + 10 },
+			{m_HitBox.BottomRight.X, m_HitBox.BottomRight.Y - 10}
+		};
+	}
 	else
+	{
 		return {
-			{ m_HitBox.BottomRight.X + 40, m_HitBox.BottomRight.Y - 10 },
-			{ m_HitBox.TopLeft.X, m_HitBox.TopLeft.Y + 10 }
-	};
+			{m_HitBox.TopLeft.X, m_HitBox.TopLeft.Y + 10},
+			{m_HitBox.BottomRight.X + 40, m_HitBox.BottomRight.Y - 10}
+		};
+	}
 }
 
 // Causes the entity to attack
@@ -157,9 +169,14 @@ std::vector<Entity*> Entity::Attack()
 	{	
 		if (e == this) continue; // If the hitbox are the same than it will collide
 		
-		if (Logic::IsColliding(this->GetAttackHitBox(), e->GetAttackHitBox()))
+		HitBox att = this->GetAttackHitBox();
+		HitBox ent = e->GetHitBox();
+
+		if (Collision::IsColliding(this->GetAttackHitBox(), e->GetHitBox()))
 			returnVar.push_back(e);
 	}
+
+	SetModel(ModelType::Attack1);
 
 	return returnVar; // Copy and i need to change this
 }
@@ -188,7 +205,7 @@ void Entity::Damage(int amount)
 // Kills the entity
 void Entity::Kill()
 {
-
+	Logic::EntityKilled(this);
 }
 
 // Sets if the entity can attack

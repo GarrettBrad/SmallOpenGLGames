@@ -126,6 +126,8 @@ public:
 	const D2D1_SIZE_F GetSize() const;
 
 
+	void Think() override;
+
 
 
 

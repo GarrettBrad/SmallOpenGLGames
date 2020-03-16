@@ -116,6 +116,9 @@
     <ClInclude Include="src\Game\Entity\Friendly\Friendly.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Util\Memory\Allocate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\Skeleton\attack1_1.png">

@@ -36,6 +36,8 @@ public:
 
 	static bool CollisionXRight(const DrawObject& obj, const HitBox& hit);
 	static bool CollisionYDown(const DrawObject& obj, const HitBox& hit);
+	static bool IsColliding(const HitBox& box, const HitBox& box2);
+
 };
 
 #endif /* COLLISON_H */

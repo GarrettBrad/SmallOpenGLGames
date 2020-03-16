@@ -21,8 +21,9 @@ protected:
 	// Used for drawing
 	mutable Sprite* m_pSprite = nullptr;
 	mutable ImageInfo m_LastInfo = ImageInfo(L" ", false);
-	mutable clock_t m_Time = NULL;
-	ModelType m_ModelType = ModelType::Ready;
+	mutable clock_t m_Time = clock();
+	mutable clock_t m_DiffShow = NULL;
+	mutable ModelType m_ModelType = ModelType::Ready;
 	mutable int m_MaxShow = 3; // the amount of an image model there is
 	mutable int m_ModelShow = 1;
 	mutable int m_DrawOffset = 0;
@@ -35,13 +36,14 @@ protected:
 
 	virtual void UpdateHitBox() = 0;
 
-	virtual HitBox GetAttackHitBox();
 
 public:
+	virtual HitBox GetAttackHitBox();
 	static constexpr int c_SpeedDecay = 2;
 
 	virtual ImageInfo GetImage() const = 0;
 	virtual Sprite* GetSprite() const;
+	virtual void SetModel(ModelType mdl, clock_t nextChange = CLOCKS_PER_SEC) const;
 
 	virtual void DecaySpeed();
 	virtual void Move();

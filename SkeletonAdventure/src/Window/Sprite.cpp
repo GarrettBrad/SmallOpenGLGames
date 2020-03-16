@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "Sprite.h"
 
-extern unsigned int g_Increase;
-extern unsigned int g_Distance;
+#if _DEBUG
+extern unsigned int g_UpDown;
+extern unsigned int g_LeftRight;
+#endif
 
 // TODO Add scale
 // Draws the sprite to screen

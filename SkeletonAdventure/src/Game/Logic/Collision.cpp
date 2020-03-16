@@ -47,8 +47,6 @@ bool Collision::BetweenY(const HitBox& hit1, const HitBox& hit2)
 	return (hit2.BottomRight.Y - 1 > hit1.TopLeft.Y&& hit2.TopLeft.Y + 1 < hit1.BottomRight.Y);
 }
 
-
-
 // a visual example
 ///			----------	// Entity
 ///				||		// Wall
@@ -108,3 +106,28 @@ bool Collision::CollisionYDown(const DrawObject& obj, const HitBox& hit)
 
 	return false;
 }
+
+// Returns true if the two hit boxes are touching
+bool Collision::IsColliding(const HitBox& att, const HitBox& ent)
+{
+	
+	if (att.BottomRight.X > ent.TopLeft.X && att.TopLeft.X < ent.BottomRight.X)
+	{
+		if (att.BottomRight.Y > ent.TopLeft.Y&& att.TopLeft.Y < ent.BottomRight.Y)
+		{
+			return true;
+		}
+	}
+
+	if (ent.BottomRight.X > att.TopLeft.X && ent.TopLeft.X < att.BottomRight.X)
+	{
+		if (ent.BottomRight.Y > att.TopLeft.Y&& ent.TopLeft.Y < att.BottomRight.Y)
+		{
+			return true;
+		}
+	}
+
+
+	return false;
+}
+
