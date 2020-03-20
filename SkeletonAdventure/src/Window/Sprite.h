@@ -18,6 +18,7 @@ private:
 
 	int m_Offset = 0; // How offset the image is
 	int m_DistanceBetweenFames = 0; // How far the pictures are apart from each other	
+	bool m_IsValid = false;
 
 	void ConstructSprite(ImageInfo& image);
 

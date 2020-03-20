@@ -47,7 +47,7 @@ private:
 
 	void InitInter(HWND hWnd);
 
-	ID2D1HwndRenderTarget* GetRenderTargetInter();
+	ID2D1HwndRenderTarget*& GetRenderTargetInter();
 	ID2D1Factory* GetFactoryInter();
 
 	void StartDrawInter();
@@ -82,7 +82,7 @@ public:
 	static void DrawLine(Point x, Point y);
 
 
-	static ID2D1HwndRenderTarget* GetRenderTarget();
+	static ID2D1HwndRenderTarget*& GetRenderTarget();
 	ID2D1Factory* GetFactory();
 
 	Graphics(const Graphics& grap) = delete;

@@ -29,12 +29,12 @@ void Graphics::Init(HWND hWnd)
 }
 
 // Returns the Direct2D render target
-ID2D1HwndRenderTarget* Graphics::GetRenderTargetInter()
+ID2D1HwndRenderTarget*& Graphics::GetRenderTargetInter()
 {
 	return pRenderTarget;
 }
 // Returns the Direct2D render target
-ID2D1HwndRenderTarget* Graphics::GetRenderTarget()
+ID2D1HwndRenderTarget*& Graphics::GetRenderTarget()
 {
 	return Get().GetRenderTargetInter();
 }
