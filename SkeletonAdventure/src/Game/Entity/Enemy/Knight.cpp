@@ -113,20 +113,24 @@ ImageInfo Knight::GetImage() const
 // Gets the custom sprite for drawing
 Sprite* Knight::GetSprite() const
 {
-	ImageInfo newInfo = GetImage();
-	// this stops recreating the sprite if the image is the same
-	if (m_LastInfo.file != newInfo.file)
-	{
-		m_LastInfo = newInfo;
 
+	// this stops recreating the sprite if the image is the same
+	if (m_LastInfo.file != GetImage().file)
+	{
+		m_LastInfo = GetImage();
+
+		// Deletes SkeletonSprite if there is a new one in que
 		if (m_pSprite)
-			*m_pSprite = Sprite(newInfo, 64, 64, m_MaxShow);
+		{
+			delete m_pSprite;
+			m_pSprite = nullptr;
+		}
 	}
 
 	// Creates a new sprite to be drawing
 	if (!m_pSprite)
 	{
-		m_pSprite = new Sprite(m_LastInfo, 64, 64, m_MaxShow);
+		m_pSprite = new Sprite(GetImage(), 64, 64, m_MaxShow);
 	}
 
 	m_pSprite->SetOffSet(m_DrawOffset);

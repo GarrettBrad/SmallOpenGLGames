@@ -10,28 +10,26 @@ extern unsigned int g_LeftRight;
 // Draws the sprite to screen
 void Sprite::Draw(float posX, float posY, float scale, float alpha)
 {
-	if (m_Hr == S_OK && m_IsValid)
+	if (m_Hr == S_OK)
 	{
-		ID2D1HwndRenderTarget* renderTarget = Graphics::GetRenderTarget();
 		m_Frame++; // Add one to the frame count 
 
-		if (m_Count == 1) // if it is one image for each frame of the animation or multiple. 
+		if (m_Count == 1)
 		{
 			// Actually renders the bitmap
-			renderTarget->
-				DrawBitmap(
+			Graphics::GetRenderTarget()->DrawBitmap(
 				m_Bmp,
 				D2D1::RectF(posX,posY,posX + m_Size.width * scale,posY + m_Size.height * scale),// The bitmap area
 				alpha,																			// alpha
 				D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,// Draw closest pixel
-				D2D1::RectF(0, 0, m_Size.width, m_Size.height)
+				D2D1::RectF(0, 0, m_Bmp->GetSize().width, m_Bmp->GetSize().height)
 			);
 		}
 		else
 		{
 			int DrawFrame = (m_Frame / 10) % m_Count; // Makes it switch slower
 
-			renderTarget->DrawBitmap(
+			Graphics::GetRenderTarget()->DrawBitmap(
 				m_Bmp,
 				D2D1::RectF(
 					posX,
@@ -134,8 +132,6 @@ void Sprite::ConstructSprite(ImageInfo& image)
 
 	if (FAILED(m_Hr)) return;
 
-	m_IsValid = true;
-
 	// Release all the resources
 	if (wicDecoder) wicDecoder->Release();
 	if (wicFrame) wicFrame->Release();
@@ -158,9 +154,7 @@ Sprite::Sprite(ImageInfo image)
 	: m_Bmp(NULL)
 {
 	ConstructSprite(image);
-	
-	if (m_Hr == S_OK)
-		m_Size = m_Bmp->GetSize();
+	m_Size = m_Bmp->GetSize();
 
 	m_Size.width;
 	m_Size.height;
@@ -169,8 +163,6 @@ Sprite::Sprite(ImageInfo image)
 // Cleanup
 Sprite::~Sprite()
 {
-	m_IsValid = false;
-
 	if (m_Bmp)
 		m_Bmp->Release();
 

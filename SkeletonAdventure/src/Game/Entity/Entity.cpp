@@ -34,14 +34,16 @@ Sprite* Entity::GetSprite() const
 
 		// Deletes Sprite if there is a new one in que
 		if (m_pSprite)
-			*m_pSprite = Sprite(m_LastInfo);
+		{
+			delete m_pSprite;
+			m_pSprite = nullptr;
+		}
 	}
 
 	// Creates a new sprite to be drawing
 	if (!m_pSprite)
 	{
-		m_LastInfo = GetImage();
-		m_pSprite = new Sprite(m_LastInfo);
+		m_pSprite = new Sprite(GetImage());
 	}
 
 	return m_pSprite;

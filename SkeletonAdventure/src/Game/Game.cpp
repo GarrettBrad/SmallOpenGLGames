@@ -39,12 +39,7 @@ LRESULT CALLBACK Game::WindowProcInter(HWND hWnd, UINT message, WPARAM wParam, L
 
 		case WM_KEYDOWN:
 		{
-			/*
-			Windows doesn't draw if a key is down
-			it floods the message system with key repeat messages
-
-			TEMP Solution			
-			*/
+			// Windows doesn't draw if a key is down
 			Window::Draw();
 
 			Logic::KeyPressed(wParam);
